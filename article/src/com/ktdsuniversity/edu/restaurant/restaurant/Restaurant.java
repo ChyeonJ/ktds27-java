@@ -1,6 +1,10 @@
 package com.ktdsuniversity.edu.restaurant.restaurant;
 
 import com.ktdsuniversity.edu.restaurant.customer.Customer;
+import com.ktdsuniversity.edu.restaurant.exception.DrunkenException;
+import com.ktdsuniversity.edu.restaurant.exception.FullException;
+import com.ktdsuniversity.edu.restaurant.exception.NoMoneyException;
+import com.ktdsuniversity.edu.restaurant.exception.SoldOutException;
 import com.ktdsuniversity.edu.restaurant.menu.RestaurantMenu;
 
 public class Restaurant {
@@ -72,20 +76,16 @@ public class Restaurant {
 		//고객1이 주문해
 		//돈 있어?
 		if (cs.getCoustomerMoney() < rest.getProductPrice()) {
-			System.out.println("돈없음 잘가아~");
-			return;
+			throw new NoMoneyException("잔액 부족");
 		}		//재고 있어?
 		else if(rest.getStock() <= 0) {
-			System.out.println("재고 없음");
-			return;
+			throw new SoldOutException("재고 없음");
 		}		//취했어?
 		else if(drunkCheck(cs)) {
-			System.out.println("너무 취했다 가라~");
-			return;
+			throw new DrunkenException("취함 기준 초과");
 		}		//배불러?
 		else if(fullCheck(cs)) {
-			System.out.println("배부르네 가라~");
-			return;
+			throw new FullException("배부름 기준 초과");
 		}
 		else {		//ㅇㅋ 주문해 		//재고 빠지고, 고객 돈 나가고, 내 통장에 돈 들어옴
 			cs.setCoustomerMoney(cs.getCoustomerMoney() - rest.getProductPrice());

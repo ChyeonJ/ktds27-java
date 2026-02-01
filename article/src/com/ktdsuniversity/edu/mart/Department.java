@@ -52,7 +52,7 @@ public class Department extends NomalMart{
 		//포인트 적립
 		addPoint(cs, product);
 		System.out.println("포인트 적립 후 최종 잔액 : " + cs.getPoint());
-		System.out.println("수익금 : " + super.getMoenyBox());
+		System.out.println("금액 : " + super.getMoenyBox());
 		System.out.println("거스름돈 : " + cs.getMoney());
 		
 	}

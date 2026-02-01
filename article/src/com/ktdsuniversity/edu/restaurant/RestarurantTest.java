@@ -1,6 +1,10 @@
 package com.ktdsuniversity.edu.restaurant;
 
 import com.ktdsuniversity.edu.restaurant.customer.Customer;
+import com.ktdsuniversity.edu.restaurant.exception.DrunkenException;
+import com.ktdsuniversity.edu.restaurant.exception.FullException;
+import com.ktdsuniversity.edu.restaurant.exception.NoMoneyException;
+import com.ktdsuniversity.edu.restaurant.exception.SoldOutException;
 import com.ktdsuniversity.edu.restaurant.menu.RestaurantMenu;
 import com.ktdsuniversity.edu.restaurant.restaurant.Restaurant;
 
@@ -13,7 +17,7 @@ public class RestarurantTest {
 		RestaurantMenu rest3 = new RestaurantMenu("소주", 5000, 16.5d, 0, 10);
 		RestaurantMenu rest4 = new RestaurantMenu("맥주", 6000, 5.5d, 0, 100);
 		
-		RestaurantMenu rest5 = new RestaurantMenu("순대국", 5000, 0, 500, 120);
+		RestaurantMenu rest5 = new RestaurantMenu("순대국", 5000, 0, 500, 0);
 		RestaurantMenu rest6 = new RestaurantMenu("머릿고기", 24000, 0, 1000, 230);
 		RestaurantMenu rest7 = new RestaurantMenu("양주", 60000, 55.6d, 0, 100);
 		RestaurantMenu rest8 = new RestaurantMenu("보드카", 6000, 78.9d, 0, 100);
@@ -38,18 +42,87 @@ public class RestarurantTest {
 		restA[0] = restAdmin;
 		restA[1] = restAdmin1;
 		
-		Customer cs1 = new Customer("고객1", 1.0d, 100, 100_000);
-		Customer cs2 = new Customer("고객2", 0.0d, 0, 100);
+		Customer cs1 = new Customer("고객1", 16.0d, 100, 100_000);
+		Customer cs2 = new Customer("고객2", 0.0d, 1000, 1000000);
+		Customer cs3 = new Customer("고객2", 0.0d, 700, 1);
+		Customer cs4 = new Customer("고객2", 0.0d, 700, 100);
 		
 		Customer[] cs = new Customer[2];
 		cs[0] = cs1;
 		cs[1] = cs2;
 		
-		restAdmin.order(cs1, rest3);
-		restAdmin.order(cs1, rest1);
-		restAdmin.order(cs1, rest1);
-		restAdmin.order(cs1, rest1);
-		restAdmin.order(cs1, rest1);
+		/*
+		 * 잔액부족
+		 * 재고부족
+		 * 취함기준
+		 * 배부름기준
+		 */
+		
+		
+		try {
+			restAdmin.order(cs1, rest3);
+		}
+		catch(NoMoneyException nme){
+			System.out.println(nme.getMessage());
+		}
+		catch(SoldOutException soe) {
+			System.out.println(soe.getMessage());
+		}
+		catch(DrunkenException de) {
+			System.out.println(de.getMessage());
+		}
+		catch(FullException fe){
+			System.out.println(fe.getMessage());
+			
+		}
+		try {
+			restAdmin.order(cs2, rest3);
+		}
+		catch(NoMoneyException nme){
+			System.out.println(nme.getMessage());
+		}
+		catch(SoldOutException soe) {
+			System.out.println(soe.getMessage());
+		}
+		catch(DrunkenException de) {
+			System.out.println(de.getMessage());
+		}
+		catch(FullException fe){
+			System.out.println(fe.getMessage());
+			
+		}
+		try {
+			restAdmin.order(cs3, rest3);
+		}
+		catch(NoMoneyException nme){
+			System.out.println(nme.getMessage());
+		}
+		catch(SoldOutException soe) {
+			System.out.println(soe.getMessage());
+		}
+		catch(DrunkenException de) {
+			System.out.println(de.getMessage());
+		}
+		catch(FullException fe){
+			System.out.println(fe.getMessage());
+			
+		}
+		try {
+			restAdmin.order(cs1, rest5);
+		}
+		catch(NoMoneyException nme){
+			System.out.println(nme.getMessage());
+		}
+		catch(SoldOutException soe) {
+			System.out.println(soe.getMessage());
+		}
+		catch(DrunkenException de) {
+			System.out.println(de.getMessage());
+		}
+		catch(FullException fe){
+			System.out.println(fe.getMessage());
+			
+		}
 
 		
 	}
