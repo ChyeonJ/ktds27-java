@@ -7,10 +7,13 @@ public class Product {
 	//멤버변수
 	private String productName;
 	private int price;
+
+	private int discountPrice;
 	
-	public Product(String productName, int price) {
+	public Product(String productName, int price, int discountPrice) {
 		this.productName = productName;
 		this.price = price;
+		this.discountPrice = discountPrice;
 	}
 	
 	public String getProductName() {
@@ -27,6 +30,13 @@ public class Product {
 	
 	public void setPrice(int price) {
 		this.price = price;
+	}
+	public int getDiscountPrice() {
+		return discountPrice;
+	}
+	
+	public void setDiscountPrice(int discountPrice) {
+		this.discountPrice = discountPrice;
 	}
 
 }

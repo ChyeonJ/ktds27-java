@@ -48,26 +48,44 @@ public class NomalMart {
 	
 	public void sell(Customer cs, String productName) {
 		
-		//구매자의 돈을 담아둔다 => 환불을 고려한다.
-		int customerMoney = cs.getMoney();
+		//배열 쓰려면 이게 짐이다...
+		Product product = findProduct(productName);
 		
+		//상품 있는지 조회
+		if(product == null) {
+			System.out.println("없는 상품");
+			return;
+		}
+		
+		//돈 체크
+		if(cs.getMoney() < product.getPrice()) {
+			System.out.println("잔액 부족");
+			return;
+		}
+		
+		//결제
+		totalResult(cs, product);
+	}
+	
+	
+	public Product findProduct(String productName) {
 	    for (int i = 0; i < this.product.length; i++) {
 	        if (this.product[i].getProductName().equals(productName)) {	//상품이름 검증
-	        	//고객의 돈이 상품을 살수 있는지 검증
-	        	if(customerMoney < product[i].getPrice()) {
-	        		System.out.println("물품의 가격은 " + product[i].getPrice() + "입니다. 잔액이 부족합니다.");
-	        		return;
-	        	}//구매자로부터 돈을 받고 판매하고 남은 거스름돈을 구매자에게 돌려준다.
-	        		this.moenyBox += product[i].getPrice();
-	        		customerMoney -= product[i].getPrice();
-	        		cs.setMoney(customerMoney);
-	        		System.out.println("결제완료");
-	        		System.out.println("거스름돈 : " + cs.getMoney());
-	        		return;
-	        	}
-	       }
-	    	System.out.println("없는 상품 입니다.");
+	        	return product[i];
+	        }
+	    }
+	    return null;
 	}
+	
+	public void totalResult(Customer cs, Product product) {
+		//구매자로부터 돈을 받고 판매하고 남은 거스름돈을 구매자에게 돌려준다.
+		this.moenyBox += product.getPrice();
+		cs.setMoney(cs.getMoney() - product.getPrice());
+		System.out.println("결제완료");
+		System.out.println("거스름돈 : " + cs.getMoney());
+		return;
+	}
+	
 }
 	
 

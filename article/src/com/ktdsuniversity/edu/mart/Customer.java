@@ -30,7 +30,7 @@ public class Customer {
 		this.money = money;
 	}
 	
-	public double getPoint() {
+	public int getPoint() {
 		return point;
 	}
 	
