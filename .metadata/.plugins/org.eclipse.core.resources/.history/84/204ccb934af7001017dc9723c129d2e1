@@ -1,9 +1,0 @@
-package oop;
-
-public class CoffeeShopTest {
-	
-	public static void main(String [] args) {
-		
-	}
-	
-}

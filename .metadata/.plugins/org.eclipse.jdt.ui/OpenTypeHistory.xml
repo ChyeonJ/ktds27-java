@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<typeInfoHistroy/>
+<typeInfoHistroy>
+    <typeInfo handle="=article/C:\/Devprograms\/jdk-25.0.1\/lib\/jrt-fs.jar`java.base=/javadoc_location=/https:\/\/docs.oracle.com\/en\/java\/javase\/25\/docs\/api\/=/=/module=/true=/&lt;java.lang(NumberFormatException.class[NumberFormatException" modifiers="33" timestamp="1758820049000"/>
+    <typeInfo handle="=article/C:\/Devprograms\/jdk-25.0.1\/lib\/jrt-fs.jar`java.base=/javadoc_location=/https:\/\/docs.oracle.com\/en\/java\/javase\/25\/docs\/api\/=/=/module=/true=/&lt;java.lang(NullPointerException.class[NullPointerException" modifiers="33" timestamp="1758820049000"/>
+    <typeInfo handle="=article/C:\/Devprograms\/jdk-25.0.1\/lib\/jrt-fs.jar`java.base=/javadoc_location=/https:\/\/docs.oracle.com\/en\/java\/javase\/25\/docs\/api\/=/=/module=/true=/&lt;java.lang(ArrayIndexOutOfBoundsException.class[ArrayIndexOutOfBoundsException" modifiers="33" timestamp="1758820049000"/>
+</typeInfoHistroy>
