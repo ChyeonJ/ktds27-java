@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.restaurant.restaurant;
 
+import java.util.List;
+
 import com.ktdsuniversity.edu.restaurant.customer.Customer;
 import com.ktdsuniversity.edu.restaurant.exception.DrunkenException;
 import com.ktdsuniversity.edu.restaurant.exception.FullException;
@@ -14,8 +16,11 @@ public class Restaurant {
 	private int full;
 	private int money;
 	
-	private RestaurantMenu[] menu;
-	private Customer[] cs;
+	//0202 컬렉션 이후로 배열은 사용하지 않는다.
+//	private RestaurantMenu[] menu;
+//	private Customer[] cs;
+	private List<RestaurantMenu> menu;
+	private List<Customer> cs;
 	
 	public Restaurant(String name, double drunk, int full, int money) {
 		this.name = name;
@@ -24,20 +29,21 @@ public class Restaurant {
 		this.money = money;
 	}
 
-	
-	public RestaurantMenu[] getMenu() {
+	public List<RestaurantMenu> getMenu() {
 		return menu;
 	}
-	public void setMenu(RestaurantMenu[] menu) {
+	
+	public void setMenu(List<RestaurantMenu> menu) {
 		this.menu = menu;
 	}
-	public Customer[] getCs() {
+	
+	public List<Customer> getCs() {
 		return cs;
 	}
-	public void setCs(Customer[] cs) {
+	
+	public void setCs(List<Customer> cs) {
 		this.cs = cs;
 	}
-
 	public String getName() {
 		return name;
 	}

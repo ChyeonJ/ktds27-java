@@ -57,13 +57,13 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
 		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
-			System.out.println(dze.getMessage());
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
 		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
-			System.out.println(woe.getMessage());
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
 		}
 
 		// 뺼셈
@@ -72,14 +72,14 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
-		catch(DevideZeroException dze) {
-			System.out.println(dze.getMessage());
+		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
-		catch (WrongOperatorException woe) {
-			System.out.println(woe.getMessage());
-		}
+		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
+		}	
 		System.out.println(result);
 		
 		// 곱셈
@@ -88,13 +88,13 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
-		catch(DevideZeroException dze) {
-			System.out.println(dze.getMessage());
+		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
-		catch (WrongOperatorException woe) {
-			System.out.println(woe.getMessage());
+		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
 		}
 		System.out.println(result);
 		
@@ -104,13 +104,13 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
-		catch(DevideZeroException dze) {
-			System.out.println(dze.getMessage());
+		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
-		catch (WrongOperatorException woe) {
-			System.out.println(woe.getMessage());
+		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
 		}
 		System.out.println(result);
 		
@@ -120,13 +120,13 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
-		catch(DevideZeroException dze) {
-			System.out.println(dze.getMessage());
+		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
-		catch (WrongOperatorException woe) {
-			System.out.println(woe.getMessage());
+		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
 		}
 		System.out.println(result);
 		
@@ -136,13 +136,13 @@ public class SimpleCalcurator {
 		System.out.println(result);
 		}
 		catch(nullOperatorException noe) {	//연산자가 null일 때 처리
-			System.out.println(noe.getMessage());
+			System.out.println("연산자가 비어있습니다. 연산자를 채워서 다시 실행하세요");
 		}
-		catch(DevideZeroException dze) {
-			System.out.println(dze.getMessage());
+		catch(DevideZeroException dze) {	//0으로 나누려고 하면 처리
+			System.out.println("0으로 나누려 했습니다. 숫자를 제대로 작성해서 다시 실행하세요");
 		}
-		catch (WrongOperatorException woe) {
-			System.out.println(woe.getMessage());
+		catch (WrongOperatorException woe) {	//연산자를 잘못작성 했을 떄의 처리
+			System.out.println("지원하지 않는 연산자입니다. +, -, *, / 중에 선택해서 다시 실행하세요.");
 		}
 		System.out.println(result);
 		

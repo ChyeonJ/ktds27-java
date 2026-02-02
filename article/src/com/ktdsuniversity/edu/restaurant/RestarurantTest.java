@@ -1,5 +1,8 @@
 package com.ktdsuniversity.edu.restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ktdsuniversity.edu.restaurant.customer.Customer;
 import com.ktdsuniversity.edu.restaurant.exception.DrunkenException;
 import com.ktdsuniversity.edu.restaurant.exception.FullException;
@@ -34,6 +37,12 @@ public class RestarurantTest {
 		restPigSoup[1] = rest6;
 		restPigSoup[2] = rest7;
 		restPigSoup[3] = rest8;
+		
+//		List<RestaurantMenu> menu = new ArrayList<RestaurantMenu>();			//=> 이런식으로 리스트화 하면 됨
+//		menu.add(new RestaurantMenu("감자탕", 27000, 0, 500, 120));				//=> 레스토랑 코드는 배열이 중점이기 때문에 못바꿈
+//		menu.add(new RestaurantMenu("김치찌개", 14000, 0, 500, 230));
+//		menu.add(new RestaurantMenu("소주", 5000, 16.5d, 0, 10));
+//		menu.add(new RestaurantMenu("맥주", 6000, 5.5d, 0, 100));
 		
 		Restaurant restAdmin = new Restaurant("감자탕집", 16.0d, 700, 0);
 		Restaurant restAdmin1 = new Restaurant("순대국집", 13.0d, 1000, 0);
