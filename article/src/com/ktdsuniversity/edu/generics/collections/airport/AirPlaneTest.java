@@ -36,7 +36,7 @@ public class AirPlaneTest {
 			
 			System.out.print("좌석 예약을 하려면 번호를 입력하세요: ");
 			nn = sc.nextLine();
-			if(Integer.parseInt(nn) > airplaneName.size()) {
+			if(Integer.parseInt(nn) > airplaneName.size() || Integer.parseInt(nn) < 0) {
 				throw new OverException("없는 좌석 번호 입니다.");
 			}
 			for(int i = 0; i < airplaneName.size(); i++) {
@@ -102,14 +102,14 @@ public class AirPlaneTest {
 		seatStatus1.add(new AirplaneInfo(6, "X"));
 		seatStatus1.add(new AirplaneInfo(7, "X"));
 		seatStatus1.add(new AirplaneInfo(8, "X"));
-		seatStatus1.add(new AirplaneInfo(9, "X"));
+		seatStatus1.add(new AirplaneInfo(9, "O"));
 		
 		airplaneName.put("0002", seatStatus);
 		airplaneName.put("0003", seatStatus1);
 		
 		String search = "";
 		while(true) {
-				System.out.print("\n비행기 편의 이름을 입력하세요 : ");
+				System.out.print("\n비행기 의 이름을 입력하세요 : ");
 				search = sc.nextLine();
 				
 			try {
