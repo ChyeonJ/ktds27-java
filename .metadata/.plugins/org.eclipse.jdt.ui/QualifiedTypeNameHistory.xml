@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vehicle.BatMobile"/>
-    <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vehicle.SportsCar"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vehicle.Vehicle"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vendingmachine.machine.DrinkMachineArray"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vendingmachine.restore.RestoreMoney"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.vendinmachine2.RefundableDrinkVendingMachine"/>
-    <fullyQualifiedTypeName name="java.awt.PrintJob"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.abstracts.Mart"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.abstracts.ConvenienceStore"/>
-    <fullyQualifiedTypeName name="java.lang.classfile.Superclass"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.abstracts.DepartmentStore"/>
-    <fullyQualifiedTypeName name="java.awt.Point"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.implement.LgSmartTV"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.implement.LgTV"/>
@@ -50,14 +37,27 @@
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.ScoreList"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.airGeneric"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.AirplaneInfo"/>
-    <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.NullException"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
     <fullyQualifiedTypeName name="java.lang.BootstrapMethodError"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.OverException"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.BadChoiceException"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.file.FileReadOldExam"/>
+    <fullyQualifiedTypeName name="java.io.BufferedReader"/>
+    <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+    <fullyQualifiedTypeName name="java.lang.classfile.instruction.TableSwitchInstruction"/>
+    <fullyQualifiedTypeName name="java.lang.annotation.Target"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+    <fullyQualifiedTypeName name="javax.swing.plaf.basic.BasicViewportUI"/>
+    <fullyQualifiedTypeName name="java.io.FileWriter"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.nio.file.Files"/>
+    <fullyQualifiedTypeName name="java.lang.Readable"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.file.Recursive"/>
+    <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
 </qualifiedTypeNameHistroy>
