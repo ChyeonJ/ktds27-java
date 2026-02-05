@@ -60,7 +60,7 @@ public class Recursive {	//재귀 호출
 			return 1;
 		}
 		
-		return start * sumToZero(start - 1);
+		return start + sumToZero(start - 1);
 	}
 	
 	public static void main(String[] args) {
