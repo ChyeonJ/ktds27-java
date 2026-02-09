@@ -13,6 +13,9 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Devprograms\Workspace\note"/>
+			<item value="C:\Devprograms\Workspace\fp-java"/>
+			<item value="C:\Devprograms\Workspace\fp-java\src\com\ktdsuniversity\edu\fp\basic\object"/>
 			<item value="C:\Devprograms\Workspace"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">

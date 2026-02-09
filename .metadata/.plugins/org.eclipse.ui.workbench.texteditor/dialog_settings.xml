@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="java.lang.Class">
-		<item key="replaceBarOpen" value="false"/>
+		<item key="replaceBarOpen" value="true"/>
 		<item key="selection" value="drinks"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
@@ -9,6 +9,9 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_n"/>
+			<item value="_c"/>
+			<item value="_i"/>
 			<item value="sum"/>
 			<item value="containe"/>
 			<item value="set"/>
@@ -16,6 +19,9 @@
 			<item value="drinks"/>
 		</list>
 		<list key="replacehistory">
+			<item value="N"/>
+			<item value="C"/>
+			<item value="I"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
