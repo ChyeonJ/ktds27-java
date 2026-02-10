@@ -21,7 +21,7 @@ public class ContactManager {
 	
 	// 1. contactList에 Contant 인스턴스를 추가하는 기능
 	public void addContact(Contact contact) {
-		
+		this.contactList.add(contact);
 	}
 	
 	// 2. contactList의 모든 연락처 정보를 출력하는 기능
@@ -62,6 +62,23 @@ public class ContactManager {
 	
 	
 	public static void main(String[] args) {
+		
+		ContactManager cm = new ContactManager();
+		
+		Contact contact = new Contact();
+		contact.setName("최현종");
+		contact.setEmail("asdasd@asd.com");
+		contact.setNickName("별명");
+		contact.setFirstName("현종");
+		contact.setLastName("ㅇㅇㅇ");
+		contact.setMemo("ㅇㅇㅇ");
+		contact.getPhones().add(new Phone(Phone.Type.PERSONAL, "010-1234-5678"));
+		contact.getPhones().add(new Phone(Phone.Type.HOME, "010-1234-5678"));
+		contact.getPhones().add(new Phone(Phone.Type.COMPANY, "010-1234-5678"));
+		contact.setCompany(new Company("KT", "사원", "경기"));
+		
+		
+		
 		
 	}
 
