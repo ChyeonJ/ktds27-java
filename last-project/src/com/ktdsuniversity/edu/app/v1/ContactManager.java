@@ -21,7 +21,7 @@ public class ContactManager {
 	
 	// 1. contactList에 Contant 인스턴스를 추가하는 기능
 	public void addContact(Contact contact) {
-		
+		this.contactList.add(contact);
 	}
 	
 	// 2. contactList의 모든 연락처 정보를 출력하는 기능
