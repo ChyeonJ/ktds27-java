@@ -53,7 +53,7 @@ public class IntroduceVariable {
 		
 		System.out.println(sum);
 		
-		
+		//자바 공부
 		
 		
 	}
