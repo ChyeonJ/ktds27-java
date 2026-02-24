@@ -1,10 +1,3 @@
--- 가장 많은 월급을 받는 사원 한 명만 조회한다.
-SELECT *
-  FROM EMPLOYEES
- WHERE SALARY = (SELECT MAX(SALARY)
-                   FROM EMPLOYEES)
-;
-
 --최상위 직원의 모든 부하직원들의 사원번호, 이름, 상사사원번호를 계단식(계층식)으로 조회한다.
  SELECT LEVEL
       , EMPLOYEE_ID
@@ -889,17 +882,6 @@ SELECT D.DEPARTMENT_NAME
 ;
 
 -- 46. 사원의 수가 가장 많은 부서명, 사원의 수를 조회한다.
-SELECT DEPARTMENT_NAME
-     , CNT
-  FROM (SELECT D.DEPARTMENT_NAME
-             , COUNT(E.EMPLOYEE_ID) AS CNT
-          FROM EMPLOYEES E
-         INNER JOIN DEPARTMENTS D
-            ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
-         GROUP BY D.DEPARTMENT_NAME
-         ORDER BY CNT DESC)
-WHERE ROWNUM = 1
-;
 -- 47. 사원이 없는 부서명을 조회한다.
 -- 사원이 있는 부서명을 조회한다.
 -- 모르는것? => 사원이 근무중인 부서의 번호
@@ -969,39 +951,6 @@ SELECT J.JOB_TITLE
 
 -- 직무가 변경된 사원 번호
 -- 51. 직무가 가장 많이 변경된 부서의 이름을 조회한다.
-SELECT DEPARTMENT_NAME 
-  FROM (SELECT D.DEPARTMENT_NAME 
-             , COUNT(J.EMPLOYEE_ID) AS CNT
-          FROM DEPARTMENTS D
-         INNER JOIN EMPLOYEES E
-            ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
-         INNER JOIN JOB_HISTORY J
-            ON E.EMPLOYEE_ID = J.EMPLOYEE_ID
-         GROUP BY D.DEPARTMENT_NAME
-         ORDER BY CNT DESC)
-  WHERE ROWNUM = 1
-;
-
--- 부서 아이디별 EMPLOYEE_ID의 개수를 세서 내림차순으로 정렬 
-SELECT J.DEPARTMENT_ID
-     , COUNT(J.EMPLOYEE_ID) AS CNT
-  FROM JOB_HISTORY J
- GROUP BY J.DEPARTMENT_ID
- ORDER BY CNT DESC
-;
-
--- JOIN에 INNER VIEW 사용해서 해결
-SELECT DEPARTMENT_NAME
-  FROM DEPARTMENTS D
- INNER JOIN (SELECT J.DEPARTMENT_ID AS ID
-                  , COUNT(J.EMPLOYEE_ID) AS CNT
-               FROM JOB_HISTORY J
-              GROUP BY J.DEPARTMENT_ID
-              ORDER BY CNT DESC)
-    ON D.DEPARTMENT_ID = ID
- WHERE ROWNUM = 1
-;
- 
 -- 52. 'Seattle' 에서 근무중인 사원의 이름, 성, 월급, 부서명 을 조회한다.
 -- SUBQUERY & JOIN
 -- 'Seattle'에서 근무중인 사원
@@ -1049,46 +998,6 @@ SELECT E.FIRST_NAME
 ;
 
 -- 54. 근무중인 사원이 가장 많은 도시와 사원의 수를 조회한다. 
--- 근무중인 사원 가장 많은 부서
-SELECT DEPARTMENT_ID
-     , COUNT(EMPLOYEE_ID) AS CNT
-  FROM EMPLOYEES
- GROUP BY DEPARTMENT_ID
- ORDER BY CNT DESC
-;
-
--- 사원이가 가장 많은 부서의 지역번호 추출
-SELECT D.LOCATION_ID
-     , COUNT(Q.DEPARTMENT_ID) AS CNT2
-  FROM DEPARTMENTS D
- INNER JOIN (SELECT DEPARTMENT_ID
-                  , COUNT(EMPLOYEE_ID) AS CNT
-               FROM EMPLOYEES
-              GROUP BY DEPARTMENT_ID
-              ORDER BY CNT DESC) Q
-    ON D.DEPARTMENT_ID = Q.DEPARTMENT_ID 
-  GROUP BY D.LOCATION_ID
-  ORDER BY CNT2 DESC
- ;
-
--- 결과
-SELECT L.CLTY
-     , W.CNT
- FROM LOCATIONS L 
-INNER JOIN (SELECT D.LOCATION_ID
-                 , COUNT(Q.DEPARTMENT_ID) AS CNT2
-                 , COUNT(Q.EMPLOYEE_ID) AS CNT
-              FROM DEPARTMENTS D
-             INNER JOIN (SELECT DEPARTMENT_ID
-                              , COUNT(EMPLOYEE_ID) AS CNT
-                           FROM EMPLOYEES
-                          GROUP BY DEPARTMENT_ID
-                          ORDER BY CNT DESC) Q
-                ON D.DEPARTMENT_ID = Q.DEPARTMENT_ID 
-              GROUP BY D.LOCATION_ID
-              ORDER BY CNT2 DESC) W
-    ON L.LOCATION_ID = W.LOCATION_ID 
-;
 -- 55. 근무중인 사원이 없는 도시를 조회한다.
 -- 56. 월급이 7000 에서 12000 사이인 사원이 근무중인 도시를 조회한다.
 -- 월급 7000 12000 사이 직원
@@ -1348,38 +1257,8 @@ SELECT E.EMPLOYEE_ID
     ON E.EMPLOYEE_ID = M.MANAGER_ID 
 ;
 -- 67. 101번 사원의 모든 부하직원 들의 이름, 성, 상사사원번호, 상사사원명을 조회한다.
- SELECT LEVEL
-      , EMP.EMPLOYEE_ID
-      , EMP.FIRST_NAME
-      , EMP.LAST_NAME
-      , EMP.MANAGER_ID
-      , MAN.FIRST_NAME
-      , MAN.LAST_NAME
-   FROM EMPLOYEES EMP
-  INNER JOIN EMPLOYEES MAN
-     ON EMP.MANAGER_ID = MAN.EMPLOYEE_ID
-  START WITH EMP.EMPLOYEE_ID = 101
-CONNECT BY PRIOR EMP.EMPLOYEE_ID = EMP.MANAGER_ID
-;
-
--- 68. 114번 직원의 모든 상사들의 이름, 성, 사원번호를 조회한다.
- SELECT *
-   FROM EMPLOYEES E
-  START WITH E.EMPLOYEE_ID = 114
-CONNECT BY PRIOR E.EMPLOYEE_ID = E.MANAGER_ID 
-;
-
--- 69. 114번 직원의 모든 상사들의 이름, 성, 사원번호를 조회한다. 단, 역순으로 조회한다.
- SELECT LEVEL
-      , FIRST_NAME
-      , LAST_NAME
-      , EMPLOYEE_ID
-   FROM EMPLOYEES
-  START WITH EMPLOYEE_ID = 114
-CONNECT BY PRIOR MANAGER_ID = EMPLOYEE_ID
-  ORDER BY LEVEL DESC
-;
-
+-- 68. 114번 직원의 모든 상사들의 이름, 성, 상사사원번호, 상사사원명을 조회한다.
+-- 69. 114번 직원의 모든 상사들의 이름, 성, 상사사원번호, 상사사원명을 조회한다. 단, 역순으로 조회한다.
 -- 70. 모든 사원(EMPLOYES)들의 월급 오름차순 정렬하여 조회한다.
 SELECT EMPLOYEE_ID
      , FIRST_NAME
@@ -1499,34 +1378,7 @@ SELECT FIRST_NAME
   FROM EMPLOYEES
 ;
 -- 81. 100번 사원의 모든 부하직원을 계층조회한다. 단, LEVEL이 4인 사원은 제외한다.
- SELECT LEVEL
-      , EMPLOYEE_ID
-   FROM EMPLOYEES
-  WHERE LEVEL != 4
-  START WITH EMPLOYEE_ID = 100
-CONNECT BY PRIOR EMPLOYEE_ID = MANAGER_ID
-;
 -- 82. 많은 월급을 받는 10명을 조회한다.
-SELECT *
-  FROM (SELECT EMPLOYEE_ID
-             , FIRST_NAME
-             , LAST_NAME
-             , EMAIL
-             , PHONE_NUMBER
-             , HIRE_DATE
-             , JOB_ID
-             , SALARY
-             , COMMISSION_PCT
-             , MANAGER_ID
-             , DEPARTMENT_ID
-          FROM EMPLOYEES
-         ORDER BY SALARY DESC)
- WHERE ROWNUM <= 10
-;
-SELECT EMPLOYEE_ID
-  FROM EMPLOYEES
- ORDER BY SALARY DESC
-;
 -- 83. 가장 적은 월급을 받는 사원의 상사명, 부서명을 조회한다.
 -- 가장 적은 월급
 SELECT MIN(SALARY)
@@ -1546,24 +1398,6 @@ SELECT M.MANAGER_ID
 
 
 -- 84. 많은 월급을 받는 사원 중 11번 째 부터 20번째를 조회한다.
-SELECT EMPLOYEE_ID
-     , FIRST_NAME
-     , LAST_NAME
-     , SALARY
-  FROM (SELECT ROWNUM AS R_NUM
-             , EMPLOYEE_ID
-             , FIRST_NAME
-             , LAST_NAME
-             , SALARY
-          FROM (SELECT EMPLOYEE_ID
-                     , FIRST_NAME
-                     , LAST_NAME
-                     , SALARY
-                  FROM EMPLOYEES
-                 ORDER BY SALARY DESC)
-          WHERE ROWNUM <= 20)
-   WHERE R_NUM >= 11
-;  
 -- 85. 가장 적은 월급을 받는 중 90번 째 부터 100번째를 조회한다.
 -- 86. 'PU_CLERK' 직무인 2번째 부터 5번째 사원의 부서명, 직무명을 조회한다.
 -- 87. 모든 사원의 정보를 직무 오름차순, 월급 내림차순으로 조회한다.
@@ -1600,49 +1434,8 @@ SELECT DEPARTMENT_ID
 ;
 
 -- 90. 이름의 첫 번째 글자별 평균월급을 조회한다.
-SELECT SUBSTR(FIRST_NAME, 1, 1)
-     , AVG(SALARY)
-  FROM EMPLOYEES
- GROUP BY SUBSTR(FIRST_NAME,1,1) 
- ORDER BY SUBSTR(FIRST_NAME,1,1) ASC
-;
-
-SELECT LETTER
-     , AVG(SALARY)
-  FROM (SELECT SUBSTR(FIRST_NAME,1,1) AS LETTER
-             , SALARY
-          FROM EMPLOYEES)
- GROUP BY LETTER
- ORDER BY LETTER ASC
-;
-
 -- 91. 입사연도별 최소월급을 조회한다.
-SELECT YEAR
-     , MIN(SALARY)
-  FROM (SELECT TO_CHAR(HIRE_DATE,'YYYY') AS YEAR
-             , SALARY
-          FROM EMPLOYEES)
-  GROUP BY YEAR
-  ORDER BY YEAR ASC
-;
-
 -- 92. 월별 최대월급 중 2번째 부터 4번째 데이터만 조회한다.
-SELECT HIRE_MONTH 
-     , MAX_SALARY 
-  FROM (SELECT HIRE_MONTH 
-             , MAX_SALARY
-             , ROWNUM AS R_NUM
-          FROM (SELECT HIRE_MONTH
-                     , MAX(SALARY) AS MAX_SALARY
-                  FROM (SELECT TO_CHAR(HIRE_DATE, 'MM') AS HIRE_MONTH
-                             , SALARY
-                          FROM EMPLOYEES)
-                 GROUP BY HIRE_MONTH 
-                 ORDER BY MAX_SALARY DESC)
-          WHERE ROWNUM <= 4)
-  WHERE R_NUM >= 2
-;
-
 -- 93. 직무명별 최소월급을 조회한다.
 SELECT J.JOB_TITLE 
      , MIN(E.SALARY )
@@ -1752,22 +1545,6 @@ SELECT C.COUNTRY_NAME
 ;
 -- 101. 인센티브를 안받는 사원이 근무하는 도시를 조회한다.
 -- 102. 인센티브를 포함한 월급이 10000 이상인 사원의 모든 정보를 조회한다.
-SELECT *
-  FROM (SELECT EMPLOYEE_ID
-             , FIRST_NAME
-             , LAST_NAME
-             , EMAIL
-             , PHONE_NUMBER
-             , HIRE_DATE
-             , JOB_ID
-             , SALARY
-             , COMMISSION_PCT
-             , MANAGER_ID
-             , DEPARTMENT_ID
-             , SALARY + SALARY * NVL(COMMISSION_PCT,0) AS TOTAL_SALARY
-          FROM EMPLOYEES)
-  WHERE TOTAL_SALARY >= 10000
-;
 -- 103. 가장 많은 부서가 있는 도시를 조회한다.
 -- 104. 가장 많은 사원이 있는 부서의 국가명을 조회한다.
 -- 105. 우편번호가 5자리인 도시에서 근무하는 사원명, 부서명, 도시명, 우편번호를 조회한다.
@@ -1915,23 +1692,8 @@ SELECT TO_CHAR(TO_DATE('20230222', 'YYYYMMDD') + 10,'YYYY-MM-DD')
   FROM DUAL
 ;
 
--- 121. 사원 이름의 글자(LENGTH)수 별 사원의 수를 조회한다.
-SELECT COUNT(NAME_LANG)
-  FROM (SELECT LENGTH(FIRST_NAME) AS NAME_LANG
-          FROM EMPLOYEES)
-  GROUP BY NAME_LANG
-  ORDER BY NAME_LANG ASC
-  ;
-
+-- 121. 사원 이름의 글자수 별 사원의 수를 조회한다.
 -- 122. 사원 성의 글자수 별 사원의 수를 조회한다.
-SELECT COUNT(NAME_LANG)
-  FROM (SELECT LENGTH(LAST_NAME) AS NAME_LANG
-          FROM EMPLOYEES)
-  GROUP BY NAME_LANG
-  ORDER BY NAME_LANG ASC
-;
-
-
 -- 123. 사원의 월급이 5000 이하이면 "사원", 7000 이하이면 "대리", 9000 이하이면 "과장", 그 외에는 임원 으로 조회한다.
 -- 124. 부서별 사원의 수를 조인을 이용해 다음과 같이 조회한다."부서명 (사원의 수)"
 -- 125. 부서별 사원의 수를 스칼라쿼리를 이용해 다음과 같이 조회한다. "부서명 (사원의 수)"
@@ -1977,17 +1739,6 @@ SELECT E.FIRST_NAME
  WHERE D.DEPARTMENT_ID IN (90, 60, 100)
 ;
 -- 136. 부서명이 5글자 미만인 부서에서 근무중인 사원의 이름, 부서명을 조회한다.
-SELECT E.FIRST_NAME
-     , D.DEPARTMENT_NAME
-  FROM EMPLOYEES E
- INNER JOIN (SELECT LENGTH(DEPARTMENT_NAME) AS LEN_NAME
-  				  , DEPARTMENT_ID
-  				  , DEPARTMENT_NAME
- 			   FROM DEPARTMENTS) D
-    ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
- WHERE LEN_NAME < 5
-;
-
 -- 137. 국가 아이디가 'C'로 시작하는 국가의 지역을 모두 조회한다.
 SELECT COUNTRY_ID
      , COUNTRY_NAME
@@ -2013,29 +1764,9 @@ SELECT COUNTRY_ID
 ;
 
 -- 138. 국가 아이디의 첫 글자와 국가명의 첫 글자가 다른 모든 국가를 조회한다.
-SELECT COUNTRY_NAME
-     , COUNTRY_ID
-     , REGION_ID
-  FROM (SELECT SUBSTR(COUNTRY_NAME,1,1) AS C_FIRST
-             , SUBSTR(COUNTRY_ID,1,1) AS I_FIRST
-             , COUNTRY_NAME
-             , COUNTRY_ID
-             , REGION_ID
-          FROM COUNTRIES)
-  WHERE C_FIRST != I_FIRST
-;
-
 -- 139. 사원 모든 정보 중 이메일만 모두 소문자로 변경하여 조회한다.
 -- 140. 사원의 월급을 TRUNC(소수점 버림) 함수를 사용해 100 단위는 버린채 다음과 같이 조회한다. 예> 3700 -> 3000, 12700 -> 12000
--- 141. 100 단위를 버린 사원의 월급 별 사원의 수를 조회한다.
-SELECT CAL1 
-     , COUNT(EMPLOYEE_ID )
-  FROM (SELECT TRUNC(SALARY / 1000) * 1000 AS CAL1
-             , EMPLOYEE_ID
-  	      FROM EMPLOYEES)
- GROUP BY CAL1
-;
-
+-- 141. 100단위를 버린 사원의 월급 별 사원의 수를 조회한다.
 -- 142. 현재 시간으로부터 20년 전 보다 일찍 입사한 사원의 모든 정보를 조회한다.
 SELECT EMPLOYEE_ID
      , FIRST_NAME
@@ -2090,20 +1821,7 @@ SELECT L.CITY
 
 -- 146. 부서명, 직무명 별 평균 월급 중 가장 작은 평균월급을 받는 부서명, 직무명을 조회한다.
 -- 147. 102번 직원의 모든 부하직원의 수를 조회한다.
- SELECT COUNT(EMPLOYEE_ID)
-   FROM EMPLOYEES
-  WHERE LEVEL > 1
-  START WITH EMPLOYEE_ID = 102
-CONNECT BY PRIOR EMPLOYEE_ID = MANAGER_ID
-; 
-   
 -- 148. 113번 직원의 모든 부하직원의 수를 조회한다.
- SELECT COUNT(EMPLOYEE_ID)
-   FROM EMPLOYEES
-  WHERE LEVEL > 1
-  START WITH EMPLOYEE_ID = 113
-CONNECT BY PRIOR EMPLOYEE_ID = MANAGER_ID
-;
 -- 149. 부하직원이 없는 사원의 모든 정보를 조회한다.
 -- 부하직원이 없는 사원
 SELECT DISTINCT NVL(MANAGER_ID,0) 
@@ -2517,111 +2235,4 @@ SELECT L.CITY
  INNER JOIN LOCATIONS L
     ON D.LOCATION_ID = L.LOCATION_ID
  GROUP BY L.CITY  
-<<<<<<< HEAD:과제/Oracle+연습문제+150제.sql0224.sql
 ;
-
--- 1. 100번 사원의 모든 부하직원을 계층조회한다.
-	SELECT LEVEL
-	     , EMPLOYEE_ID
-	     , FIRST_NAME
-	     , MANAGER_ID
-	     , FIRST_NAME
-	  FROM EMPLOYEES
-	 START WITH EMPLOYEE_ID = 100
-   CONNECT BY PRIOR EMPLOYEE_ID = MANAGER_ID
-;
--- 2. 113번 사원의 모든 상사를 계층조회한다.
-	SELECT LEVEL
-	     , EMPLOYEE_ID
-	     , FIRST_NAME
-	     , MANAGER_ID
-	     , FIRST_NAME
-	  FROM EMPLOYEES
-	 START WITH EMPLOYEE_ID = 113
-   CONNECT BY PRIOR MANAGER_ID = EMPLOYEE_ID
-;
--- 3. IT 부서장의 모든 부하직원을 계층조회한다.
-SELECT MANAGER_ID
-  FROM DEPARTMENTS
- WHERE DEPARTMENT_NAME = 'IT'
-;
--- 조인이 왜 필요 없었을까?
- SELECT *
-   FROM EMPLOYEES E
-  START WITH E.EMPLOYEE_ID = (SELECT MANAGER_ID
-                                FROM DEPARTMENTS
-               				   WHERE DEPARTMENT_NAME = 'IT')
-CONNECT BY PRIOR E.EMPLOYEE_ID = MANAGER_ID 
-;
-  
--- 4. 부서장들의 부하직원을 계층조회한다.
--- 부서장 조회
-SELECT NVL(MANAGER_ID, 0) AS MN
-  FROM DEPARTMENTS
-;
-
--- 0을 거른다 IS NOT NULL ......
-SELECT MANAGER_ID
-  FROM (SELECT NVL(MANAGER_ID, 0) AS N_ID
-          FROM DEPARTMENTS)
- WHERE N_ID > 0
-;
-
- SELECT *
-   FROM EMPLOYEES E
-  START WITH E.EMPLOYEE_ID IN (SELECT MANAGER_ID
-                                FROM DEPARTMENTS
-                               WHERE MANAGER_ID IS NOT NULL)
-CONNECT BY PRIOR E.EMPLOYEE_ID = MANAGER_ID
-;
-
--- 5. 부서명이 가장 긴 부서에서 근무중인 사원의 모든 정보를 조회한다.
--- 부서명이 가장 긴 부서 아이디 
-SELECT DEPARTMENT_ID
-  FROM DEPARTMENTS
- ORDER BY LENGTH(DEPARTMENT_NAME) ASC
-;
-
--- 1개만 자르기
-SELECT DEPARTMENT_ID
-  FROM (SELECT DEPARTMENT_ID
-          FROM DEPARTMENTS
-         ORDER BY LENGTH(DEPARTMENT_NAME) ASC)
-  WHERE ROWNUM <= 1
-;
-
-SELECT *
-  FROM EMPLOYEES E
- INNER JOIN (SELECT DEPARTMENT_ID
-               FROM (SELECT DEPARTMENT_ID
-                       FROM DEPARTMENTS
-                   ORDER BY LENGTH(DEPARTMENT_NAME) ASC)
-                      WHERE ROWNUM <= 1) D
-    ON E.DEPARTMENT_ID = D.DEPARTMENT_ID 
- WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID
-; 
-
--- 6. 2002년부터 2006년까지 입사한 사원은 몇 명인지 연도별로 조회한다.
--- 날짜 BETWEEN, COUNT(), GROUP_BY YYYY
-SELECT EMPLOYEE_ID
-     , HIRE_DATE
-  FROM EMPLOYEES
- WHERE HIRE_DATE BETWEEN TO_DATE('2002', 'YYYY') AND TO_DATE('2006', 'YYYY')
-; 
-
-SELECT COUNT(EMPLOYEE_ID)
-     , 
-  FROM (SELECT EMPLOYEE_ID
-             , TO_CHAR(HIRE_DATE, 'YYYY') AS DATE_Y
-          FROM EMPLOYEES
-         WHERE HIRE_DATE BETWEEN TO_DATE('2002', 'YYYY') AND TO_DATE('2006', 'YYYY'))
- GROUP BY DATE_Y
- ORDER BY DATE_Y ASC
- ;
-
--- 7. 입사일이 가장 빠른 사원 5명의 이름과 입사일을 조회한다.
-
--- 8. 커미션을 받는 사원들의 이름과 커미션을 조회한다. 단, 커미션이 가장 높은 사원 3명은 제외한다.
-=======
-;
->>>>>>> 632968321e2429c3991fef630f9fd99f01a950fd:과제/Oracle+연습문제+150제.sql0217(과제끝).sql

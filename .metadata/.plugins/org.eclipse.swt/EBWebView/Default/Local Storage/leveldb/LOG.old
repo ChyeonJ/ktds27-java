@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/02/17-22:03:39.688 2c60 Reusing MANIFEST C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
 2026/02/17-22:03:39.699 2c60 Recovering log #3
 2026/02/17-22:03:39.700 2c60 Reusing old log C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+=======
+2026/02/09-09:02:10.806 13ac Reusing MANIFEST C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2026/02/09-09:02:10.817 13ac Recovering log #3
+2026/02/09-09:02:10.818 13ac Reusing old log C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+>>>>>>> 632968321e2429c3991fef630f9fd99f01a950fd
