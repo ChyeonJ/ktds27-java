@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.map.Student"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.ScoreList"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.airGeneric"/>
-    <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.AirplaneInfo"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.NullException"/>
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
@@ -60,4 +55,9 @@
     <fullyQualifiedTypeName name="java.lang.classfile.instruction.DiscontinuedInstruction"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.fp.basic.stream.object.FoodType"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.fp.basic.stream.basic.StreamBasic"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.ContactManager"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Contact"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone.Type"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Company"/>
 </qualifiedTypeNameHistroy>
