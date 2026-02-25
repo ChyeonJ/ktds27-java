@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<<<<<<< HEAD
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.AirplaneInfo"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.NullException"/>
+    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+    <fullyQualifiedTypeName name="java.lang.BootstrapMethodError"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.OverException"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.generics.collections.airport.BadChoiceException"/>
+=======
+>>>>>>> 632968321e2429c3991fef630f9fd99f01a950fd
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.file.FileReadOldExam"/>
     <fullyQualifiedTypeName name="java.io.BufferedReader"/>
     <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
@@ -47,6 +56,13 @@
     <fullyQualifiedTypeName name="java.lang.classfile.instruction.DiscontinuedInstruction"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.fp.basic.stream.object.FoodType"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.fp.basic.stream.basic.StreamBasic"/>
+<<<<<<< HEAD
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.ContactManager"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Contact"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone.Type"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Company"/>
+=======
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone"/>
     <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
@@ -60,4 +76,5 @@
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Contact"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.app.v1.Phone.Type"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+>>>>>>> 632968321e2429c3991fef630f9fd99f01a950fd
 </qualifiedTypeNameHistroy>
