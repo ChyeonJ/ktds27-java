@@ -1,0 +1,110 @@
+--아래 9개의 문제의 SELECT 문장을 작성한 쿼리를 Github Link로 제출합니다.
+--댓글의 내용으로 문제별 조회 결과 수를 작성합니다.
+-- * 조회 결과가 없는 문제가 있습니다.
+
+-----------------------------------------------------------------
+
+--1. 모든 사원의 모든 정보를 조회한다.
+SELECT EMPLOYEE_ID
+     , FIRST_NAME
+     , LAST_NAME
+     , EMAIL
+     , PHONE_NUMBER
+     , HIRE_DATE
+     , JOB_ID
+     , SALARY
+     , COMMISSION_PCT
+     , MANAGER_ID
+     , DEPARTMENT_ID
+  FROM EMPLOYEES
+;
+--2. 근무중인 부서가 없는 사원의 모든 정보를 조회한다.
+SELECT EMPLOYEE_ID
+     , FIRST_NAME
+     , LAST_NAME
+     , EMAIL
+     , PHONE_NUMBER
+     , HIRE_DATE
+     , JOB_ID
+     , SALARY
+     , COMMISSION_PCT
+     , MANAGER_ID
+     , DEPARTMENT_ID
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IS NULL --NOT NULL인데 이거 써도 되는건가요
+;
+
+--3. 수행중인 직무가 없는 사원의 모든 정보를 조회한다.
+SELECT EMPLOYEE_ID
+     , FIRST_NAME
+     , LAST_NAME
+     , EMAIL
+     , PHONE_NUMBER
+     , HIRE_DATE
+     , JOB_ID
+     , SALARY
+     , COMMISSION_PCT
+     , MANAGER_ID
+     , DEPARTMENT_ID
+  FROM EMPLOYEES
+ WHERE JOB_ID IS NULL
+;
+--4. 근무중인 부서와 수행중인 직무가 모두 있는 사원의 모든 정보를 조회한다.
+SELECT EMPLOYEE_ID
+     , FIRST_NAME
+     , LAST_NAME
+     , EMAIL
+     , PHONE_NUMBER
+     , HIRE_DATE
+     , JOB_ID
+     , SALARY
+     , COMMISSION_PCT
+     , MANAGER_ID
+     , DEPARTMENT_ID
+  FROM EMPLOYEES
+ WHERE JOB_ID IS NOT NULL
+   AND DEPARTMENT_ID IS NOT NULL
+;
+
+-- 5. 부서장이 없는 모든 부서의 모든 정보를 조회한다.
+
+SELECT DEPARTMENT_ID
+     , DEPARTMENT_NAME
+     , MANAGER_ID
+     , LOCATION_ID
+  FROM DEPARTMENTS
+ WHERE MANAGER_ID IS NULL
+;
+
+--6. 부서장이 있는 모든 부서의 모든 정보를 조회한다.
+SELECT DEPARTMENT_ID
+     , DEPARTMENT_NAME
+     , MANAGER_ID
+     , LOCATION_ID
+  FROM DEPARTMENTS
+ WHERE MANAGER_ID IS NOT NULL
+;
+
+--7. 사원의 이름만 조회한다.
+SELECT FIRST_NAME 
+  FROM EMPLOYEES
+;
+
+--8. 모든 지역의 모든 정보를 조회한다.
+SELECT LOCATION_ID
+     , STREET_ADDRESS
+     , POSTAL_CODE
+     , CITY
+     , STATE_PROVINCE
+     , COUNTRY_ID
+  FROM LOCATIONS
+;
+
+--9. 지역이 없는 모든 부서의 정보를 조회한다.
+SELECT DEPARTMENT_ID
+     , DEPARTMENT_NAME
+     , MANAGER_ID
+     , LOCATION_ID
+  FROM DEPARTMENTS
+ WHERE LOCATION_ID IS NULL
+;
