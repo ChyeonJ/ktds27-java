@@ -9,6 +9,9 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="매개변수"/>
+			<item value="IN"/>
+			<item value="IN 또는"/>
 			<item value="_n"/>
 			<item value="_c"/>
 			<item value="_i"/>
