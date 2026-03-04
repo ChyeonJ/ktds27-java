@@ -67,15 +67,15 @@ public class TestMain {
 		replyService.deleteReply("RP-20260304-000019");
 		
 		//댓글 하나 조회
-		ReplyVO result = replyDao.selectOne("RP-20260304-000018");
+		ReplyVO result = replyService.selectOne("RP-20260304-000018");
 		System.out.println(result);
 		
 		//게시글에 등록된 모든 댓글 조회
 		List<ReplyVO> rr = replyService.replyListSelect("BO-20260303-000023");
 		System.out.println(rr);
 		
-		List<ReplyVO> rr = replyService.replyTopTop("RP-20260304-000041");
-		System.out.println(rr);
+		List<ReplyVO> r2r = replyService.replyTopTop("RP-20260304-000041");
+		System.out.println(r2r);
 		
 		
 		// DB연결 종료

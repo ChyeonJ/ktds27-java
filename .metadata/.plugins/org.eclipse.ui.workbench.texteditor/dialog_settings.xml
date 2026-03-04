@@ -9,6 +9,8 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="부적합한 열이름"/>
+			<item value="부적합한"/>
 			<item value="매개변수"/>
 			<item value="IN"/>
 			<item value="IN 또는"/>
