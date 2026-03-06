@@ -111,8 +111,7 @@ public class BoardDao {
 		Connection connection = null;
 		//DriverManager - 자바에서 데이터베이스를 관리하고, 적잘한 드라이버를 통해 DB 커넥션을 획든하는 클래스
 		try {
-			connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "BOARD", "BOARD");
-			//MANUAL COMMIT으로 변경. => 트랜젝션 설정
+			connection = DriverManager.getConnection("jdbc:oracle:th
 			connection.setAutoCommit(false);
 		} catch (SQLException e) {
 			// 주소가 틀렸거나, 계정이 틀렸을 경우 예외처리 반환,

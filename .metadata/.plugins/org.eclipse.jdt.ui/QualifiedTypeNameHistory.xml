@@ -3,4 +3,23 @@
     <fullyQualifiedTypeName name="java.sql.DriverManager"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.board.dao.query.BoardQuery"/>
     <fullyQualifiedTypeName name="com.ktdsuniversity.edu.board.db.helper.SQLType"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.MovieDao"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.CategoryDao"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.MakeDao"/>
+    <fullyQualifiedTypeName name="new new new new new new new oracle.jdbc.proxy.oracle(){}(){}(){}(){}(){}(){}(){}...Proxy"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.AppearanceDao"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.MovieVO"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.query.CategoryQuery"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.CategoryVO"/>
+    <fullyQualifiedTypeName name="java.lang.Boolean"/>
+    <fullyQualifiedTypeName name="javax.xml.crypto.Data"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.dao.query.MakeQuery"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.MakeVO"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.ProducerVO"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.db.helper.DataAccessHelper"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.db.helper.SQLType"/>
+    <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.AppearanceVO"/>
+    <fullyQualifiedTypeName name="com.ktdsuniversity.edu.tmdb.vo.ActorVO"/>
 </qualifiedTypeNameHistroy>
