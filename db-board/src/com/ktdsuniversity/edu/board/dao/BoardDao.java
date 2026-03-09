@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ktdsuniversity.edu.board.dao.query.BoardQuery;
 import com.ktdsuniversity.edu.board.db.helper.DataAccessHelper;
@@ -16,106 +18,81 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
  */
 public class BoardDao {
 	
+	private DataAccessHelper dah;
+	
+	public BoardDao(DataAccessHelper dah) {
+		this.dah = dah;
+	}
+	
+	public List<BoardVO> readAllArticles() {
+		//UDPATE와 SELECT를 써야함
+		// SELECT => 게시글의 내용을 조회.
+		List<BoardVO> result = new ArrayList<>();
+		this.dah.preparedStatement(BoardQuery.makeSelectAllQuery(), null);
+		this.dah.executeQuery(SQLType.SELECT, rs -> {
+			BoardVO eachArticle = new BoardVO();
+			eachArticle.setId(rs.getString("ID"));
+			eachArticle.setTitle(rs.getString("TITLE"));
+			eachArticle.setContent(rs.getString("CONTENT"));
+			eachArticle.setViewCount(rs.getInt("VIEW_COUNT"));
+			eachArticle.setWriteDate(rs.getString("WRITE_DATE"));
+			eachArticle.setLatestModifyDate(rs.getString("LATEST_MODIFY_DATE"));
+			result.add(eachArticle);
+		});
+		return result;
+	}
+	
+	public void updateViewCount(String articleId) {
+		// UPDATE => 조회수를 1 증가.
+		this.dah.preparedStatement(BoardQuery.makeUpdateViewCountQuery(), (pstmt) -> {
+			pstmt.setString(1, articleId);
+		});
+		this.dah.executeQuery(SQLType.UPDATE, null);
+	}
 
 	public BoardVO readArticle(String articleId) {
-		//UDPATE와 SELECT를 써야함
-		DataAccessHelper dah = new DataAccessHelper("localhost", 1521, "XE", "BOARD", "BOARD");
+		// SELECT => 게시글의 내용을 조회.
+		BoardVO result = new BoardVO();
+		this.dah.preparedStatement(BoardQuery.makeSelectOneQuery(), (pstmt) -> {
+			pstmt.setString(1, articleId);
+		});
+		this.dah.executeQuery(SQLType.SELECT, rs -> {
+			result.setId(rs.getString("ID"));
+			result.setTitle(rs.getString("TITLE"));
+			result.setContent(rs.getString("CONTENT"));
+			result.setViewCount(rs.getInt("VIEW_COUNT"));
+			result.setWriteDate(rs.getString("WRITE_DATE"));
+			result.setLatestModifyDate(rs.getString("LATEST_MODIFY_DATE"));
+		});
 		
-		try {
-			// UPDATE => 조회수를 1 증가.
-			dah.preparedStatement(BoardQuery.makeUpdateViewCountQuery(), (pstmt) -> {
-				pstmt.setString(1, articleId);
-			});
-			dah.executeQuery(SQLType.UPDATE, null);
-
-			// SELECT => 게시글의 내용을 조회.
-			BoardVO result = new BoardVO();
-			dah.preparedStatement(BoardQuery.makeSelectOneQuery(), (pstmt) -> {
-				pstmt.setString(1, articleId);
-			});
-			dah.executeQuery(SQLType.SELECT, rs -> {
-				result.setId(rs.getString("ID"));
-				result.setTitle(rs.getString("TITLE"));
-				result.setContent(rs.getString("CONTENT"));
-				result.setViewCount(rs.getInt("VIEW_COUNT"));
-				result.setWriteDate(rs.getString("WRITE_DATE"));
-				result.setLatestModifyDate(rs.getString("LATEST_MODIFY_DATE"));
-			});
-			dah.commit();
-			return result;
-		}
-		catch(RuntimeException re) {
-			dah.rollback();
-			System.out.println(re.getMessage());
-		}
-		finally {
-			dah.close();
-		}
-		return null;
+		return result;
 	}
 	
 	public void deleteArticle(String articeId) {
-		DataAccessHelper dah = new DataAccessHelper("localhost", 1521, "XE", "BOARD", "BOARD");
 		
-		try {
-			dah.preparedStatement(BoardQuery.makeDeleteQuery(), (pstmt) -> {
-				pstmt.setString(1, articeId);
-			});
-			dah.executeQuery(SQLType.DELETE, null);
-			dah.commit();
-		}
-		catch(RuntimeException re) {
-			dah.rollback();
-			System.out.println(re.getMessage());
-		}
-		finally {
-			dah.close();
-		}
-		
+		this.dah.preparedStatement(BoardQuery.makeDeleteQuery(), (pstmt) -> {
+			pstmt.setString(1, articeId);
+		});	
+		this.dah.executeQuery(SQLType.DELETE, null);
 	}
 	
 	public void modifyArticle(BoardVO modifyArticle) {
-		DataAccessHelper dah = new DataAccessHelper("localhost", 1521, "XE", "BOARD", "BOARD");
 		
-		try {
-			dah.preparedStatement(BoardQuery.makeUpdateQuery(), (pstmt) -> {
-				pstmt.setString(1, modifyArticle.getTitle());
-				pstmt.setString(2, modifyArticle.getContent());
-				pstmt.setString(3, modifyArticle.getId());
-			});
-			dah.executeQuery(SQLType.UPDATE, null);
-			dah.commit();
-		}
-		catch(RuntimeException re) {
-			dah.rollback();
-			System.out.println(re.getMessage());
-		}
-		finally {
-			dah.close();
-		}
-		
+		this.dah.preparedStatement(BoardQuery.makeUpdateQuery(), (pstmt) -> {
+			pstmt.setString(1, modifyArticle.getTitle());
+			pstmt.setString(2, modifyArticle.getContent());
+			pstmt.setString(3, modifyArticle.getId());
+		});
+		this.dah.executeQuery(SQLType.UPDATE, null);
 	}
 	
 	public void createNewArticle2 (BoardVO newArticle) {
 		
-		DataAccessHelper dah = new DataAccessHelper("localhost", 1521, "XE", "BOARD", "BOARD");
-		
-		try {
-			dah.preparedStatement(BoardQuery.makeInsertQuery(), (pstmt) -> {
+		this.dah.preparedStatement(BoardQuery.makeInsertQuery(), (pstmt) -> {
 				pstmt.setString(1, newArticle.getTitle());
 				pstmt.setString(2, newArticle.getContent());
 			});
-			dah.executeQuery(SQLType.INSERT, null);
-			dah.commit();
-		}
-		catch(RuntimeException re) {
-			dah.rollback();
-			System.out.println(re.getMessage());
-		}
-		finally {
-			dah.close();
-		}
-		
+		this.dah.executeQuery(SQLType.INSERT, null);
 	}
 	
 	public int createNewArticle(BoardVO newArticle) {
@@ -134,8 +111,7 @@ public class BoardDao {
 		Connection connection = null;
 		//DriverManager - 자바에서 데이터베이스를 관리하고, 적잘한 드라이버를 통해 DB 커넥션을 획든하는 클래스
 		try {
-			connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "BOARD", "BOARD");
-			//MANUAL COMMIT으로 변경. => 트랜젝션 설정
+			connection = DriverManager.getConnection("jdbc:oracle:th
 			connection.setAutoCommit(false);
 		} catch (SQLException e) {
 			// 주소가 틀렸거나, 계정이 틀렸을 경우 예외처리 반환,

@@ -2,6 +2,7 @@
   background-color: yellow;
   color: yellow;
   width: 500px;
+<<<<<<< HEAD
   border-bottom: 1px solid orange;
   
 }
@@ -11,6 +12,14 @@
   color: #eec5c560;
   width: 500px;
   border-bottom: 1px solid lightgray;
+=======
+}
+
+.gray-bg {
+  background-color: gray;
+  color: gray;
+  width: 500px;
+>>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
 }
 
 .color {
@@ -22,7 +31,10 @@
   color: orange;
   display: inline-block;
   font-size: 13px;
+<<<<<<< HEAD
   text-align: left;
+=======
+>>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
 }
 
 .color-gray {
@@ -33,6 +45,7 @@
 }
 
 .line {
+<<<<<<< HEAD
   display: inline;
   border-width: 30;
   border-top: 1px solid lightgray;
@@ -50,3 +63,9 @@
   width: 500px;
   margin: 0 auto;
 }
+=======
+  border-width: 500;
+  border: 0px;
+  border-top: 1px solid lightgray;
+}
+>>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
