@@ -1,0 +1,35 @@
+.yellow-bg {
+  background-color: yellow;
+  color: yellow;
+  width: 500px;
+}
+
+.gray-bg {
+  background-color: gray;
+  color: gray;
+  width: 500px;
+}
+
+.color {
+  color: orange;
+  display: inline-block;
+}
+
+.color-orange {
+  color: orange;
+  display: inline-block;
+  font-size: 13px;
+}
+
+.color-gray {
+  color: lightgray;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 10px;
+}
+
+.line {
+  border-width: 500;
+  border: 0px;
+  border-top: 1px solid lightgray;
+}
