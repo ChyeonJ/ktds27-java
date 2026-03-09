@@ -1,9 +1,15 @@
-<<<<<<< HEAD
-2026/02/17-22:03:39.622 6e30 Reusing MANIFEST C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/02/17-22:03:39.626 6e30 Recovering log #10
-2026/02/17-22:03:39.627 6e30 Reusing old log C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000010.log 
-=======
-2026/02/09-09:02:10.743 1b00 Reusing MANIFEST C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/02/09-09:02:10.743 1b00 Recovering log #3
-2026/02/09-09:02:10.744 1b00 Reusing old log C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000003.log 
->>>>>>> 632968321e2429c3991fef630f9fd99f01a950fd
+2026/03/03-20:19:22.300 5fc8 Reusing MANIFEST C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
+2026/03/03-20:19:22.306 5fc8 Recovering log #3
+2026/03/03-20:19:22.306 5fc8 Level-0 table #10: started
+2026/03/03-20:19:22.308 5fc8 Level-0 table #10: 592 bytes OK
+2026/03/03-20:19:22.308 5fc8 Recovering log #10
+2026/03/03-20:19:22.308 5fc8 Reusing old log C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000010.log 
+2026/03/03-20:19:22.309 5fc8 Delete type=0 #3
+2026/03/03-20:19:22.310 2060 Compacting 4@0 + 0@1 files
+2026/03/03-20:19:22.317 2060 Generated table #11@0: 2 keys, 191 bytes
+2026/03/03-20:19:22.317 2060 Compacted 4@0 + 0@1 files => 191 bytes
+2026/03/03-20:19:22.318 2060 compacted to: files[ 0 1 0 0 0 0 0 ]
+2026/03/03-20:19:22.319 2060 Delete type=2 #4
+2026/03/03-20:19:22.319 2060 Delete type=2 #7
+2026/03/03-20:19:22.319 2060 Delete type=2 #8
+2026/03/03-20:19:22.320 2060 Delete type=2 #10

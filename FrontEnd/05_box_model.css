@@ -1,0 +1,28 @@
+.content-box {
+  /* box-sizing: content-box; */
+  /* box 너비 지정. */
+  width: 500px;
+  background-color: #ff0;
+
+  /* padding ==> content와 테두리 사이의 여백 */
+  /*       top right bottom left */
+  padding: 5px 12px 7px 3px;
+  border: 18px solid #000;
+  /* 
+    box model의 크기와 관계 없음
+    박스들을 떨어트리는 용도 
+    상하좌우 방향 다 줄 수 있음
+    */
+  margin: 10px 20px 30px 40px;
+}
+
+.border-box {
+  /* 박스의 크기 기준을 border로 지정한다 */
+  box-sizing: border-box;
+
+  width: 500px;
+  background-color: #f0f;
+  padding: 5px 12px 7px 3px;
+  border: 18px solid #000;
+  margin: 10px 20px 30px 40px;
+}

@@ -1,0 +1,52 @@
+.yellow-bg {
+  background-color: yellow;
+  color: yellow;
+  width: 500px;
+  border-bottom: 1px solid orange;
+  
+}
+
+.gray-bg {
+  background-color: #eec5c560;
+  color: #eec5c560;
+  width: 500px;
+  border-bottom: 1px solid lightgray;
+}
+
+.color {
+  color: orange;
+  display: inline-block;
+}
+
+.color-orange {
+  color: orange;
+  display: inline-block;
+  font-size: 13px;
+  text-align: left;
+}
+
+.color-gray {
+  color: lightgray;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 10px;
+}
+
+.line {
+  display: inline;
+  border-width: 30;
+  border-top: 1px solid lightgray;
+}
+
+.mod{
+  font-size: 8px;
+  font-weight: 2px;
+  color: lightgray;
+  display: inline-block;
+  margin-left: 7px;
+}
+
+.wrapper{
+  width: 500px;
+  margin: 0 auto;
+}
