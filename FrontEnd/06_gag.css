@@ -1,25 +1,14 @@
 .yellow-bg {
   background-color: yellow;
-  color: yellow;
   width: 500px;
-<<<<<<< HEAD
   border-bottom: 1px solid orange;
-  
-}
-
-.gray-bg {
-  background-color: #eec5c560;
-  color: #eec5c560;
-  width: 500px;
-  border-bottom: 1px solid lightgray;
-=======
 }
 
 .gray-bg {
   background-color: gray;
   color: gray;
   width: 500px;
->>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
+  border-bottom: 1px solid lightgray;
 }
 
 .color {
@@ -31,10 +20,7 @@
   color: orange;
   display: inline-block;
   font-size: 13px;
-<<<<<<< HEAD
   text-align: left;
-=======
->>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
 }
 
 .color-gray {
@@ -45,13 +31,12 @@
 }
 
 .line {
-<<<<<<< HEAD
   display: inline;
   border-width: 30;
   border-top: 1px solid lightgray;
 }
 
-.mod{
+.mod {
   font-size: 8px;
   font-weight: 2px;
   color: lightgray;
@@ -59,13 +44,19 @@
   margin-left: 7px;
 }
 
-.wrapper{
+.wrapper {
   width: 500px;
   margin: 0 auto;
 }
-=======
-  border-width: 500;
-  border: 0px;
-  border-top: 1px solid lightgray;
+
+.left {
+  float: left;
 }
->>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}

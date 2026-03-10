@@ -1,0 +1,27 @@
+.section-title {
+  margin: 5px;
+  border-bottom: 2px double #ccc;
+}
+
+.vertical-list {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.vertical-item {
+  padding: 5px 10px;
+}
+
+.horizontal-list {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.horizontal-item {
+  display: inline-block;
+  padding: 5px 10px;
+}

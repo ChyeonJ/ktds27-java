@@ -1,5 +1,3 @@
- {}
-
 h1 {
   font-size: 80px;
   /* margin: 20px 0px 26px 0px; */
@@ -12,14 +10,12 @@ h1 {
   /* 기울기 */
   font-style: italic;
   text-align: center;
-
 }
 
 .thin {
   font-size: 14px;
   font-weight: 300;
   text-align: center;
-
 }
 
 .line {
@@ -35,7 +31,6 @@ h3 {
   font-weight: 500;
   margin: 10px 0;
   text-align: center;
-
 }
 
 .bolder {
@@ -48,25 +43,38 @@ h3 {
   margin-bottom: 10px;
 }
 
-.wrap-box{
-    display: inline-block;
-    width: 450px;
-    vertical-align: top;
-    margin: 0 10px;
-    
+.wrap-box {
+  display: inline-block;
+  width: 450px;
+  vertical-align: top;
+  margin: 0 10px;
 }
 
-.center-align{
-    text-align: center;
+.center-align {
+  text-align: center;
 }
 
-.justify-align{
-    /* 텍스트를 꽉 채우기 */
-    text-align: justify;
+.justify-align {
+  /* 텍스트를 꽉 채우기 */
+  text-align: justify;
 }
 
-.wrapper{
-    width: 1000px;
-    /* 위 아래는 0인데 좌우는 알아서 해라 */
-    margin: 0 auto;
+.wrapper {
+  width: 1000px;
+  /* 위 아래는 0인데 좌우는 알아서 해라 */
+  margin: 0 auto;
+}
+
+.hover-commit {
+  color: #333;
+}
+
+.hover-commit:hover {
+  color: #f00;
+  text-decoration: underline;
+}
+
+.red-point {
+  color: #f00;
+  text-decoration: underline;
 }
