@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>z-index</title>
+    <link rel="stylesheet" type="text/css" href="./10_z-index.css"
+  </head>
+  <body>
+    <div class="bg-color-blue fixed">Fixed</div>
+    <!-- 두개의 위치를 바꾸면 A -> B가 아니라 B -> A로 된다 즉 A위에 B를 덧댄다 -->
+     <!-- 이렇게 순서를 유지한 상태에서 A -> B로 깔고 싶으면? -->
+    <div class="box bg-color-green absolute top-20 left-20 z-index-1">B</div>
+    <div class="box bg-color-red absolute top-10 left-20 z-index-0">A</div>
+  </body>
+</html>

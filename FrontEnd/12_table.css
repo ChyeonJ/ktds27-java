@@ -1,0 +1,42 @@
+.grid {
+  width: 100%;
+  border-top: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
+  /* collapse는 테이블 사이사이에 있던 공백들이 사라지게 된다 */
+  border-collapse: collapse;
+}
+
+.grid > thead {
+  background-color: #fff;
+}
+
+.grid > thead > tr > th {
+  padding: 10px 0;
+  border-bottom: 1px solid #000;
+  border-right: 1px dashed #000;
+}
+
+.grid > thead > tr > th:last-child {
+  border-right: 0;
+}
+
+/* 홀수(odd)번째 tr한테만 색을 입혀라 */
+.grid > tbody > tr:nth-child(odd) {
+  background-color: #f3f3f3;
+}
+
+/* 마우스를 올리면 색을 좀 더 진하게 줘라 */
+.grid > tbody > tr:hover {
+  background-color: #d3d3d3;
+}
+
+.grid > tbody > tr > td {
+  padding: 10px 0 10px 10px;
+  border-bottom: 1px dashed #000;
+  border-right: 1px dashed #000;
+  text-align: center;
+}
+
+.grid > tbody > tr > td:last-child {
+  border-right: 0;
+}

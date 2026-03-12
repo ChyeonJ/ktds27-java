@@ -56,6 +56,8 @@ img {
   top: 0;
   left: 0;
   right: 0;
+  background-color: #fff;
+  z-index: 999999999;
 }
 .main-top-navigator {
   position: relative;
@@ -251,6 +253,7 @@ img {
   border: 1px solid #aaa;
   padding: 10px;
   border-radius: 7px;
+  z-index: 5;
 }
 
 .main-content > .content > .course-progress {
