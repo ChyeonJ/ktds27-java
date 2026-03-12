@@ -1,3 +1,20 @@
+.mail {
+  width: 70px;
+  height: 70px;
+  /* 백그라운드 이미지 불러옴      뒷배경      */
+  background-image: url("./naver_sprite.png"), url("./naver_sprite.png");
+  /* 이미지를 한 번만 받아와라 */
+  background-repeat: no-repeat, no-repeat;
+  /* w / h */
+  background-size:
+    786px 780px,
+    786px 780px;
+  /* 백그라운드가 위치하는 위치값 */
+  background-position:
+    -352px -373px,
+    /* 이메일 아이콘 */ -269px -246px; /* 뒷 배경 */
+}
+
 .input-form {
   padding: 10px;
 }

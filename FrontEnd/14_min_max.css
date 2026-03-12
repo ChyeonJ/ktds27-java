@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  font-size: 0px;
+}
+
+.item-a {
+  display: inline-block;
+  width: 50%;
+  /* 최소 너비를 고정하고 싶을 때 줄이다가 더 이상 안줄음 */
+  /* min-width: 400px; */
+  max-width: 700px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.item-b {
+  display: inline-block;
+  width: 50vw;
+  height: 100vw;
+  min-height: 3.125rem;
+  max-height: 12.2rem;
+  overflow: auto;
+  border: 0.165rem solid #ccc;
+  font-size: 1rem;
+}
