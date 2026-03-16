@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-=======
-/*존재하는 모든 box*/
->>>>>>> 7ec1f139962d61db3a0b398ce89ed303ac90dfff
 * {
   box-sizing: border-box;
 }
 
 body {
-<<<<<<< HEAD
   margin: 0;
   background-color: #fff;
   color: #333;
@@ -15,62 +10,11 @@ body {
 }
 
 .top-header {
-=======
-  background-color: #f5f6f7;
-  /*글자들의 기본 색*/
-  color: #333;
-}
-
-/* 목록 스타일 */
-.vertical-list > li {
-  font-size: 14px;
-  padding: 3px 0;
-}
-
-.horizontal-list,
-.vertical-list {
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-  list-style-type: none;
-}
-
-/*리스트 점 제거*/
-.horizontal-list {
-  margin: 0;
-  padding: 0;
-  /*글자 사이의 공백 제거하기*/
-  font-size: 0;
-  text-align: center;
-}
-
-.horizontal-item {
-  /*block처럼 보여서 바꿔주기*/
-  display: inline-block;
-  font-size: 16px;
-  /*가운데 기준으로 정렬되게*/
-  vertical-align: middle;
-  padding: 20px 15px;
-}
-
-/* 패딩 제거 */
-.no-padding {
-  padding: 0;
-}
-
-/*모든 이미지의 공백 제거*/
-img {
-  vertical-align: bottom;
-}
-/*main-top이 이미 relative이기 때문에 한번 더 감싸 fixed를 써서 상단에 고정시킴*/
-.fixed-header {
->>>>>>> 7ec1f139962d61db3a0b398ce89ed303ac90dfff
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: #fff;
-<<<<<<< HEAD
   z-index: 9999;
 }
 
@@ -106,73 +50,12 @@ img {
   border-radius: 20px;
   border: 1px solid #ccc;
   padding: 8px 30px 8px 15px;
-  outline: none;
   background-image: url("./search.png");
   background-size: 16px;
-=======
-  z-index: 999999999;
-  border-bottom: #ccc;
-}
-.main-top-navigator {
-  position: relative;
-}
-/*position 이용해서 오른쪽에 고정시키기(main-top은 relative로 설정)*/
-.position-right {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-/* 왼쪽 상단 부분만 이벤트 주기*/
-.fixed-header
-  > .main-top-navigator
-  > .horizontal-list:first-child
-  > .horizontal-item:hover {
-  background-color: #04aa6d;
-  color: #fff;
-}
-
-/*로고 부분은 이벤트 제거*/
-.fixed-header
-  > .main-top-navigator
-  > .horizontal-list:first-child
-  > .horizontal-item:first-child:hover {
-  background-color: #fff;
-  color: #333;
-}
-
-.fixed-header
-  > .main-top-navigator
-  > .horizontal-list:last-child
-  > .horizontal-item:hover
-  > div {
-  padding: 10px;
-  background-color: #ddda;
-  border-radius: 20px;
-}
-
-/*로고 크기 조정*/
-.main-top-logo {
-  width: 90px;
-  position: absolute;
-  left: 80px;
-  top: 20px;
-}
-
-.search-icon {
-  border-radius: 50px; /* 모서리 둥글게 */
-  width: 80px;
-  border: 1px solid #ccc; /* 테두리 설정 */
-  padding: 8px; /* 내부 여백 */
-  outline: none; /* 클릭 시 윤곽선 제거 */
-  background-image: url("./search.png");
-  background-size: 20px;
->>>>>>> 7ec1f139962d61db3a0b398ce89ed303ac90dfff
   background-repeat: no-repeat;
   background-position: right 10px center;
 }
 
-<<<<<<< HEAD
 .gray-bar {
   background-color: #f5f6f7;
   border-top: 1px solid #eee;
@@ -196,7 +79,9 @@ img {
 
 .main-wrap {
   display: flex;
-  width: 1400px;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1400px;
   margin: 40px auto;
   padding: 0 20px;
   gap: 40px;
@@ -210,7 +95,7 @@ img {
 .left-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 12px;
+  margin: 0;
   line-height: 2;
   font-size: 14px;
 }
@@ -229,7 +114,7 @@ img {
   margin-right: 8px;
 }
 
-.bold-text {
+.thick-text {
   font-weight: bold;
 }
 
@@ -252,14 +137,13 @@ img {
   background-color: #1a1a1a;
   color: #fff;
   padding: 8px 15px;
-  border: none;
   border-radius: 4px;
 }
 
 .text-btn {
   background-color: #f0f7ff;
-  border: none;
   text-decoration: underline;
+  border: 1px solid #f0f7ff;
   margin-left: 10px;
 }
 
@@ -269,7 +153,6 @@ img {
 }
 
 .text-box {
-  line-height: 1.6;
   margin-bottom: 30px;
 }
 
@@ -280,28 +163,33 @@ img {
   margin-top: 40px;
 }
 
-/* 코드 강조 텍스트 */
 .highlight-word {
   color: #005ce6;
   background-color: #f5f6f7;
-  text-align: center;
+  padding: 2px 5px;
   border-radius: 3px;
 }
 
-.table-all th, 
-.table-all td {
+.my-table {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.my-table th, 
+.my-table td {
   border: 1px solid #ddd;
   padding: 12px 15px;
   text-align: left;
 }
 
-.table-all th {
+.my-table th {
   background-color: #f9f9fb;
   font-weight: bold;
 }
 
 .right-box {
-  width: 300px;
+  width: 200px;
+  position: sticky;
   top: 120px;
 }
 
@@ -316,170 +204,3 @@ img {
   border-left: 3px solid #005ce6;
   padding-left: 10px;
 }
-=======
-.login-button {
-  display: inline-block;
-  padding: 8px 35px 8px 15px;
-  background-image: url("./login.png");
-  background-size: 20px;
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-
-.header-bar {
-  display: flex;
-  justify-content: space-between; /* ★ 왼쪽과 오른쪽을 양 끝으로 쫙 벌려줍니다! */
-  align-items: center; /* 세로 기준 가운데 정렬 */
-  padding: 0px 20px;
-  background-color: #f5f6f7;
-  border-bottom: 1px solid #ddd;
-}
-
-.second-nav {
-  display: flex;
-  gap: 20px; /* Theme와 한국어 사이의 간격 */
-  list-style: none;
-  font-size: 12px;
-  height: 13px;
-}
-
-.nav-list {
-}
-
-.skills {
-  background-color: #333;
-  color: #fff;
-  height: 30px;
-}
-
-.skills > .horizontal-list > .horizontal-item {
-  font-size: 14px;
-}
-
-/*children selector 사용해서 skills의 list의 item만 padding 수정*/
-.fixed-header > .skills > .horizontal-list > .horizontal-item {
-  padding: 3px 15px;
-}
-
-/*검은 배경 부분 이벤트 추가*/
-.fixed-header
-  > .skills
-  > .horizontal-list
-  /* not 부정이 가능하다? => not / is 알아볼것 */
-  > .horizontal-item:not(.active):hover {
-  background-color: #000;
-}
-
-.active {
-  background-color: #04aa6d;
-  color: #fff;
-}
-
-.main-top-navigator,
-.skills > .horizontal-list {
-  width: 1400px;
-  margin: 0 auto;
-}
-
-/* 메인 컨텐츠 스타일 */
-.contents {
-  width: 1400px;
-  margin: 0 auto;
-  background-color: #fff;
-  margin-top: 100px;
-}
-
-.fixed-side-area {
-  position: fixed;
-  background-color: #e7e9eb;
-  width: 200px;
-  height: 100%;
-  overflow: auto;
-}
-
-.fixed-side-area > h1 {
-  margin: 20px 0 8px 0;
-  font-size: 22px;
-  font-weight: 600;
-  padding-left: 10px;
-}
-
-.fixed-side-area > .vertical-list > li {
-  padding-left: 10px;
-}
-
-.main-content {
-  margin-left: 200px;
-  padding: 10px 25px;
-}
-
-.main-content > .main-content-header {
-  position: relative;
-}
-
-.main-content > .main-content-header > h1 {
-  font-size: 42px;
-  font-weight: 500;
-}
-
-.main-content > .main-content-header > img {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-}
-
-.main-content > .main-content-header > .green-button:last-child {
-  position: absolute;
-  right: 0;
-}
-
-.main-content > .content > h2 {
-  font-size: 32px;
-  font-weight: 500;
-}
-
-.main-content > .content > div {
-  margin: 8px 0;
-}
-
-.main-content > .content > .courses {
-  position: relative;
-}
-
-.main-content > .content > .courses > .course-tutorial {
-  background-color: #00ff0032;
-  width: 49.5%;
-  /* height: 200px; */
-  display: inline-block;
-  padding: 90px 0px;
-  text-align: center;
-  border-radius: 7px;
-}
-
-.main-content > .content > .courses > .course-certificate {
-  position: absolute;
-  right: 0;
-  background-color: #ff001e32;
-  width: 49.5%;
-  /* height: 200px; */
-  display: inline-block;
-  padding: 90px 0px;
-  text-align: center;
-  border-radius: 7px;
-}
-
-.main-content > .content > .courses > .courses-center {
-  position: absolute;
-  top: calc(50% - 18px);
-  left: calc(50% - 20px);
-  background-color: #fff;
-  border: 1px solid #aaa;
-  padding: 10px;
-  border-radius: 7px;
-  z-index: 5;
-}
-
-.main-content > .content > .course-progress {
-  width: 100%;
-}
->>>>>>> 7ec1f139962d61db3a0b398ce89ed303ac90dfff

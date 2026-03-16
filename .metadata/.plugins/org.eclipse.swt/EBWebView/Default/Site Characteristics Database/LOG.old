@@ -1,21 +1,9 @@
 <<<<<<< HEAD
-2026/03/03-20:19:22.300 5fc8 Reusing MANIFEST C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/03/03-20:19:22.306 5fc8 Recovering log #3
-2026/03/03-20:19:22.306 5fc8 Level-0 table #10: started
-2026/03/03-20:19:22.308 5fc8 Level-0 table #10: 592 bytes OK
-2026/03/03-20:19:22.308 5fc8 Recovering log #10
-2026/03/03-20:19:22.308 5fc8 Reusing old log C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000010.log 
-2026/03/03-20:19:22.309 5fc8 Delete type=0 #3
-2026/03/03-20:19:22.310 2060 Compacting 4@0 + 0@1 files
-2026/03/03-20:19:22.317 2060 Generated table #11@0: 2 keys, 191 bytes
-2026/03/03-20:19:22.317 2060 Compacted 4@0 + 0@1 files => 191 bytes
-2026/03/03-20:19:22.318 2060 compacted to: files[ 0 1 0 0 0 0 0 ]
-2026/03/03-20:19:22.319 2060 Delete type=2 #4
-2026/03/03-20:19:22.319 2060 Delete type=2 #7
-2026/03/03-20:19:22.319 2060 Delete type=2 #8
-2026/03/03-20:19:22.320 2060 Delete type=2 #10
+2026/03/05-21:35:36.597 3424 Reusing MANIFEST C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
+2026/03/05-21:35:36.601 3424 Recovering log #10
+2026/03/05-21:35:36.601 3424 Reusing old log C:\DevPrograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000010.log 
 =======
-2026/03/05-09:01:33.710 7e0 Reusing MANIFEST C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/03/05-09:01:33.714 7e0 Recovering log #6
-2026/03/05-09:01:33.714 7e0 Reusing old log C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000006.log 
+2026/03/06-09:27:20.545 618 Reusing MANIFEST C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
+2026/03/06-09:27:20.589 618 Recovering log #6
+2026/03/06-09:27:20.589 618 Reusing old log C:\Devprograms\Workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000006.log 
 >>>>>>> 28eacbaf3569b3be14678ae4301de0d8dd76040e
