@@ -60,3 +60,17 @@
 .clear {
   clear: both;
 }
+
+.mail {
+  width: 1000px;
+  height: 800px;
+  border: 1px solid #000;
+  /* 백그라운드 이미지 불러옴 */
+  background-image: url("./gag.jpg");
+  /* 이미지를 한 번만 받아와라 */
+  background-repeat: no-repeat;
+  /* w / h */
+  background-size: 786px 780px;
+  /* 백그라운드가 위치하는 위치값 */
+  background-position: 0 0;
+}

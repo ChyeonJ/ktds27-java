@@ -1,8 +1,8 @@
 .mail {
-  width: 70px;
-  height: 70px;
+  width: 500px;
+  height: 240px;
   /* 백그라운드 이미지 불러옴      뒷배경      */
-  background-image: url("./naver_sprite.png"), url("./naver_sprite.png");
+  background-image: url("./gag.jpg"), url("./gag.jpg");
   /* 이미지를 한 번만 받아와라 */
   background-repeat: no-repeat, no-repeat;
   /* w / h */
@@ -11,8 +11,8 @@
     786px 780px;
   /* 백그라운드가 위치하는 위치값 */
   background-position:
-    -352px -373px,
-    /* 이메일 아이콘 */ -269px -246px; /* 뒷 배경 */
+    -18px -13px,
+    /* 이메일 아이콘 */ -12000px -12000; /* 뒷 배경 */
 }
 
 .input-form {
@@ -29,7 +29,7 @@
   height: 800px;
   border: 1px solid #000;
   /* 백그라운드 이미지 불러옴 */
-  background-image: url("./naver_sprite.png");
+  background-image: url("./gag.jpg");
   /* 이미지를 한 번만 받아와라 */
   background-repeat: no-repeat;
   /* w / h */

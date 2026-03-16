@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Background</title>
+    <link rel="stylesheet" type="text/css" href="./13_background.css" />
+    <script type="text/javascript">
+      window.onload = function () {
+        const left = document.querySelector(".left-axis");
+        const top = document.querySelector(".top-axis");
+        const background = document.querySelector(".background");
+
+        left.addEventListener("input", function () {
+          const value = this.value;
+          const position = background.style["background-position"];
+          const positions = position.split(" ");
+          background.style["background-position"] =
+            `${value}px ${positions[1]}`;
+        });
+        top.addEventListener("input", function () {
+          const value = this.value;
+          const position = background.style["background-position"];
+          const positions = position.split(" ");
+          background.style["background-position"] =
+            `${positions[0]} ${value}px `;
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="input-form">
+      <div>left: <input type="number" class="left-axis" />px</div>
+      <div>top: <input type="number" class="top-axis" />px</div>
+    </div>
+    <div class="background"></div>
+  </body>
+</html>
