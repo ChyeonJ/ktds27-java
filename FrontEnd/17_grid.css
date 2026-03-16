@@ -1,0 +1,37 @@
+.grid-layout {
+  /* rem으로 안하는 이유를 테스트를 위해서 */
+  width: 900px;
+  height: 300px;
+
+  /* display grid 부여 */
+  display: grid;
+  /* 그리드 내에 gap 사용도 가능 */
+  gap: 10px;
+
+  /* 세로 세로 크기1번째줄 200px 2번째줄 300px 3번째줄 400px */
+  grid-template-rows: 1fr 1fr 1fr;
+  /* 세로 가로 크기 1번째 100px 2번째 300px 3번째 50px */
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-layout > .top-header {
+  /* 가로로 병합 */
+  /* grid-column-start: 2; <= start end 일일이 쓰지 않아도 된다
+  grid-column-end: 4; */
+  grid-column: 2/4;
+  background-color: blueviolet;
+}
+
+.grid-layout > .footer {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  background-color: antiquewhite;
+}
+
+.grid-layout > .aside {
+  /* 세로 병험 */
+  /* grid-row-start: 1; <= row도 마찬가지다
+  grid-row-end: 4; */
+  background-color: aqua;
+  grid-row: 1 / 4;
+}
