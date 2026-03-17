@@ -1,0 +1,89 @@
+/* input[type="text"] {
+  width: 100%;
+}
+
+input 태그인데 type은 text이고 maxlength라는 속성이 존재하면 스타일링
+input[type="text"][maxlength] {
+  background-color: aqua;
+}
+
+input 태그인데 type은 text이고 maxlength는 20이면 스타일링
+input[type="text"][maxlength="20"] {
+  padding: 10rem;
+}
+
+input[type="number"] {
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+input[type="number"]:focus {
+  outline: 0;
+  box-shadow: 0px 0px 1rem #8cd9ff;
+} */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(6.25rem, auto) 1fr;
+  row-gap: 0.625rem;
+  align-items: center;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.4rem 0.625rem;
+  outline: 0;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  display: inline-block;
+  padding: 0.3rem 0.625rem;
+  border: 1px solid#6ffc62;
+}
+
+/* 선택이 되었느냐 => checked 
+체크가 된것의 다음의 레이블을 꾸며라*/
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
+  color: red;
+}
+
+/* Select는 꾸밀 수 있지만 Option은 꾸밀 수 없다 */
+/* 그래서 잘 사용하지 않음 */
+select {
+  padding: 0.625rem;
+  outline: 0;
+  background-color: #ccc;
+  color: #fefe;
+  border-radius: 0.5rem;
+  border: 1px solid #cc0;
+}
+
+textarea {
+  padding: 0.625rem;
+  width: 100%;
+  min-height: 300px;
+  max-height: 400px;
+}
+
+/* 
+input[type="radio"] {
+   inline-block인데 스타일이 되는게 있고 안되는게 있다, appearance: auto 때문이다 이것을 표현하는 스타일이 이미
+    어디가에서 저장 되어 있기 때문이다. 우리가 바꿀 수가 없다. 
+      padding: 1rem;
+  margin: 1rem;
+  width: 10rem;
+  height: 10rem;
+  background-color: red;
+  border: 3rem solid #000;
+  appearance 끌 수는 있지만, input 타입의 라디오는 꾸미는 것을 포기한다.
+  appearance: none;
+  따라서 lable을 꾸민다.
+} */

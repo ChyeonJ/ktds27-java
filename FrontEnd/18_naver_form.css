@@ -1,0 +1,82 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.form > .basic-info {
+  display: grid;
+  grid-template-columns: 3.125rem 1fr minmax(33.125rem, auto);
+  border: 1px solid #ddd;
+  width: 350px;
+  border-radius: 5px;
+}
+
+.form > .basic-info > border {
+  border: 1px solid #000;
+}
+
+.form > .basic-info > .user-id::before {
+  content: "i";
+}
+
+.form > .basic-info > .user-id::after {
+  content: "@naver.com";
+}
+
+.form > .personal-info {
+  display: grid;
+  grid-template-columns: 3.125rem 1fr;
+  border: 1px solid #ddd;
+  width: 350px;
+  border-radius: 5px;
+}
+
+.form > .tel-info,
+.form > .agreement-info {
+  border: 1px solid #ddd;
+  width: 350px;
+  border-radius: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.4rem 0.625rem;
+  outline: 0;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  display: inline-block;
+  border: 1px solid#6ffc62;
+  border-collapse: collapse;
+  text-align: center;
+  width: 70px;
+}
+
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
+  color: red;
+}
+
+.personal-info > .ttt {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: space-evenly;
+}
+
+.aa,
+.bb {
+  display: flex;
+}
