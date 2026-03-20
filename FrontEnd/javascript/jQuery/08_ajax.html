@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="08_ajax.css" />
+  </head>
+  <body>
+    <div class="spinner"></div>
+    <button class="load-git-users" type="button">Load Git Users</button>
+    <button class="load-comments" type="button">Load Comments</button>
+
+    <h1>Posts</h1>
+    <ul class="posts"></ul>
+
+    <h1>Comments</h1>
+    <ul class="comments"></ul>
+
+    <template id="post-item-template">
+      <li data-user-id="#data-id#" data-id="#id#">
+        <div class="title">#title#</div>
+        <div class="body">#body#</div>
+      </li>
+    </template>
+
+    <template id="comments-item-template">
+      <li data-post-id="#post-id#">
+        <ul class="author">
+          <li class="name">#name#</li>
+          <li class="email">#email#</li>
+        </ul>
+        <div class="body">#body#</div>
+      </li>
+    </template>
+  </body>
+</html>

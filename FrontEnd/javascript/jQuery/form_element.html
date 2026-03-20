@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form_Element 제어 실습</title>
+  </head>
+  <body>
+    <div class="page-123">
+      <label for="email">이메일</label>
+      <hr />
+      <input type="email" id="email" placeholder="Email을 입력하세요." /><br />
+    </div>
+
+    <div class="page-124">
+      <label for="jobs">직업</label>
+      <hr />
+      <select id="jobs">
+        <option value="0">선택하세요.</option>
+        <option value="1">회사원</option>
+        <option value="2" selected>학생</option>
+        <option value="3">교수</option>
+      </select>
+    </div>
+
+    <div class="page-125">
+      <h1>Radio</h1>
+      <input type="radio" name="age" id="age-10" value="10" />
+      <label for="age-10">10대</label>
+
+      <input type="radio" name="age" id="age-20" value="20" />
+      <label for="age-20">20대</label>
+
+      <input type="radio" name="age" id="age-30" value="30" checked />
+      <label for="age-30">30대</label>
+
+      <input type="radio" name="age" id="age-40" value="40" />
+      <label for="age-40">40대</label>
+
+      <h1>Checkbox</h1>
+      <input type="checkbox" id="checked-all" />
+      <label for="checked-all">전체선택</label>
+
+      <input
+        type="checkbox"
+        name="favorate-genre"
+        id="rock"
+        value="rock"
+        checked
+      />
+      <label for="rock">락</label>
+
+      <input type="checkbox" name="favorate-genre" id="punk" value="punk" />
+      <label for="punk">펑크</label>
+
+      <input
+        type="checkbox"
+        name="favorate-genre"
+        id="ballad"
+        value="ballad"
+        checked
+      />
+      <label for="ballad">발라드</label>
+
+      <input type="checkbox" name="favorate-genre" id="rnb" value="rnb" />
+      <label for="rnb">알앤비</label>
+    </div>
+  </body>
+</html>

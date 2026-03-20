@@ -1,0 +1,55 @@
+body {
+  color: #333;
+  margin: 0;
+}
+
+.spinner {
+  background-color: #0006;
+  background-image: url("https://global.discourse-cdn.com/streamlit/original/2X/2/247a8220ebe0d7e99dbbd31a2c227dde7767fbe1.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 200px 200px;
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+.posts {
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin: 10px 0;
+
+    & > .body {
+      display: none;
+    }
+  }
+}
+
+.comments {
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin: 10px 0;
+    & > .body {
+      padding-left: 20px;
+    }
+    & > ul.author {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      gap: 10px;
+
+      & > .name {
+        font-weight: 700;
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+body {
+  background: #393b3f;
+  padding: 2rem;
+}
+
+.title {
+  font-weight: 900;
+  color: #ddd;
+  margin: 0;
+}
+
+.confirmation {
+  font-weight: 900;
+  color: #ddd;
+  margin-top: 2rem;
+}
+
+.vacation-title {
+  font-weight: 900;
+  color: #888;
+  margin-top: 2rem;
+  vertical-align: middle;
+}
+
+.vacation-title > img {
+  width: 1.7rem;
+  vertical-align: middle;
+}
+
+.during-date {
+  color: #ccc;
+}
+
+.package-green-button {
+  background-color: rgb(49, 136, 49);
+  font-weight: 900;
+  border: none;
+  font-size: 1rem;
+  padding: 0 1rem;
+}
+
+.package-green-button:hover {
+  background-color: #0f0;
+}
+
+.contact {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 900;
+  color: #ddd;
+  font-size: 1.2rem;
+}
+
+.ticket {
+  position: absolute;
+  z-index: 10;
+
+  padding: 10px;
+  background-color: #382bf4;
+  color: #fff;
+  display: none;
+}

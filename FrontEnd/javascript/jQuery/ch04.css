@@ -1,0 +1,102 @@
+body {
+  background: #393b3f;
+  padding: 2rem;
+}
+
+.title {
+  font-weight: 900;
+  color: #ddd;
+  margin: 0;
+}
+
+.sub-title {
+  font-weight: 900;
+  color: #888;
+  margin: 0;
+}
+
+.packages-title {
+  color: #ddd;
+  font-weight: 900;
+  margin: 2rem 0 0 0;
+}
+
+.ticket-purchase {
+  height: 10rem;
+}
+
+.package {
+  background: #0003;
+  padding: 1rem;
+  margin-top: 2rem;
+  width: 14rem;
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+.package-title {
+  color: #888;
+  margin: 0;
+}
+
+.package-deal {
+  list-style-type: none;
+  margin: 1rem 0;
+  padding: 0;
+  color: #888;
+  height: 4.5rem;
+}
+
+.package-deal-comment-title {
+  color: #ddd;
+}
+
+.package-deal-comment {
+  font-style: italic;
+}
+
+.package-button-area {
+  height: 3.5rem;
+}
+
+.package-green-button {
+  background-color: rgb(49, 136, 49);
+  width: 100%;
+  font-weight: 900;
+  border: none;
+  font-size: 1rem;
+}
+
+.package-green-button:hover {
+  background-color: #0f0;
+}
+
+.package-button-area > p {
+  color: #ddd;
+}
+
+.package-ticket-price {
+  color: #ccc;
+}
+
+label {
+  display: block;
+  color: #ccc;
+}
+
+#package-ticket-count:focus {
+  outline: 0px;
+}
+
+.contact {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 900;
+  color: #ddd;
+  font-size: 1.2rem;
+}
+
+.total-price {
+  margin-top: 1rem;
+  color: #ccc;
+}
