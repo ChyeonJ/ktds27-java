@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <title>jQuery Adventures</title>
     <link rel="stylesheet" href="./ch04.css" />
+    <script type="text/javascript" src="./jquery-4.0.0.slim.min.js"></script>
+    <script type="text/javascript" src="./ch04.js"></script>
+    <style>
+      p {
+        color: #fff;
+      }
+    </style>
   </head>
   <body>
     <h1 class="title">Vacation Packages</h1>
@@ -18,9 +25,16 @@
       </ul>
 
       <div class="package-button-area">
+        <!-- <p>From $399.99</p> 태그를 button 바깥 아래쪽 배치 -->
         <button class="package-green-button">GET PRICE</button>
       </div>
     </div>
+    <!-- contact를 클릭하면
+          이전 형제태그(.pakage)의 자식중
+          ".package-deal-comment" 태그의 내용을 출력한다.
+          힌트 : 
+            descendant selector : baseElement.find("selector");
+            children selector : baseElement.children("selector") -->
 
     <div class="contact">
       Call us at 1-555-jquery-air to make a reservation today!

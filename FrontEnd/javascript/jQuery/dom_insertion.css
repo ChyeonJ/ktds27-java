@@ -1,0 +1,14 @@
+div,
+p,
+span {
+  border: 1px solid #000;
+  padding: 1rem;
+  margin: 1rem;
+  width: 10rem;
+  height: 2rem;
+}
+
+.wrapper {
+  width: auto;
+  height: auto;
+}
