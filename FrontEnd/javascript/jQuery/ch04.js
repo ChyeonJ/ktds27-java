@@ -17,6 +17,8 @@ $().ready(function () {
 
     // 새롭게 만든 p 태그에게 inline style을 부여한다.
     // newP.css({ color: "#fff" }); 권장X
+    // 새롭게 만든 p 태그에게 ".white-color" 클래스를 부여한다.
+    newP.addClass("white-color");
 
     $(this).after(newP);
     // 버튼 찍고 삭제
