@@ -24,6 +24,7 @@ body {
 
   & > li {
     margin: 10px 0;
+    vertical-align: center;
 
     & > .body {
       display: none;
@@ -52,4 +53,18 @@ body {
       }
     }
   }
+}
+
+.index{
+  display: inline-block;
+  border-radius: 500px;
+  width: 80px;
+  vertical-align: middle;
+}
+
+.info {
+  display: inline-block;
+  flex-direction: row;
+  vertical-align: middle;
+  margin-left: 15px;
 }
