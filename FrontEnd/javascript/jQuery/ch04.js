@@ -1,4 +1,10 @@
 $().ready(function () {
+  //처음부터 존재했던 ".pakage-button-area" dom을 통해서  03.23 event 대상
+  //새롭게 생성된 "p.white-color" 에게 click 이벤트를 할당한다.
+  $(".package-button-area").on("click", "p.white-color", function () {
+    alert($(this).text());
+  });
+
   var contact = $(".contact").on("click", function () {
     // console.log($(this).prev().find(".package-deal-comment").text());
     $(this)
@@ -12,6 +18,14 @@ $().ready(function () {
     //price라고 하면 dataprice값을 가져온다
     // var price = $(this).parent().parent().parent().data("price");
     var price = $(this).closest(".package").data("price");
+
+    // Event가 적용되는 대상 때 추가된 코드 03/23
+    var priceP = $("<p>");
+    priceP.text("From $" + price);
+
+    // priceP.on("click", function () { 03/23
+    //   alert($(this).text());
+    // });
 
     var newP = $("<p>").text("From $" + price);
 

@@ -23,7 +23,7 @@ window.onload = function () {
   //클릭하면 3번 목록의 모든 아이템들이 제거된다.
   var delButton = document.querySelector(".del");
   delButton.addEventListener("click", function () {
-    if (document.querySelectorAll(".addlist li").length == 0) {
+    if (!document.querySelectorAll(".addlist li").length) {
       //3번 항목에 등록된 아이템이 없는 상태에서 클릭하면 "이미 모든 아이템이 제거되었습니다" 경고창이 나타난다.
       alert("이미 모든 아이템이 제거되었습니다.");
     } else {
