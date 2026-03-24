@@ -3,27 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <title>Form_Element 제어 실습</title>
+    <script type="text/javascript" src="./jquery-4.0.0.slim.min.js"></script>
+    <script type="text/javascript" src="./form_element.js"></script>
   </head>
   <body>
     <div class="page-123">
       <label for="email">이메일</label>
       <hr />
-      <input type="email" id="email" placeholder="Email을 입력하세요." /><br />
+      <input
+        type="email"
+        id="email"
+        placeholder="Email을 입력하세요."
+        value="akdntm4757@naver.com"
+      /><br />
     </div>
 
     <div class="page-124">
       <label for="jobs">직업</label>
       <hr />
       <select id="jobs">
-        <option value="0">선택하세요.</option>
+        <option value="0" selected>선택하세요.</option>
         <option value="1">회사원</option>
-        <option value="2" selected>학생</option>
+        <option value="2">학생</option>
+        <!--selected 초기 선택 값-->
         <option value="3">교수</option>
       </select>
     </div>
 
     <div class="page-125">
       <h1>Radio</h1>
+      <!--input은 name을 기준으로 한다 checked 기본선택-->
       <input type="radio" name="age" id="age-10" value="10" />
       <label for="age-10">10대</label>
 
@@ -40,25 +49,13 @@
       <input type="checkbox" id="checked-all" />
       <label for="checked-all">전체선택</label>
 
-      <input
-        type="checkbox"
-        name="favorate-genre"
-        id="rock"
-        value="rock"
-        checked
-      />
+      <input type="checkbox" name="favorate-genre" id="rock" value="rock" />
       <label for="rock">락</label>
 
       <input type="checkbox" name="favorate-genre" id="punk" value="punk" />
       <label for="punk">펑크</label>
 
-      <input
-        type="checkbox"
-        name="favorate-genre"
-        id="ballad"
-        value="ballad"
-        checked
-      />
+      <input type="checkbox" name="favorate-genre" id="ballad" value="ballad" />
       <label for="ballad">발라드</label>
 
       <input type="checkbox" name="favorate-genre" id="rnb" value="rnb" />
