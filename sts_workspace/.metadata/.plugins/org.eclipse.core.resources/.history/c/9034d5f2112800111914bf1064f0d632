@@ -1,0 +1,7 @@
+package com.ktdsuniversity.edu;
+/**
+ * End Point를 생성하는 역할.
+ */
+public class TestEndPointController {
+
+}

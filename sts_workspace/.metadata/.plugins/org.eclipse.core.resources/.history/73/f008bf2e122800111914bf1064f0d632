@@ -1,0 +1,16 @@
+package com.ktdsuniversity.edu;
+
+import org.springframework.stereotype.Controller;
+
+/**
+ * End Point를 생성하는 역할.
+ */
+
+@Controller // 해당 클래스가 엔드포인트를 만들 수 있도록 지원해준다.
+public class TestEndPointController {
+	
+	// "/hello" 엔드포인트생성
+	@GetMapping("/home")
+	public 
+
+}

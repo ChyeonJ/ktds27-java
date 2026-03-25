@@ -1,0 +1,12 @@
+package com.ktdsuniversity.edu;
+
+import org.springframework.stereotype.Controller;
+
+/**
+ * End Point를 생성하는 역할.
+ */
+
+@Controller
+public class TestEndPointController {
+
+}
