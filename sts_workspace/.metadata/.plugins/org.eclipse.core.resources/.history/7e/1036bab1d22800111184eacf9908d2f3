@@ -1,0 +1,5 @@
+package com.ktdsuniversity.edu.board.web;
+
+public class BoardController {
+
+}

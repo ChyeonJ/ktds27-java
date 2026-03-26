@@ -1,0 +1,6 @@
+package com.ktdsuniversity.edu.board.service;
+
+@Service
+public interface BoardService {
+
+}

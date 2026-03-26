@@ -1,3 +1,3 @@
 $().ready(function () {
-    alert("!");
+  alert("VSCODE로 편집함!!!");
 });

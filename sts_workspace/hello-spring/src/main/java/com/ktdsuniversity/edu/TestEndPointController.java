@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -22,10 +23,10 @@ public class TestEndPointController {
 	}
 	
 	/*
-	 * 사용자가 "/" 엔드포인트에 접근하면
+	 * 사용자가 "/root" 엔드포인트에 접근하면
 	 * "첫 페이지입니다. 환영합니다"를 브라우저에 보내주는 코드 작성.
 	 */
-	@GetMapping("/")
+	@GetMapping("/root")
 	public ResponseEntity<String> veiwWelcomePage(){
 		return new ResponseEntity<>("첫 페이지입니다. 환영합니다",HttpStatus.OK);
 	}
@@ -43,7 +44,15 @@ public class TestEndPointController {
 	 * - hellojsp.jsp 파일을 읽어서 HTML로 변환시킨 후 결과를 반환
 	 */
 	@GetMapping("/jsp")
-	public String viewHelloJspPage() {
+	public String viewHelloJspPage(Model model) {
+		// Model model parameter => Template Engine(JSP)에게 데이터를 전송시키는 객체 03.26
+		// ????
+		System.out.println(model);
+		//myname이라는 키(변수명)로 "최현종" 할당해서 템플릿에게 전달.
+		model.addAttribute("modelName","최현종");
+		model.addAttribute("age","27");
+		System.out.println(model);
+		
 		// spring.mvc.view.prefix + hellojsp + spring.mvc.view.suffix
 		// /WEB-INF/views/ + hellojsp + .jsp
 		// /WEB-INF/views/hellojsp.jsp를 가르키게 된다.

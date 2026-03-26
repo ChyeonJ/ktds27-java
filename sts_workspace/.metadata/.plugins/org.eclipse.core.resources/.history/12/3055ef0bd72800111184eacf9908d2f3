@@ -1,0 +1,12 @@
+package com.ktdsuniversity.edu.board.service;
+
+import org.springframework.stereotype.Service;
+
+import com.ktdsuniversity.edu.board.vo.SearchResultVO;
+
+@Service
+public interface BoardService {
+
+	SearchResultVO findAllBoard();
+	
+}

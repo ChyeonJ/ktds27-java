@@ -1,0 +1,15 @@
+package com.ktdsuniversity.edu.board.vo;
+
+public class BoardVO {
+	
+	id
+	subject
+	content
+	email
+	viewCnt
+	crtDt
+	mdfyDt
+	fileName
+	originFileName;
+	
+}

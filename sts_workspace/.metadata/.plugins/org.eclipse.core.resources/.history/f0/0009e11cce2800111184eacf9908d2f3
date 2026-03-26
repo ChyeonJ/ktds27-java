@@ -1,0 +1,17 @@
+#spring.application.name=hello-spring
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: SPRING_BOOT
+    password: 1234
+  application:
+    name: hello-spring
+
+# mybatis 연동 설정
+mybatis:
+  config-location: classpath:mybatis-config.xml
