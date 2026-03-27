@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
-import com.ktdsuniversity.edu.board.vo.SearchResultVO;
+import com.ktdsuniversity.edu.board.vo.request.WriteVO;
+import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
 @Controller
 public class BoardController {
@@ -35,6 +37,27 @@ public class BoardController {
 		model.addAttribute("searchCount",searchCount);
 		
 		return "board/list";
+	}
+	
+	
+	// 게시글 등록화면 보여주는 EndPoint
+	@GetMapping("/write")
+	public String  viewWritePage() {
+		return "board/write";
+	}
+	
+	@PostMapping("/write")//@ModelAttribute를 사용하면 RequestParam을 사용해서 하나씩 받지 않고 한번에 가져옴 생략가능
+	public String doWriteAction( WriteVO writeVO) {
+		System.out.println(writeVO.getContent());
+		System.out.println(writeVO.getEmail());
+		System.out.println(writeVO.getSubject());
+		
+		//create, update, delete => 성공, 실패 여부를 반환 시켜야함
+		boolean createResult =  this.boardService.createNewBoard(writeVO);
+		System.out.println("게시글 생성 성공" + createResult);
+		
+		//redirect: EndPoint로 이동 지시
+		return "redirect:/";
 	}
 
 }

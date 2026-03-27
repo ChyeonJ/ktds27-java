@@ -1,0 +1,9 @@
+package com.ktdsuniversity.edu.members.service;
+
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+public interface MemberService {
+
+	boolean createRegist(SignVO signVO);
+
+}

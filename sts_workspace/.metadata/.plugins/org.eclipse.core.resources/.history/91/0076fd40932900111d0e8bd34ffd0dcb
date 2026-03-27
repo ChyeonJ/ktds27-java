@@ -1,0 +1,21 @@
+package com.ktdsuniversity.edu.members.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ktdsuniversity.edu.members.dao.MembersDao;
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+public class MemberServiceImpl implements MemberService{
+
+	@Override
+	public boolean createRegist(SignVO signVO) {
+		
+		@Autowired
+		private MembersDao membersDao;
+		
+		return false;
+	}
+	
+	
+	
+}

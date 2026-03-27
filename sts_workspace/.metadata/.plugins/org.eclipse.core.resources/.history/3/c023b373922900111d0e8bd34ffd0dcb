@@ -1,0 +1,13 @@
+package com.ktdsuniversity.edu.members.web;
+
+
+@Controller
+public class MembersController {
+	
+	@GetMapping("/regist")
+	public String viewMemberPage(SignVO signVO) {
+		
+		return "";
+	}
+
+}

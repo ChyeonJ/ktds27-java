@@ -1,0 +1,5 @@
+package com.ktdsuniversity.edu.board.vo.request;
+
+public class WriteVO {
+
+}

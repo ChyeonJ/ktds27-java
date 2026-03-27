@@ -1,7 +1,8 @@
 package com.ktdsuniversity.edu.board.service;
 
 
-import com.ktdsuniversity.edu.board.vo.SearchResultVO;
+import com.ktdsuniversity.edu.board.vo.request.WriteVO;
+import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
 /**
  * 상황별
@@ -17,5 +18,7 @@ import com.ktdsuniversity.edu.board.vo.SearchResultVO;
 public interface BoardService {
 
 	SearchResultVO findAllBoard();
+
+	boolean createNewBoard(WriteVO writeVO);
 	
 }

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.ktdsuniversity.edu.board.dao.BoardDao;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
-import com.ktdsuniversity.edu.board.vo.SearchResultVO;
+import com.ktdsuniversity.edu.board.vo.request.WriteVO;
+import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
 //트랜잭션 관리
 @Service
@@ -32,6 +33,19 @@ public class BoardServiceImpl implements BoardService {
 		result.setCount(count);
 		
 		return result;
+	}
+	
+	@Override
+	public boolean createNewBoard(WriteVO writeVO) {
+		// dao = insert 요청
+		// mybatis는 insert, update, delete를 수행했을 때 
+		// 영향을 받은 row의 수를 반환 시키는 기능이 있음
+		// 예> insert ==> insert된 row의 개수를 반환
+		// 	  update ==> update된 row의 개수를 반환
+		//    delete ==> delete를한 row의 개수를 반환
+		int insertCount = this.boardDao.insertNewBoard(writeVO);
+		System.out.println("생성된 게시글의 개수 : " + insertCount );
+		return insertCount == 1;
 	}
 
 }

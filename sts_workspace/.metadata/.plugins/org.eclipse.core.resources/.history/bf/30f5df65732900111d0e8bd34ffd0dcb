@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+div.grid {
+  display: grid;
+}
+
+div.grid > div.btn-group {
+  /* 첫번쨰 컬럼부터 마지막 컬럼까지 합침 */
+  grid-column: 1 / -1;
+}
+
+div.grid > div.btn-group > div.right-align {
+  text-align: right;
+}
+
+div.grid > label {
+  padding-left: 0.625rem;
+}
+
+div.grid > input,
+div.grid > button,
+div.grid > textarea {
+  padding: 0.625rem;
+}
