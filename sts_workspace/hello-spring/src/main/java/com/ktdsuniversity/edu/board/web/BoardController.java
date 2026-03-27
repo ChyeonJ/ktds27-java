@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
@@ -57,6 +59,28 @@ public class BoardController {
 		System.out.println("게시글 생성 성공" + createResult);
 		
 		//redirect: EndPoint로 이동 지시
+		return "redirect:/";
+	}
+	
+	// 게시글 내용 조회
+	// endpoint ==> /view/게시글 아이디 예시> /view/BO-20260327-000001
+	// 해야 하는 역할
+	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
+	// 2. 조회수 1증가.
+	// endpoint에서 변수를 만드는 방법
+	@GetMapping("/view/{articleId}")
+	public String viewDetailPage(Model model, @PathVariable String articleId) {
+		//articleId로 데이터베이스에서 게시글을 조회한다.
+		// 조회할 때 조회수가 하나 증가 해야한다.
+		BoardVO findResult = this.boardService.findBoardByArticleId(articleId);
+		model.addAttribute("article", findResult);
+		//location.reload()
+		return "board/view";
+	}
+	
+	@GetMapping("/delete")
+	public String doDeleteAction(@RequestParam String id) {
+		boolean deleteReuslt = this.boardService.deleteBoardByArticleId(id);
 		return "redirect:/";
 	}
 
