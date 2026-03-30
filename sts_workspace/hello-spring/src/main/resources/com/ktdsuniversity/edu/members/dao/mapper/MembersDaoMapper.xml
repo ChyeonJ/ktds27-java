@@ -14,5 +14,38 @@
             ,#{name}
             ,#{password})
         </insert>
+        
+        <select id="selectByArticleId" resultType="com.ktdsuniversity.edu.members.vo.request.SignVO"
+        parameterType="string">
+	        SELECT EMAIL
+	             , NAME
+	             , PASSWORD
+	          FROM MEMBERS
+	         WHERE EMAIL = #{articleId}
+        </select>
+        
+        <update id="updateMember" parameterType="com.ktdsuniversity.edu.members.vo.request.SignVO">
+            UPDATE MEMBERS
+			   SET NAME= #{name}
+			     , PASSWORD=#{password}
+			 WHERE EMAIL=#{email}
+        </update>
+        
+        <delete id="deleteOne" parameterType="string" >
+            DELETE FROM MEMBERS
+             WHERE EMAIL = #{_parameter}
+        </delete>
+        
+        <select id="selectCount" resultType="_int">
+	        SELECT COUNT(EMAIL)
+	          FROM MEMBERS
+        </select>
+
+        <select id="selectAllMembers" resultType="com.ktdsuniversity.edu.members.vo.request.SignVO" >
+	        SELECT EMAIL
+	             , NAME
+	             , PASSWORD
+	          FROM MEMBERS
+        </select>
     
 </mapper>

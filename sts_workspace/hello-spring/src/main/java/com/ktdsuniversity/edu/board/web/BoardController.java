@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
@@ -68,20 +70,40 @@ public class BoardController {
 	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
 	// 2. 조회수 1증가.
 	// endpoint에서 변수를 만드는 방법
-	@GetMapping("/view/{articleId}")
+	@GetMapping("/view/{articleId}") //URL에 붙어 있는건 PathVariable
 	public String viewDetailPage(Model model, @PathVariable String articleId) {
 		//articleId로 데이터베이스에서 게시글을 조회한다.
 		// 조회할 때 조회수가 하나 증가 해야한다.
-		BoardVO findResult = this.boardService.findBoardByArticleId(articleId);
+		BoardVO findResult = this.boardService.findBoardByArticleId(articleId, ReadType.VIEW);
 		model.addAttribute("article", findResult);
-		//location.reload()
 		return "board/view";
 	}
 	
 	@GetMapping("/delete")
 	public String doDeleteAction(@RequestParam String id) {
 		boolean deleteReuslt = this.boardService.deleteBoardByArticleId(id);
+		System.out.println(deleteReuslt);
 		return "redirect:/";
+	}
+	
+	//PathVariable은 => PathVariable
+	@GetMapping("/update/{articleId}")
+	public String viewUpdatePage(@PathVariable String articleId, Model model){
+		
+		BoardVO data = this.boardService.findBoardByArticleId(articleId,ReadType.UPDATE);
+		model.addAttribute("article",data);
+		
+		return "board/update";
+	}
+	
+	@PostMapping("/update/{articleId}") //updateVO안에는 articeId의 값이 들어있지 않다
+	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO) {
+		
+		updateVO.setId(articleId);
+		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
+		System.out.println("수정 성공 : "+ updateResult);
+		
+		return "redirect:/view/" + articleId;
 	}
 
 }

@@ -1,0 +1,12 @@
+package com.ktdsuniversity.edu.members.vo.response;
+
+import java.util.List;
+
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+public class searchVO {
+	
+	List<SignVO> searchList;
+	int searchCount
+
+}

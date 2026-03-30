@@ -1,0 +1,7 @@
+package com.ktdsuniversity.edu.members.vo.response;
+
+public class searchVO {
+	
+	List<SignVO> searchList
+
+}

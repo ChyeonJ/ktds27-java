@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 
 
@@ -25,6 +26,8 @@ public interface BoardDao {
 	int updateViewCntIncreaseById(String articleId);
 
 	int deleteByOneBoard(String id);
+
+	int updateBoardById(UpdateVO updateVO);
 
 
 }

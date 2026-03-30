@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.members.dao.MembersDao">
+    
+        <insert id="insertRegist" parameterType="com.ktdsuniversity.edu.members.vo.request.SignVO">
+            INSERT INTO SPRING_BOOT.MEMBERS
+            (EMAIL
+            , NAME
+            , PASSWORD)
+            VALUES
+            (#{email}
+            ,#{name}
+            ,#{password})
+        </insert>
+        
+        <select id="selectByArticleId" resultType="com.ktdsuniversity.edu.members.vo.request.SignVO"
+        parameterType="string">
+	        SELECT EMAIL
+	             , NAME
+	             , PASSWORD
+	          FROM MEMBERS
+	         WHERE EMAIL = #{articleId}
+        </select>
+        
+        <update id="updateMember" parameterType="com.ktdsuniversity.edu.members.vo.request.SignVO">
+            UPDATE MEMBERS
+			   SET NAME= #{name}
+			     , PASSWORD=#{password}
+			 WHERE EMAIL=#{email}
+        </update>
+        
+        <delete id="deleteOne" parameterType="string" >
+            DELETE FROM MEMBERS
+             WHERE EMAIL = #{_parameter}
+        </delete>
+        
+        <select id="selectCount" resultType="_int"></select>
+
+    List<SignVO> selectAllMembers();
+        <select id="selectAllMembers" ></select>
+    
+</mapper>

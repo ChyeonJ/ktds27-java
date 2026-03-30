@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시글 목록</title>
+    <link rel="stylesheet" type="text/css" href="/css/hello-spring.css">
+  </head>
+  <body>
+    <div class="grid list">
+      <h1>회원 목록</h1>
+      <div>총 ${resultCount}명의 회원이 검색되었습니다.</div>
+      <c:choose>
+        <c:when test="${not empty searchResult}"></c:when>
+      </c:choose>
+      <div class="btn-group">
+        <div class="right-align">
+          <a href="/write">새로운 게시글 작성</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="forea"/>
 			<item value="BoardDao"/>
 			<item value="BoardController"/>
 		</list>
