@@ -1,5 +1,9 @@
 package com.ktdsuniversity.edu.board.vo.request;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 게시글 등록을 위해 
  * 브라우저에서 컨트롤러(엔드포인트)로 전송되는
@@ -10,10 +14,27 @@ package com.ktdsuniversity.edu.board.vo.request;
  */
 public class WriteVO {
 	
+	//미리 만들 PK를 담을 id값
+	private String id;
+	
 	private String subject;
 	private String email;
 	private String content;
+	private List<MultipartFile> attachFile;
 	
+	
+	public String getId() {
+		return this.id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public List<MultipartFile> getAttachFile() {
+		return this.attachFile;
+	}
+	public void setAttachFile(List<MultipartFile> attachFile) {
+		this.attachFile = attachFile;
+	}
 	public String getSubject() {
 		return this.subject;
 	}

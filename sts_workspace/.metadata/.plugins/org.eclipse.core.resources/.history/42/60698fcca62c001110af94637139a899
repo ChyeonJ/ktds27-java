@@ -1,0 +1,15 @@
+package com.ktdsuniversity.edu.files.vo;
+
+public class FilesVO {
+	
+	private int fileNum;
+	private String fileGroupId;
+	private String obfuscateName;
+	private String displayName;
+	private String extendName;
+	private long fileLength;
+	private String filePath;
+	
+	
+
+}

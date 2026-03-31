@@ -14,6 +14,18 @@ pre {
   font-size: 1rem;
 }
 
+/* list style 시작*/
+ul.vertical-list{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	gap:0.625rem;
+}
+/* list style 끝*/
+
+
 /* table grid 시작 */
 table.grid {
   border-collapse: collapse;
@@ -105,8 +117,14 @@ div.update {
 
 div.write {
   grid-template-columns: 5rem 1fr;
-  grid-template-rows: 1.75rem 1.75rem 20rem 1fr;
+  grid-template-rows: 1.75rem 1.75rem minmax(1.75rem, auto) 20rem 1fr;
   row-gap: 0.625rem;
+}
+
+div.write > div.attach-files {
+  display: grid;
+  grid-template-columns: 1fr minmax(80px, auto);
+  gap: 0.625rem;
 }
 /* 글쓰기 style 끝 */
 

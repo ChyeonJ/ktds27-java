@@ -1,0 +1,106 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.movie.dao.MovieDao">
+
+    <select id="selectMovieCount" resultType="_int">
+        SELECT COUNT(MOVIE_ID)
+          FROM TMDB.MOVIE
+    </select>
+
+    <select id="selectMovieList" resultType="com.ktdsuniversity.edu.movie.vo.MovieVO">
+        SELECT MOVIE_ID
+         , POSTER_URL
+         , TITLE
+         , MOVIE_RATING
+         , TO_CHAR(OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE 
+         , OPEN_COUNTRY
+         , RUNNING_TIME
+         , INTRODUCE
+         , SYNOPSIS
+         , ORIGINAL_TITLE
+         , STATE
+         , "LANGUAGE"
+         , BUDGET
+         , PROFIT
+      FROM TMDB.MOVIE
+      </select>
+      
+      <insert id="insertMovieData" parameterType="com.ktdsuniversity.edu.movie.vo.request.InsertMovieVO">
+        INSERT INTO MOVIE
+			   (MOVIE_ID
+			  , POSTER_URL
+			  , TITLE
+			  , MOVIE_RATING
+			  , OPEN_DATE
+			  , OPEN_COUNTRY
+			  , RUNNING_TIME
+			  , INTRODUCE
+			  , SYNOPSIS
+			  , ORIGINAL_TITLE
+			  , STATE
+			  , "LANGUAGE"
+			  , BUDGET
+			  , PROFIT)
+			VALUES
+			  ('MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_MOVIE_PK.NEXTVAL,6,'0')
+			  , #{posterUrl}
+			  , #{title}
+			  , #{movieRating}
+			  , #{openDate}
+			  , #{openCountry}
+			  , #{runningTime}
+			  , #{introduce}
+			  , #{synopsis}
+			  , #{originalTitle}
+			  , #{state}
+			  , #{language}
+			  , #{budget}
+			  , #{budget})
+      </insert>
+      
+      <select id="selectOneMovieById" resultType="com.ktdsuniversity.edu.movie.vo.MovieVO"
+      parameterType="string">
+         SELECT MOVIE_ID
+	          , POSTER_URL
+	          , TITLE
+	          , MOVIE_RATING
+	          , TO_CHAR(OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE 
+	          , OPEN_COUNTRY
+	          , RUNNING_TIME
+	          , INTRODUCE
+	          , SYNOPSIS
+	          , ORIGINAL_TITLE
+	          , STATE
+	          , "LANGUAGE"
+	          , BUDGET
+	          , PROFIT
+           FROM TMDB.MOVIE
+          WHERE MOVIE_ID = #{_parameter}
+      </select>
+        
+     <update id="updateMovie" parameterType="com.ktdsuniversity.edu.movie.vo.request.UpdateMovieVO">
+	     UPDATE MOVIE
+		   SET POSTER_URL=#{posterUrl}
+		     , TITLE=#{title}
+		     , MOVIE_RATING=#{movieRating}
+		     , OPEN_DATE=#{openDate}
+		     , OPEN_COUNTRY=#{openCountry}
+		     , RUNNING_TIME=#{runningTime}
+		     , INTRODUCE=#{introduce}
+		     , SYNOPSIS=#{synopsis}
+		     , ORIGINAL_TITLE=#{originalTitle}
+		     , STATE=#{state}
+		     , "LANGUAGE"=#{language}
+		     , BUDGET=#{budget}
+		     , PROFIT=#{profit}
+		WHERE MOVIE_ID=#{movieId}
+     </update>
+     
+     <delete id="deleteMovie" parameterType="string">
+             DELETE FROM TMDB.MOVIE
+              WHERE MOVIE_ID=#{_parameter}
+     </delete>
+
+</mapper>

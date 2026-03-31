@@ -20,5 +20,4 @@ public class UpdateVO extends WriteVO{
 	public void setId(String id) {
 		this.id = id;
 	}
-
 }

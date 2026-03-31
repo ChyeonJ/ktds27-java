@@ -1,5 +1,9 @@
 package com.ktdsuniversity.edu.board.vo;
 
+import java.util.List;
+
+import com.ktdsuniversity.edu.files.vo.FilesVO;
+
 public class BoardVO {
 
 	private String id;
@@ -11,6 +15,16 @@ public class BoardVO {
 	private String mdfyDt;
 	private String fileName;
 	private String originFileName;
+//	select 단적조회를 할 때 Join 관계에서 필요한 has a관계를 표현
+	private List<FilesVO> files;
+
+	public List<FilesVO> getFiles() {
+		return this.files;
+	}
+
+	public void setFiles(List<FilesVO> files) {
+		this.files = files;
+	}
 
 	public String getId() {
 		return this.id;
