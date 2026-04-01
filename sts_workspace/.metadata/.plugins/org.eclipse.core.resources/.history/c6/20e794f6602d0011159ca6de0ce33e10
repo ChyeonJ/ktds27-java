@@ -1,0 +1,22 @@
+package com.ktdsuniversity.edu.files.vo.response;
+
+import java.io.File;
+
+import org.springframework.core.io.Resource;
+
+public class DownloadVO {
+	
+	
+	// 사용자가 다운받으려는 파일의 크기를 알아야함
+	// 사용자가 어떤 형태의 파일을 받고 있는가
+	// 사용자가 다운로드하고하자는 파일의 경로가 필요
+	private String displayName;
+	private String extendName;
+	private long fileLength;
+	private String filePath;
+	
+	// 사용자에게 전달해줄 파일 객체;
+	private File file;
+	private Resource resource;
+
+}

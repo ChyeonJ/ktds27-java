@@ -12,12 +12,23 @@ import java.util.List;
  */
 public class UpdateVO extends WriteVO{
 	
-	private String id;
-	
-	public String getId() {
-		return this.id;
+	private List<Integer> deleteFileNum;
+
+	public List<Integer> getDeleteFileNum() {
+		return this.deleteFileNum;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setDeleteFileNum(List<Integer> deleteFileNum) {
+		this.deleteFileNum = deleteFileNum;
 	}
+
+	//writeVO에 id 존재
+//	private String id;
+//	
+//	public String getId() {
+//		return this.id;
+//	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
 }

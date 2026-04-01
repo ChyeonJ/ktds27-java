@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.files.dao.FilesDao">
+        <insert id="insertAttachFile" parameterType="com.ktdsuniversity.edu.files.vo.request.UploadVO">
+        INSERT INTO FILES
+		 (FILE_NUM
+		, FILE_GROUP_ID
+		, OBFUSCATE_NAME
+		, DISPLAY_NAME
+		, EXTEND_NAME
+		, FILE_LENGTH
+		, FILE_PATH)
+		VALUES
+		   (#{fileNum}
+		  , #{fileGroupId}
+		  , #{obfuscateName}
+		  , #{displayName}
+		  , #{extendName}
+		  , #{fileLength}
+		  , #{filePath})
+        </insert>
+        
+        <update id="updateFIleById" parameterType="com.ktdsuniversity.edu.files.vo.request.UploadVO">
+        INSERT INTO FILES
+         (FILE_NUM
+        , FILE_GROUP_ID
+        , OBFUSCATE_NAME
+        , DISPLAY_NAME
+        , EXTEND_NAME
+        , FILE_LENGTH
+        , FILE_PATH)
+        VALUES
+           ((SELECT NVL(MAX(FILE_NUM),0)
+               FROM FILES
+              WHERE FILE_GROUP_ID = #{fileGroupId})
+          , #{fileGroupId}
+          , #{obfuscateName}
+          , #{displayName}
+          , #{extendName}
+          , #{fileLength}
+          , #{filePath})
+        </update>
+        
+        <select id="selectFilesByFileGroupIdAndFileNum" parameterType="com.ktdsuniversity.edu.files.vo.request.SearchFileVO"
+        resultType="com.ktdsuniversity.edu.files.vo.response.DownloadVO">
+        SELECT FILE_NUM
+		     , FILE_GROUP_ID
+		     , OBFUSCATE_NAME
+		     , DISPLAY_NAME
+		     , EXTEND_NAME
+		     , FILE_LENGTH
+		     , FILE_PATH
+		  FROM FILES
+		 WHERE FILE_NUM = #{fileNum}
+		   AND FILE_GROUP_ID = #{fileGroupId}
+        </select>
+</mapper>

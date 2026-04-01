@@ -1,0 +1,26 @@
+package com.ktdsuniversity.edu.files.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+//Resource는 꼭 이걸로 할거
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.ktdsuniversity.edu.files.service.FilesService;
+
+
+@Controller
+public class FilesController {
+	
+	@Autowired
+	private FilesService filesService;
+	
+	// 브라우저에게 파일을 전송
+	@GetMapping("/file/{fileGroupId}/{fileNum}")
+	public ResponseEntity<Resource> doDownloadAction(){
+		return null;
+	}
+	
+	
+}

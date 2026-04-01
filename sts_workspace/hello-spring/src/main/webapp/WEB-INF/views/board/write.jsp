@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
         />
         <label for="attach-files">첨부파일</label>
         <div id="attach-files" class="attach-files">
-          <input type="file" name="attachFiles" />
+          <input type="file" name="attachFile" />
           <button type="button" class="add-file">+</button>
         </div>
 

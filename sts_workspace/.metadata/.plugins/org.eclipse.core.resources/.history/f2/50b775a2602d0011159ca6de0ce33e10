@@ -1,0 +1,7 @@
+package com.ktdsuniversity.edu.files.vo.response;
+
+public class DownloadVO {
+	
+	//다운받으려는 파일의 크기를 알아야함
+
+}

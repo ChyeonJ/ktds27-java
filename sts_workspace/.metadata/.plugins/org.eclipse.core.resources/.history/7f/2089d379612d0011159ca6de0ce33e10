@@ -1,0 +1,75 @@
+package com.ktdsuniversity.edu.files.vo.response;
+
+import java.io.File;
+
+import org.springframework.core.io.Resource;
+
+public class DownloadVO {
+	
+	
+	// 사용자가 다운받으려는 파일의 크기를 알아야함
+	// 사용자가 어떤 형태의 파일을 받고 있는가
+	// 사용자가 다운로드하고하자는 파일의 경로가 필요
+	private String displayName;
+	private String extendName;
+	private long fileLength;
+	private String filePath;
+	
+	// 사용자에게 전달해줄 파일 객체 filePath를 가지고 파일을 만들어줌
+	private File file;
+	
+	// 브라우저에게 전달하기 위한 파일 객체
+	private Resource resource;
+	
+
+	public String getDisplayName() {
+		return this.displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getExtendName() {
+		return this.extendName;
+	}
+
+	public void setExtendName(String extendName) {
+		this.extendName = extendName;
+	}
+
+	public long getFileLength() {
+		return this.fileLength;
+	}
+
+	public void setFileLength(long fileLength) {
+		this.fileLength = fileLength;
+	}
+
+	public String getFilePath() {
+		return this.filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public File getFile() {
+		return this.file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public Resource getResource() {
+		return this.resource;
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
+	}
+
+	
+	
+}
