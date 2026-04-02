@@ -35,6 +35,8 @@ pageEncoding="UTF-8"%>
            <c:forEach items="${article.files}" var="file">
             <li>
                 <a href="/file/${file.fileGroupId}/${file.fileNum}">
+       
+                
                 ${file.displayName}
                 </a>
             </li>

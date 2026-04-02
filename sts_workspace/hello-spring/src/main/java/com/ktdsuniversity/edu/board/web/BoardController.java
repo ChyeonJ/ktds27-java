@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,8 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
@@ -51,7 +55,21 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")//@ModelAttribute를 사용하면 RequestParam을 사용해서 하나씩 받지 않고 한번에 가져옴 생략가능
-	public String doWriteAction( WriteVO writeVO) {
+	public String doWriteAction( @Valid @ModelAttribute WriteVO writeVO,
+									// @Vaild의 결과를 받아오는 파라미터
+									// 반드시 @Vaild 파라미터 이후에 작성해야함
+									BindingResult bindingResult,
+									Model model) {
+		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
+		if(bindingResult.hasErrors()) { //바인딩에 에러가 있다면
+			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
+			// 해당 페이지에 사용자가 입력한 값을 전달한다.
+			model.addAttribute("inputData", writeVO);
+			return "board/write";
+			
+		}
+		
+		
 		System.out.println(writeVO.getContent());
 		System.out.println(writeVO.getEmail());
 		System.out.println(writeVO.getSubject());

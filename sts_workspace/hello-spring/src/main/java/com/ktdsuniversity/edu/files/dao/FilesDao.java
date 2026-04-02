@@ -25,5 +25,5 @@ public interface FilesDao {
 	List<String> selectFilePathByFileGroupId(String id);
 
 	int deleteFileByFileGroupId(String id);
-
+	
 }

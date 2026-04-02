@@ -31,4 +31,28 @@ $().ready(function () {
 
     $(".attach-files").append(fileInput).append(addButton);
   });
+
+  $("#writeVO").on("submit", function (event) {
+    event.preventDefault();
+
+    $(this).find(".validation-error").remove();
+
+    var subject = $("#subject").val();
+    var subjectSize = subject ? subject.length() : 0;
+    if (!subject || subjectSize <= 2) {
+      var subjectErrorMessage = $("<div>");
+      subjectErrorMessage.addClass("validation-error");
+      subjectErrorMessage.text("제목을 3글자 이상 입력하세요");
+
+      $("#subject").after(subjectErrorMessage);
+    }
+
+    var email = $("#email").val();
+    if (!email) {
+      var emailErrorMessage = $("<div>");
+      emailErrorMessage.addClass("validation-error");
+      emailErrorMessage.text("이메일을 입력하세요");
+      $("#email").after(emailErrorMessage);
+    }
+  });
 });
