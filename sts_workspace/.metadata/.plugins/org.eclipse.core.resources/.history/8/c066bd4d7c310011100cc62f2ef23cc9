@@ -1,0 +1,92 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.members.dao.MembersDao">
+    
+        <insert id="insertRegist" parameterType="com.ktdsuniversity.edu.members.vo.request.SignVO">
+            INSERT INTO SPRING_BOOT.MEMBERS
+            (EMAIL
+            , NAME
+            , PASSWORD
+            , SALT
+            , REGIST_DATE
+            , LATEST_PASSWORD_CHANGE_DATE
+            , LOGIN_FAIL_COUNT)
+            VALUES
+            ( #{email}
+            , #{name}
+            , #{password}
+            , #{salt}
+            , SYSDATE
+            , SYSDATE
+            , 0)
+        </insert>
+        
+        <select id="selectByArticleId" resultType="com.ktdsuniversity.edu.members.vo.request.SignVO"
+        parameterType="string">
+	        SELECT EMAIL
+	             , NAME
+	             , PASSWORD
+	             , SALT
+	             , TO_CHAR(REGIST_DATE, 'YYYY-MM-DD HH24:MI-SS') AS REGIST_DATE
+				 , TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD HH24:MI-SS') AS MODIFY_DATE
+				 , TO_CHAR(LATEST_PASSWORD_CHANGE_DATE, 'YYYY-MM-DD HH24:MI-SS') AS LATEST_PASSWORD_CHANGE_DATE
+				 , TO_CHAR(LOGIN_DATE, 'YYYY-MM-DD HH24:MI-SS') AS LOGIN_DATE
+				 , LATEST_LOGIN_IP
+				 , LOGIN_FAIL_COUNT
+				 , TO_CHAR(LATEST_LOGIN_FAIL_DATE, 'YYYY-MM-DD HH24:MI-SS') AS LATEST_LOGIN_FAIL_DATE
+				 , BLOCK_YN
+				 , FILE_GROUP_ID
+	          FROM MEMBERS
+	         WHERE EMAIL = #{articleId}
+        </select>
+        
+        <update id="updateMember" parameterType="com.ktdsuniversity.edu.members.vo.request.SignVO">
+            UPDATE MEMBERS
+			   SET NAME= #{name}
+			     , PASSWORD=#{password}
+			 WHERE EMAIL=#{email}
+        </update>
+        
+        <delete id="deleteOne" parameterType="string" >
+            DELETE FROM MEMBERS
+             WHERE EMAIL = #{_parameter}
+        </delete>
+        
+        <select id="selectCount" resultType="_int">
+	        SELECT COUNT(EMAIL)
+	          FROM MEMBERS
+        </select>
+
+        <select id="selectAllMembers" resultType="com.ktdsuniversity.edu.members.vo.request.SignVO" >
+	        SELECT EMAIL
+	             , NAME
+	             , PASSWORD
+	          FROM MEMBERS
+        </select>
+        
+        <update id="updateIncreaseLoginFailCount" parameterType="string">
+            UPDATE MEMBERS
+               SET LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1
+                 , LATEST_LOGIN_FAIL_DATE = SYSDATE
+             WHERE EMAIL = #{_parameter}
+        </update>
+
+        <update id="updateBlock" parameterType="string">
+            UPDATE MEMBERS
+               SET BLOCK_YN = 'Y'
+             WHERE EMAIL = #{_parameter}
+        </update>
+
+    
+        <update id="updateSuccessLogin" parameterType="com.ktdsuniversity.edu.members.vo.request.LoginVO">
+            UPDATE MEMBERS
+               SET LOGIN_FAIL_COUNT = 0
+                 , LATEST_LOGIN_IP = #{ip}
+                 , LOGIN_DATE = SYSDATE
+             WHERE EMAIL = #{email}
+        </update>
+        
+    
+</mapper>

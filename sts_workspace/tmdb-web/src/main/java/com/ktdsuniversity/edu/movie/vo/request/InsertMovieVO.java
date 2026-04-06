@@ -2,18 +2,25 @@ package com.ktdsuniversity.edu.movie.vo.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class InsertMovieVO {
 	
+	@NotEmpty(message="포스터Url을 입력하세요")
 	private String posterUrl;
+	@NotEmpty(message="제목을 입력하세요")
 	private String title;
 	private String movieRating;
 	private String openDate; 
 	private String openCountry;
 	private int runningTime; 
 	private String introduce;
+	@NotEmpty(message="개요를 입력하세요")
 	private String synopsis;
 	private String originalTitle;
+	@NotEmpty(message="개봉상태를 입력하세요")
 	private String state;
+	@NotEmpty(message="원어를 입력하세요")
 	private String language;
 	private double budget; 
 	private double profit;

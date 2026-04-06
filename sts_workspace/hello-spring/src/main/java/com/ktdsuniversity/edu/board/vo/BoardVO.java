@@ -17,6 +17,18 @@ public class BoardVO {
 	private String originFileName;
 //	select 단적조회를 할 때 Join 관계에서 필요한 has a관계를 표현
 	private List<FilesVO> files;
+	
+	private String fileGroupId;
+	
+	
+
+	public String getFileGroupId() {
+		return this.fileGroupId;
+	}
+
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
+	}
 
 	public List<FilesVO> getFiles() {
 		return this.files;

@@ -57,6 +57,11 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean createNewBoard(WriteVO writeVO) {
+		// 첨부파일 업로드
+		List<MultipartFile> attachFiles = writeVO.getAttachFile();
+		String fileGroupId = this.multipartFileHandler.upload(attachFiles);
+		writeVO.setFileGroupId(fileGroupId);
+		
 		// dao = insert 요청
 		// mybatis는 insert, update, delete를 수행했을 때 
 		// 영향을 받은 row의 수를 반환 시키는 기능이 있음
@@ -65,9 +70,6 @@ public class BoardServiceImpl implements BoardService {
 		//    delete ==> delete를한 row의 개수를 반환
 		int insertCount = this.boardDao.insertNewBoard(writeVO);
 		
-		// 첨부파일 업로드
-		List<MultipartFile> attachFiles = writeVO.getAttachFile();
-		this.multipartFileHandler.upload(attachFiles, writeVO.getId());
 
 		System.out.println("생성된 게시글의 개수 : " + insertCount );
 		return insertCount == 1;
@@ -115,7 +117,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean updateBoardByArticleId(UpdateVO updateVO) {
-		int updateCount = this.boardDao.updateBoardById(updateVO);
 		
 		// 선택한 파일 삭제
 		if(updateVO.getDeleteFileNum() != null && updateVO.getAttachFile().size() > 0) {
@@ -128,8 +129,21 @@ public class BoardServiceImpl implements BoardService {
 		// 선택한 파일들을 Files 테이블에서 제거
 		int deleteCount = this.filesDao.deleteFilesByFileGruopIdAndFileNums(updateVO);
 		}
+		// 첨부 파일 업로드
 		List<MultipartFile> file = updateVO.getAttachFile();
-		this.multipartFileHandler.upload(file, updateVO.getId());
+		
+		String fileGroupId = updateVO.getFileGroupId();
+		if (fileGroupId == null || fileGroupId.length() == 0) {
+			// 첨부파일이 없다면 내부적으로 PK를 만들어서 주입해라
+			fileGroupId = this.multipartFileHandler.upload(file);
+		} else {
+			// 첨부파일이 있다면 아이디를 따로 주는 형태로 호출
+			this.multipartFileHandler.upload(file, fileGroupId);
+		}
+		
+		this.multipartFileHandler.upload(file, updateVO.getFileGroupId());
+		
+		int updateCount = this.boardDao.updateBoardById(updateVO);
 		
 		return updateCount == 1;
 	}

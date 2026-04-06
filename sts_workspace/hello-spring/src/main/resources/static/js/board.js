@@ -38,7 +38,7 @@ $().ready(function () {
     $(this).find(".validation-error").remove();
 
     var subject = $("#subject").val();
-    var subjectSize = subject ? subject.length() : 0;
+    var subjectSize = subject ? subject.length : 0;
     if (!subject || subjectSize <= 2) {
       var subjectErrorMessage = $("<div>");
       subjectErrorMessage.addClass("validation-error");
@@ -53,6 +53,10 @@ $().ready(function () {
       emailErrorMessage.addClass("validation-error");
       emailErrorMessage.text("이메일을 입력하세요");
       $("#email").after(emailErrorMessage);
+    }
+    
+    if($(".validation-error").length === 0) {
+        this.submit();
     }
   });
 });

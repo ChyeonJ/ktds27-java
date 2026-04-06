@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import com.ktdsuniversity.edu.movie.vo.MovieVO;
 import com.ktdsuniversity.edu.movie.vo.request.InsertMovieVO;
 import com.ktdsuniversity.edu.movie.vo.request.UpdateMovieVO;
 import com.ktdsuniversity.edu.movie.vo.response.SearchMovieVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class MovieController {
@@ -57,7 +61,25 @@ public class MovieController {
 	}
 	
 	@PostMapping("/write")
-	public String doInsertMovieAction(InsertMovieVO insertMovieVO) {
+	public String doInsertMovieAction(@Valid @ModelAttribute InsertMovieVO insertMovieVO,
+									  BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			//error 확인하는 방법
+//			System.out.println(bindingResult.getAllErrors());
+			model.addAttribute("errorData",insertMovieVO);
+			return "movie-write";
+		}
+		
+		String posterUrl = insertMovieVO.getPosterUrl();
+		posterUrl = posterUrl.replace("<", "&lt")
+							 .replace(">", "&gt");
+		insertMovieVO.setPosterUrl(posterUrl);
+		
+		String title = insertMovieVO.getTitle();
+		title = title.replace("<", "&lt")
+							 .replace(">", "&gt");
+		insertMovieVO.setPosterUrl(title);
+		
 		boolean result = this.movieService.createMovieData(insertMovieVO);
 		return "redirect:/list";
 	}

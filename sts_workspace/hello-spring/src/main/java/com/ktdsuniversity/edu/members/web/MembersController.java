@@ -11,18 +11,82 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ktdsuniversity.edu.members.service.MemberService;
+import com.ktdsuniversity.edu.members.vo.request.LoginVO;
 import com.ktdsuniversity.edu.members.vo.request.SignVO;
+import com.ktdsuniversity.edu.members.vo.response.DuplicateResultVO;
 import com.ktdsuniversity.edu.members.vo.response.SearchVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 
 @Controller
 public class MembersController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("login")
+	public String viewLoginPage() {
+		return "members/login";
+	}
+	
+	@PostMapping("/login")
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO,
+								BindingResult bindingResult, Model model,
+								HttpServletRequest request) {
+		
+		if(bindingResult.hasErrors() ) {
+			model.addAttribute("loginData",loginVO);
+			return "members/login";
+		}
+		
+		//Ip 따오는 코드?
+		String userIp = request.getRemoteAddr();
+		loginVO.setIp(userIp);
+		
+		SignVO member = this.memberService.findMembersByEmailAndPassword(loginVO);
+		
+//		HttpSession session = request.getSession();
+		
+		//Session을 테스트 하기 위한 코드 ==> 나중에 삭제 해야함
+		// 서버 세션 삭제
+		// 로그아웃
+		request.getSession().invalidate();
+		// request.getSession(); <== HttpRequestHeader로 전달된 JSESSIONID의 객체를 반환.
+		// request.getSesstion(true); <== 기존 JESSIONID로 발급된 세션 객체는 버리고, 새로운 ID의 세션객체를 생성 후 반환
+		HttpSession session = request.getSession(true);
+		
+		session.setAttribute("__LOGIN_DATA__", member);
+		
+		return "redirect:/";
+	}
+	
+	
+	
+	// email 중복 검사
+	// 반환 타입이 String이면 템플릿을 돌려준다 우리는 사용 하지 않는다
+	//ResponseBody를 붙이면 반환되는 데이터가 JSON으로 반환된다.
+	@ResponseBody
+	@GetMapping("/regist/check/duplicate/{email}")
+	public DuplicateResultVO doCheckDuplicateEmailAction(@PathVariable String email) {
+		
+		// email이 이미 사용중인지 확인한다.
+		SignVO membersVO = this.memberService.findMembersByArticleId(email);
+		
+		// 확인 된 결과를 브라우저에게 JSON으로 전송한다.
+		// 이미 사용중 ==> {email: "test@gmail", duplicate:true}
+		// 사용중이지 않음 ==> {email: "test@gmail", duplicate:false}
+		DuplicateResultVO result = new DuplicateResultVO();
+		result.setEmail(email);
+		result.setDuplicate(membersVO != null);
+		
+		return result;
+	}
 	
 	
 	// 회원가입 보여주는 EndPoint

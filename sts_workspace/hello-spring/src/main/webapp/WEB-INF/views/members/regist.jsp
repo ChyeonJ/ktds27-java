@@ -15,7 +15,7 @@ uri="http://www.springframework.org/tags/form" %>
     <form:form modelAttribute="signVO" method="post" action="/regist">
       <div class="grid write">
         <label for="email">이메일</label>
-        <div class="div-input">
+        <div class="input-div">
           <input
             type="email"
             id="email"
@@ -26,7 +26,7 @@ uri="http://www.springframework.org/tags/form" %>
           <form:errors path="email" cssClass="validation-error" element="div" />
         </div>
         <label for="name">이름</label>
-        <div class="div-input">
+        <div class="input-div">
           <input
             type="text"
             id="name"
@@ -36,8 +36,9 @@ uri="http://www.springframework.org/tags/form" %>
           />
           <form:errors path="name" cssClass="validation-error" element="div" />
         </div>
+
         <label for="password">패스워드</label>
-        <div class="div-input">
+        <div class="input-div">
           <input
             type="password"
             id="password"
@@ -50,6 +51,24 @@ uri="http://www.springframework.org/tags/form" %>
             element="div"
           />
         </div>
+
+        <!-- 비밀번호 두 번 입력하기 ==> 두 비밀번호가 일치할 때만 회원가입 시키기. -->
+        <label for="confirm-password">비밀번호 확인</label>
+        <div class="input-div">
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="비밀번호를 입력하세요"
+          />
+        </div>
+
+        <!-- 비밀번호 한 번 입력하기 ==> 비밀번호를 확인하는 기능 -->
+        <label for="show-password">비밀번호 확인하기</label>
+        <div class="input-div">
+          <input type="checkbox" id="show-password" />
+        </div>
+
         <div class="btn-group">
           <div class="right-align">
             <input type="submit" value="회원가입" />

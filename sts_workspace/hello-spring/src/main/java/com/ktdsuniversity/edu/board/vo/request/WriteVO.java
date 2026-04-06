@@ -24,14 +24,23 @@ public class WriteVO {
 	@NotEmpty(message = "제목은 반드시 입력해주세요")
 	@Size(min = 3, message="3글자 이상 입력하세요")
 	private String subject;
-	@NotEmpty(message = "이메일 형태가 아닙니다")
-	@Email(message = "이메일 형태가 아닙니다")
+	
+//	@NotEmpty(message = "이메일 형태가 아닙니다") 이메일 Vali 삭제
+//	@Email(message = "이메일 형태가 아닙니다")
 	private String email;
 	
 	
 	private String content;
 	private List<MultipartFile> attachFile;
+
+	private String fileGroupId;
 	
+	public String getFileGroupId() {
+		return this.fileGroupId;
+	}
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
+	}
 	
 	public String getId() {
 		return this.id;
