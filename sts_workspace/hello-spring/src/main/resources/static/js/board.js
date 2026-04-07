@@ -1,4 +1,12 @@
 $().ready(function () {
+    
+    var sessionTimeout = 60*1000;//30 * 60 * 1000;
+
+    setTimeout(function () {
+        alert("세션 만료");
+        location.href = "/login";
+    }, sessionTimeout);
+    
   //".add-file"을 클릭하면
   // 새로운 파일 인풋과 버튼을
   // ".attacg-files" 아래에 추가한다.

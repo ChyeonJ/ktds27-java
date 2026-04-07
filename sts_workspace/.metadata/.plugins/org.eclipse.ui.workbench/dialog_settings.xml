@@ -52,6 +52,7 @@
 		<item key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID" value="true"/>
 		<item key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID" value="true"/>
 		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:\Users\User\Desktop\hello-spring-.세션핸들링.zip"/>
 			<item value="C:\Users\User\Desktop\hello-spring-세션.zip"/>
 			<item value="C:\Users\User\Desktop\tmdb-web-최현종-회원제.zip"/>
 			<item value="C:\Users\User\Desktop\hello-spring-회원제.zip"/>

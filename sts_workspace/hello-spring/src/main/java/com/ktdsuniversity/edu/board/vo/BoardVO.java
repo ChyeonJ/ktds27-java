@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu.board.vo;
 import java.util.List;
 
 import com.ktdsuniversity.edu.files.vo.FilesVO;
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
 
 public class BoardVO {
 
@@ -20,7 +21,17 @@ public class BoardVO {
 	
 	private String fileGroupId;
 	
+	// 1 대 다 관계 역전
+	private SignVO membersVO;
 	
+
+	public SignVO getMembersVO() {
+		return this.membersVO;
+	}
+
+	public void setMembersVO(SignVO membersVO) {
+		this.membersVO = membersVO;
+	}
 
 	public String getFileGroupId() {
 		return this.fileGroupId;

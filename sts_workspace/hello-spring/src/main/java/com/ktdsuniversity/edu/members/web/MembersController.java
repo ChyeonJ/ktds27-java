@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktdsuniversity.edu.members.service.MemberService;
 import com.ktdsuniversity.edu.members.vo.request.LoginVO;
@@ -66,7 +67,28 @@ public class MembersController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/logout")
+	public String doLogoutAction(HttpSession session) {
+		
+		// "/logout" 링크로 접속하면 로그아웃 되고(세션이 제거되고) "/login" 페이지로 이동하도록 한다.
+		session.invalidate();
+		
+		return"redirect:/login";
+	}
 	
+	@GetMapping("/delete-me")
+	public String doDeleteAction(HttpSession session, @SessionAttribute("__LOGIN_DATA__")SignVO loginMember) {
+		// 1. 로그인 세션에서 회원의 이메일을 가져온다
+		// 2. MEMBERS 테이블에서 회원의 정보를 이메일을 이용해 삭제한다.
+		boolean result = this.memberService.doDeleteMember(loginMember.getEmail());
+		
+		// 3. 현재 로그인된 사용자를 로그아웃 시킨다.
+		session.invalidate();
+		
+		// 4. "members/deletesuccess" 페이지를 보여준다.
+		// 	   "탈퇴가 완료됐습니다. 다음에 다시 만나요!"
+		return "members/deletesuccess";
+	}
 	
 	// email 중복 검사
 	// 반환 타입이 String이면 템플릿을 돌려준다 우리는 사용 하지 않는다

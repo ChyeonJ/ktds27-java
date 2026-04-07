@@ -8,6 +8,20 @@ body {
   color: #333;
 }
 
+div.wraper {
+  width: 100%;
+  max-width: 87.5rem;
+  margin: 0 auto;
+}
+
+div.wraper > div.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  padding: 0.625rem 0;
+}
+
 div.validation-error {
   color: #f00;
   font-weight: 600;

@@ -1,0 +1,25 @@
+package com.ktdsuniversity.edu.session;
+
+import org.springframework.stereotype.Component;
+
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+@Component
+public class SessionHandler {
+	
+	public SignVO sessionCheck(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		SignVO result = (SignVO) session.getAttribute("__LOGIN_DATA__");
+		
+		if(result == null) {
+			return null;
+		}
+		
+		return result;
+	}
+	
+}

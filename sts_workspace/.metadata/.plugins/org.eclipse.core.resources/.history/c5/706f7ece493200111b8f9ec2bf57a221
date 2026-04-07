@@ -1,0 +1,13 @@
+package com.ktdsuniversity.edu.config.interceptor;
+
+/**
+ * 로그인이 필요한(세션 데이터가 필요한) URL
+ *  1. 글 작성 페이지
+ *  2. 글 작성 처리 URL
+ *  3. 글 수정 페이지
+ *  4. 글 수정 처리 URL
+ * 로그인이 필요 없는(세션 데이터가 필요없는) URL
+ */
+public class SessionInterceptor {
+
+}
