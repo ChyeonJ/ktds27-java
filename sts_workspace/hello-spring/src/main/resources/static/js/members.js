@@ -1,5 +1,18 @@
 // 회원 페이지와 관련된 스크립트 작성.
 $().ready(function () {
+    
+    // 현재 Location의 pathName을 가지고온다.
+    var pathname = location.pathname;    
+    // pathname이 "/login"이 아니라면 action을 "/login?go={pathname}"으로 수정한다
+    if (pathname !== "/login"){
+        pathname = "?go=" + pathname;
+    } 
+    else {
+       pathname = ""; 
+    }
+    
+    $("#loginVO").attr({action:"/login" + pathname});
+    
   $("#email").on("blur", function () {
     setTimeout(function () {
       $("#email").trigger("keyup");

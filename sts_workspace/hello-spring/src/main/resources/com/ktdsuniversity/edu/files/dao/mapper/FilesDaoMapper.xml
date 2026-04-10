@@ -3,7 +3,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ktdsuniversity.edu.files.dao.FilesDao">
-        <insert id="insertAttachFile" parameterType="com.ktdsuniversity.edu.files.vo.request.UploadVO">
+        <insert id="insertAttachFile" parameterType="com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO">
         INSERT INTO FILES
 		 (FILE_NUM
 		, FILE_GROUP_ID
@@ -25,7 +25,7 @@
         </insert>
         
         <!-- Insert도 나중에 수정해야함. 차이를 알아보기 위해 수정 안함 -->
-        <insert id="updateFIleById" parameterType="com.ktdsuniversity.edu.files.vo.request.UploadVO">
+        <insert id="updateFIleById" parameterType="com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO">
         INSERT INTO FILES
          (FILE_NUM
         , FILE_GROUP_ID

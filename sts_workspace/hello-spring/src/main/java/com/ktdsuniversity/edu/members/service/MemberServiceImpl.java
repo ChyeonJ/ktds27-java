@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.members.helpers.SHA256Util;
 import com.ktdsuniversity.edu.members.vo.request.LoginVO;
@@ -20,7 +22,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MembersDao membersDao;
-
+	
+	// 우리가 유도한 에러이니, 롤백을 발생시키지 말아라, 대신에 다른 에러는 이걸로 처리해라
+	@Transactional(noRollbackFor = HelloSpringException.class)
 	@Override
 	public SignVO findMembersByEmailAndPassword(LoginVO loginVO) {
 
@@ -31,7 +35,8 @@ public class MemberServiceImpl implements MemberService {
 		// IllegalArgumentsException
 		if (resultEmailData == null) {
 			// 2. 조회된 결과가 없다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+//			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다.", "members/login", loginVO);
 		}
 
 		if (resultEmailData.getBlockYn().equals("Y")) {
@@ -49,7 +54,8 @@ public class MemberServiceImpl implements MemberService {
 			if (lastestBlockDateTime.isAfter(LocalDateTime.now().minusHours(2))) {
 				// 예외를 던짐
 				// Block Y-N이 Y면 비밀번호가 맞든 틀리든 에러처리를 반환하겠다.
-				throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+//				throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+				throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다.", "members/login", loginVO);
 			}
 		}
 
@@ -71,7 +77,8 @@ public class MemberServiceImpl implements MemberService {
 			this.membersDao.updateBlock(inputEmail);
 
 			// 5. 비밀번호가 일치하지 않는다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+//			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다.", "members/login", loginVO);
 		}
 
 		// 로그인 성공 처리
@@ -84,13 +91,14 @@ public class MemberServiceImpl implements MemberService {
 		// 6. 비밀번호가 일치하면 1에서 조회한 결과를 반환함
 		return resultEmailData;
 	}
-
+	
+	@Transactional
 	@Override
 	public boolean createRegist(SignVO signVO) {
 
 		SignVO membersVO = this.membersDao.selectByArticleId(signVO.getEmail());
 		if (membersVO != null) {
-			throw new IllegalArgumentException(signVO.getEmail() + "은 이미 사용중입니다.");
+			throw new HelloSpringException("이미 사용중인 이메일입니다,", "members/regist", signVO);
 		}
 
 		// 암호화를 위한 비밀키 생성
@@ -117,6 +125,7 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public boolean updateMemberById(SignVO signVO) {
 
@@ -125,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
 		return resultCount == 1;
 	}
 
+	@Transactional
 	@Override
 	public boolean doDeleteMember(String id) {
 

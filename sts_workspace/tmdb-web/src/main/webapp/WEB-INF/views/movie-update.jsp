@@ -11,11 +11,11 @@
     <h1>영화 등록</h1>
     <!-- action은 form 내부의 value를 전송할 엔드포인트 -->
     <form method="post" action="/update/${movie.movieId}">
-        <label for="posterUrl">영화 아이디</label>
+        <label for="movieId">영화 아이디</label>
         <input
           type="text"
-          id="posterUrl"
-          name="posterUrl"
+          id="movieId"
+          name="movieId"
           readonly="readonly"
           value="${movie.movieId}"
         />

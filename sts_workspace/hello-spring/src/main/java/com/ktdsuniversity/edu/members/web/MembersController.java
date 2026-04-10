@@ -2,6 +2,8 @@ package com.ktdsuniversity.edu.members.web;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ import jakarta.validation.Valid;
 @Controller
 public class MembersController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -39,6 +43,7 @@ public class MembersController {
 	@PostMapping("/login")
 	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO,
 								BindingResult bindingResult, Model model,
+								@RequestParam(required = false, defaultValue = "/") String go,
 								HttpServletRequest request) {
 		
 		if(bindingResult.hasErrors() ) {
@@ -64,7 +69,7 @@ public class MembersController {
 		
 		session.setAttribute("__LOGIN_DATA__", member);
 		
-		return "redirect:/";
+		return "redirect:" + go;
 	}
 	
 	@GetMapping("/logout")
@@ -127,7 +132,8 @@ public class MembersController {
 		}
 		
 		boolean regist = this.memberService.createRegist(signVO);
-		System.out.println(regist);
+		logger.debug("{}",regist);
+//		System.out.println(regist);
 		
 		return "redirect:/member/list";
 	}
@@ -159,7 +165,8 @@ public class MembersController {
 		
 		signVO.setEmail(email);
 		boolean result = this.memberService.updateMemberById(signVO);
-		System.out.println(result);
+		logger.debug("{}",result);
+//		System.out.println(result);
 		return "redirect:/member/" + email;
 	}
 	
@@ -167,7 +174,8 @@ public class MembersController {
 	public String deleteMemberPage(@RequestParam String id) {
 		
 		boolean result = this.memberService.doDeleteMember(id);
-		System.out.println(result);
+		logger.debug("{}",result);
+//		System.out.println(result);
 		
 		return "redirect:/member/list";
 	}

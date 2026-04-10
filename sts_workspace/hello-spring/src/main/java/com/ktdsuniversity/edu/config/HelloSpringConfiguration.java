@@ -42,7 +42,8 @@ public class HelloSpringConfiguration implements
 						"/image/**", // static resources
 						"/", // 게시글 목록 조회
 						"/view/**", // 게시글 내용 조회
-						"/file/**" // 첨부파일 다운로드
+						"/file/**", // 첨부파일 다운로드
+						"/error" // 에러 내용이 보여지는 페이지 TODO 0408=> 원래는 필요 없음 나중에 삭제 예정
 						) // sessionInterceptor가 적용되지 않을 URL 명시.
 				;
 		

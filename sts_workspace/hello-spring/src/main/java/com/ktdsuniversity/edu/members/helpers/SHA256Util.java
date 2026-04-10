@@ -4,10 +4,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * SHA-256 암호화 유틸리티 * @author Minchang Jang
  */
 public class SHA256Util {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SHA256Util.class);
 
 	/**
 	 * SHA-256 암호화를 수행한다. * @param source 원본 문자열
@@ -49,7 +54,8 @@ public class SHA256Util {
 			result = sb.toString();
 
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			logger.error("암호화 중 에러 발생! {}",e);
+//			e.printStackTrace();
 		}
 
 		return result;

@@ -1,11 +1,13 @@
 package com.ktdsuniversity.edu.board.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ktdsuniversity.edu.board.dao.BoardDao;
@@ -14,13 +16,17 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
-import com.ktdsuniversity.edu.files.vo.request.UploadVO;
+import com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO;
 
 //트랜잭션 관리
 @Service
 public class BoardServiceImpl implements BoardService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
+	
 	
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다
@@ -55,6 +61,7 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 	
+	@Transactional
 	@Override
 	public boolean createNewBoard(WriteVO writeVO) {
 		// 첨부파일 업로드
@@ -70,8 +77,8 @@ public class BoardServiceImpl implements BoardService {
 		//    delete ==> delete를한 row의 개수를 반환
 		int insertCount = this.boardDao.insertNewBoard(writeVO);
 		
-
-		System.out.println("생성된 게시글의 개수 : " + insertCount );
+		logger.debug("생성된 게시글의 개수 : {} ", insertCount);
+//		System.out.println("생성된 게시글의 개수 : " + insertCount );
 		return insertCount == 1;
 	}
 	
@@ -81,11 +88,14 @@ public class BoardServiceImpl implements BoardService {
 		if(readType == readType.VIEW) {
 			// 조회수 증가
 			int updateCount = this.boardDao.updateViewCntIncreaseById(articleId);
-			System.out.println("조회수가 증가된 게시글의 수 : " + updateCount);
+			
+			logger.debug("조회수가 증가된 게시글의 수 : {}", updateCount);
+//			System.out.println("조회수가 증가된 게시글의 수 : " + updateCount);
 			
 			if (updateCount == 0) {
 //			throw new RuntimeException("존재하지 않는 게시글입니다.");
-				return null;
+//				return null;
+			throw new HelloSpringException("존재하지 않는 게시글 입니다.","errors/404");
 			}
 		}
 		
@@ -96,7 +106,7 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 	
-	
+	@Transactional
 	@Override
 	public boolean deleteBoardByArticleId(String id) {
 		int deleteCount = this.boardDao.deleteByOneBoard(id);
@@ -115,19 +125,24 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 	
+	@Transactional
 	@Override
 	public boolean updateBoardByArticleId(UpdateVO updateVO) {
 		
 		// 선택한 파일 삭제
 		if(updateVO.getDeleteFileNum() != null && updateVO.getAttachFile().size() > 0) {
+		
+			SearchFileGroupVO searchFileGroupVO = new SearchFileGroupVO();
+			searchFileGroupVO.setDeleteFileNum(updateVO.getDeleteFileNum());
+			searchFileGroupVO.setFileGroupId(updateVO.getFileGroupId());
 		// 선택한 파일들의 정보를 조회 --> 파일 경로 --> 실제 파일을 제거
 		List<String> deleteTargets = this.filesDao
-				.selectFilesPathbuFilesGroupIdAndFileNums(updateVO);
+				.selectFilesPathbuFilesGroupIdAndFileNums(searchFileGroupVO);
 		for (String target : deleteTargets) {
 			new File(target).delete();
 		}
 		// 선택한 파일들을 Files 테이블에서 제거
-		int deleteCount = this.filesDao.deleteFilesByFileGruopIdAndFileNums(updateVO);
+		int deleteCount = this.filesDao.deleteFilesByFileGruopIdAndFileNums(searchFileGroupVO);
 		}
 		// 첨부 파일 업로드
 		List<MultipartFile> file = updateVO.getAttachFile();

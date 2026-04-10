@@ -22,12 +22,14 @@ ${param.scripts}
 					<!-- 로그인 안했을 때의 링크 끝 -->
 				</c:when>
 				<c:otherwise>
-					<!-- 로그인 안했을 때의 링크 시작 -->
+					<!-- 로그인 했을 때의 링크 시작 -->
+					<div class="member-info" 
+					data-email="${sessionScope.__LOGIN_DATA__.email}"></div>
 					<div>${sessionScope.__LOGIN_DATA__.name}
 						${sessionScope.__LOGIN_DATA__.email}</div>
 					<a href="/member/${sessionScope.__LOGIN_DATA__.email}">마이페이지</a>
 					<a href="/logout">로그아웃</a>
-					<!-- 로그인 안했을 때의 링크 끝 -->
+					<!-- 로그인 했을 때의 링크 끝 -->
 				</c:otherwise>
 			</c:choose>
 		</div>
