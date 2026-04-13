@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.members.vo.request.SignVO;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -38,10 +38,11 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	// http://192.168.211.25:8080/?pageNo=0&listSize=10 <== Request QueryParam
 	@GetMapping("/")
-	public String viewListPage(Model model) {
+	public String viewListPage(Model model, SearchListVO searchListVO) {
 
-		SearchResultVO searchResult = this.boardService.findAllBoard();
+		SearchResultVO searchResult = this.boardService.findAllBoard(searchListVO);
 
 		// 게시글의 목록을 조회.
 		List<BoardVO> list = searchResult.getResult();
@@ -51,6 +52,9 @@ public class BoardController {
 
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
+		
+		// pageNation 정보를 뷰에 보냄
+		model.addAttribute("pagination", searchListVO);
 
 		return "board/list";
 	}

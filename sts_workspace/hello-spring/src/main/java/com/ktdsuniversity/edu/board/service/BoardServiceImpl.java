@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ktdsuniversity.edu.board.dao.BoardDao;
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
@@ -41,20 +42,23 @@ public class BoardServiceImpl implements BoardService {
 	private MultipartFileHandler multipartFileHandler;
 	
 	@Override
-	public SearchResultVO findAllBoard() {
+	public SearchResultVO findAllBoard(SearchListVO searchListVO) {
 		
 		SearchResultVO result = new SearchResultVO();
 		
 		//게시글 개수 조회
-		int count = this.boardDao.selectBoardCount();
+		int count = this.boardDao.selectBoardCount(searchListVO);
 		result.setCount(count);
+		
+		//몇개의 페이지가 필요한지 계산.
+		searchListVO.computePagination(count);
 		
 		if(count == 0) {
 			return result;
 		}
 		
-		//게시글 목록 조회
-		List<BoardVO> list = this.boardDao.selectBoardList();
+		//게시글 목록 조회 => 게시글의 목록을 구하는 곳이기에 selectBoardList에 넣어준다
+		List<BoardVO> list = this.boardDao.selectBoardList(searchListVO);
 		result.setResult(list);
 		
 		
