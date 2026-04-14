@@ -1,3 +1,3 @@
 $().ready(function () {
-  alert("VSCODE로 편집함!!!");
+  alert("VSCoㄹㅁㄴㄹㅇㄴㄹde로 ㅁㄹㅁㄴㅇㄹㄴㅇ편집함11111111!");
 });

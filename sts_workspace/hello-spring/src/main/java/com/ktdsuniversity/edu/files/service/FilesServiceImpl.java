@@ -9,10 +9,10 @@ import com.ktdsuniversity.edu.files.vo.response.DownloadVO;
 
 @Service
 public class FilesServiceImpl implements FilesService {
-	
+
 	@Autowired
 	private FilesDao filesDao;
-	
+
 	@Override
 	public DownloadVO findAttachFile(SearchFileVO searchFileVO) {
 		DownloadVO result = this.filesDao.selectFilesByFileGroupIdAndFileNum(searchFileVO);

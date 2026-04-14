@@ -1,11 +1,10 @@
 package com.ktdsuniversity.edu.common.utils;
 
-import com.ktdsuniversity.edu.members.vo.request.SignVO;
+import com.ktdsuniversity.edu.members.vo.MembersVO;
 
 import jakarta.servlet.http.HttpSession;
 
-public class SessionUtils {
-	
+public abstract class SessionUtils {
 
 	private SessionUtils() {}
 	
@@ -26,8 +25,8 @@ public class SessionUtils {
 		return SessionUtils.getLoginSession() != null;
 	}
 	
-	public static SignVO getLoginSession() {
-		return (SignVO) getAttribute("__LOGIN_DATA__");
+	public static MembersVO getLoginSession() {
+		return (MembersVO) getAttribute("__LOGIN_DATA__");
 	}
 	
 	public static String getEmail() {
@@ -52,5 +51,5 @@ public class SessionUtils {
 		}
 		return false;
 	}
-
+	
 }

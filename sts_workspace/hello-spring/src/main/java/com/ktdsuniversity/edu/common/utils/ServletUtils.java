@@ -6,8 +6,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class ServletUtils {
-	
+public abstract class ServletUtils {
+
 	private ServletUtils() {}
 	
 	public static HttpServletRequest getRequest() {
@@ -26,5 +26,4 @@ public class ServletUtils {
 		return (ServletRequestAttributes)RequestContextHolder.getRequestAttributes(); 
 	}
 	
-
 }

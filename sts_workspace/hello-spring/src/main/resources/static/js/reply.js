@@ -1,7 +1,8 @@
 $().ready(function () {
   var loginEmail = $(".member-info").data("email");
+
   var refreshReplies = function () {
-    // 게시글 아이디
+    // 게시글 아이디.
     var articleId = $(".view").data("article-id");
 
     fetch("/api/replies/" + articleId)
@@ -24,30 +25,29 @@ $().ready(function () {
             .replace("#email#", reply.email)
             .replace("#createDate#", reply.crtDt)
             .replace("#modifyDate#", reply.mdfyDt)
-            .replace("#recomendCount#", reply.recommendCnt)
+            .replace("#recommendCount#", reply.recommendCnt)
             .replace("#content#", reply.reply);
+
           var replyDom = $(replyTemplate);
-          //  로그인한 회원이 작성한 댓글인 경우
-          //  추천하기 노출 X
+          // 로그인 한 회원이 작성한 댓글인 경우
+          //      추천하기 - 노출X
           if (!loginEmail || loginEmail === reply.email) {
             replyDom.find(".links-recommend").remove();
           }
-          //  로그인한 회원이 작성하지 않은 댓글인 경우
-          // 수정, 삭제 - 노출 하지 않음
+          // 로그인 한 회원이 작성하지 않은 댓글인 경우
+          //      수정, 삭제 - 노출X
           if (loginEmail !== reply.email) {
             replyDom.find(".links-update, .links-delete").remove();
           }
-          //  첨부파일이 있을 경우 첨부파일 목록 보여주기.
+          // 첨부파일이 있을 경우 첨부파일 목록 보여주기.
           if (!reply.fileGroupId) {
             replyDom.find(".reply-attach-files").remove();
           } else {
             replyDom
               .find(".reply-attach-files")
-              //reply.files가 객체의 배열 타입인데 .stringify를
-              //  사용하면 String타입으로 넘겨주게 된다.
               .data("files", JSON.stringify(reply.files));
 
-            //reply.files를 반복하면서 a태그를 ".reply-attach-files:추가
+            // reply.files를 반복하면서 a 태그를 ".reply-attach-files" 추가.
             for (var j = 0; j < reply.files.length; j++) {
               var file = reply.files[j];
               var fileSize = file.fileLength; // bytes
@@ -65,7 +65,7 @@ $().ready(function () {
 
               var fileAnchor = $("<a>");
               fileAnchor.text(
-                file.displayName + " (" + fileSize + capaType + ")",
+                file.displayName + " (" + fileSize + capaType + ")"
               );
               fileAnchor.attr({
                 href: "/file/" + file.fileGroupId + "/" + file.fileNum,
@@ -73,62 +73,53 @@ $().ready(function () {
               replyDom.find(".reply-attach-files").append(fileAnchor);
             }
           }
-          //  수정날짜가 없을 떄는 수정날짜 노출 X
+          // 수정날짜가 없을 때는 수정날짜 노출 X
           if (!reply.mdfyDt) {
             replyDom.find(".modify-date").remove();
           }
-          // TODO 댓글 추천 수 노출
-          // TODO 댓글 추천, 수정, 삭제.
-          // TODO 댓글 추천.
+          // 댓글 추천, 수정, 삭제.
+          // 댓글 추천.
           //      추천하기를 클릭하면, 추천수가 증가한다.
           replyDom.find(".links-recommend").on("click", function () {
             // API 호출 (Endpoint => /api/replies/recommend/{댓글아이디})
+            // 호출 결과 ==> { replyId: "RP-20260410-000001": recommendCount: 13 }
+            // ".recommend-count" 텍스트를 추천 결과 값으로 변경.
             var replyId = $(this).closest(".reply-item").data("reply-id");
-            var recommendPath = $(this)
-              .closest(".reply-item")
-              .find(".recommend-count");
+            var targetReply = $(this);
             fetch("/api/replies/recommend/" + replyId)
-              // 호출 결과 ==> {replyId: "RP-20260410-000001" recommendCount: 13}
-              .then(function (response) {
-                return response.json();
+              .then(function (result) {
+                return result.json();
               })
               .then(function (json) {
-                console.log(json);
-                var recommendCnt = json.recommendCnt;
-                recommendPath.text(recommendCnt);
+                targetReply
+                  .closest(".reply-item")
+                  .find(".recommend-count")
+                  .text(json.recommendCount);
               });
-            // ".recommend-count" 텍스트를 추천 결과 값으로 변경
           });
-          // 강사님 코드 시작
           // TODO 댓글 수정.
-          //      수정하기를 클릭하면 , 댓글을 수정할 수 있는 폼이 완성된다.
+          //      수정을 클릭하면, 댓글을 수정할 수 있는 폼이 완성된다.
           replyDom.find(".links-update").on("click", function () {
             $(".update-form").remove();
 
-            //file=> attachFile을 가져오는 코드
-            // .stringify한 코드를 가져옴
             var replyAttachFiles = $(this)
               .closest(".reply-item")
               .find(".reply-attach-files")
               .data("files");
 
-            //파일들의 목록이 있으면, 그 파일들을 가지고 와라
             if (replyAttachFiles) {
               replyAttachFiles = JSON.parse(replyAttachFiles);
             }
 
-            // links-update에서 시작해서 가장인접한 부모를 가지고 온후 content를 찾아서 넣어라
             var content = $(this)
               .closest(".reply-item")
               .find(".content")
               .text();
 
-            //updateForm에 데이터를 넣어라
             var updateTemplate = $(".reply-item-update-template").html();
             var updateFormDom = $(updateTemplate);
             updateFormDom.find("textarea").val(content);
 
-            //취소 버튼을 클릭하면 updateForm을 지워라
             updateFormDom.find(".update-cancel").on("click", function () {
               $(".update-form").remove();
             });
@@ -144,12 +135,12 @@ $().ready(function () {
                 .closest(".update-form")
                 .find("textarea")
                 .val();
-              // 3. 삭제하려는 파일의 fileNum (복수)
+              // 3. 삭제하려는 파일의 fileNum (여러 개)
               var deleteFilesNum = $(this)
                 .closest(".update-form")
                 .find(".update-file-list")
                 .find("input[type='checkbox']:checked");
-              // 4. 추가하려는 파일 (복수)
+              // 4. 추가하려는 파일 (여러 개)
               var newAttachFiles = $(this)
                 .closest(".update-form")
                 .find(".reply-update-attach-file")[0].files;
@@ -166,22 +157,19 @@ $().ready(function () {
               }
 
               fetch("/api/replies/" + replyId, {
-                method: "POST",
+                method: "post",
                 body: formData,
               })
                 .then(function (response) {
                   return response.json();
                 })
                 .then(function (json) {
-                  //replies의 html tag들을 다 지워버려라
                   $(".replies").html("");
                   refreshReplies();
                 });
             });
 
-            // 이 댓글에 첨부된 파일을 가져옴
             if (replyAttachFiles) {
-              // 있다면? .reply-item-update-files가져오고 html을 가져와라
               var replyItemsTemplate = $(".reply-item-update-files").html();
               for (var j = 0; j < replyAttachFiles.length; j++) {
                 var replyItemFile = replyAttachFiles[j];
@@ -200,33 +188,28 @@ $().ready(function () {
               .find(".content")
               .after(updateFormDom);
           });
-          // 강사님 코드 끝
-          // TODO 댓글 삭제
-          //      삭제를 클릭하면, "삭제하시겠습니까?"를 물어보고 "확인"을 클릭했을 때 삭젤ㄹ 하고
+
+          // 댓글 삭제
+          //      삭제를 클릭하면, "삭제하시겠습니까?"를 물어보고 "확인"을 클릭했을 때 삭제되고
           //      이후 댓글 목록을 새로 고친다.
           replyDom.find(".links-delete").on("click", function () {
-            // "삭제하시겠습니까?" 를 사용자에게 물어본다. (Endpoint => /api/replies/delete/{댓글아이디})
-            // "확인"을 클릭하면 삭제 API를 호출한다.
-            //  호출 결과 ==> {replyId: "RP-20260410-000001"}
-            //  결과의 replyId 댓글을 목록에서 제거한다 (댓글 다시 불러오기 X)
-            //  "취소"를 클릭하면 아무일도 일어나지 않는다.
-            var replyId = $(this).closest(".reply-item").data("reply-id");
-            var deletePath = $(this).closest(".reply-item");
+            // "삭제하시겠습니까?" 를 사용자에게 물어본다.
+            //    "확인"을 클릭하면 삭제 API를 호출한다. (Endpoint => /api/replies/delete/{댓글아이디})
+            //      호출 결과 ==> { replyId: "RP-20260410-000001" }
+            //      결과의 replyId 댓글을 목록에서 제거한다. (댓글 다시 불러오기 X)
+            //    "취소"를 클릭하면 아무 일도 일어나지 않는다.
+            if (confirm("삭제하시겠습니까?")) {
+              var replyId = $(this).closest(".reply-item").data("reply-id");
+              var targetReply = $(this);
 
-            if (confirm("삭제 할거임?")) {
               fetch("/api/replies/delete/" + replyId)
-                .then(function (response) {
-                  return response.json();
+                .then(function (result) {
+                  return result.json();
                 })
                 .then(function (json) {
                   console.log(json);
-                  deletePath.remove();
-                  $(".replies-count")
-                    .children(".count")
-                    .text(parseInt(count) - 1);
+                  targetReply.closest(".reply-item").remove();
                 });
-            } else {
-              return;
             }
           });
 
@@ -251,7 +234,7 @@ $().ready(function () {
     var articleId = $(this).data("article-id");
     var parentReplyId = $(".parent-reply-id").val();
     var files = $(".reply-attach-file")[0];
-    console.log(files.files);
+    console.log(files.files[0]);
 
     var formData = new FormData();
     formData.append("reply", replyContent);
@@ -264,7 +247,6 @@ $().ready(function () {
       }
     }
 
-    //POST 방식으로 보내기에 {} 객체를 만듦
     fetch("/api/replies-with-file", {
       method: "post",
       body: formData,

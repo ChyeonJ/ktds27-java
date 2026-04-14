@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktdsuniversity.edu.exceptions.HelloSpringApiException;
-import com.ktdsuniversity.edu.members.vo.request.SignVO;
+import com.ktdsuniversity.edu.members.vo.MembersVO;
 import com.ktdsuniversity.edu.replies.service.RepliesService;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
-import com.ktdsuniversity.edu.replies.vo.request.DeleteVO;
-import com.ktdsuniversity.edu.replies.vo.request.RecommendCntVO;
 import com.ktdsuniversity.edu.replies.vo.request.UpdateVO;
+import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
+import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.UpdateResultVO;
 
@@ -33,9 +33,88 @@ import jakarta.validation.Valid;
 public class RepliesController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RepliesController.class);
-
+	
 	@Autowired
 	private RepliesService repliesService;
+	
+	@ResponseBody
+	@GetMapping("/api/replies/{articleId}")
+	public SearchResultVO getRepliesList(@PathVariable String articleId) {
+		SearchResultVO searchResult = this.repliesService.findRepliesByArticleId(articleId);
+		return searchResult;
+	}
+	
+	@ResponseBody
+	@PostMapping("/api/replies-with-file")
+	public RepliesVO doCreateNewReplyWithFileAction(
+			@Valid CreateVO createVO,
+			BindingResult bindingResult,
+			@SessionAttribute("__LOGIN_DATA__") MembersVO loginMember) {
+		
+		if (bindingResult.hasErrors()) {
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
+		}
+		
+		createVO.setEmail(loginMember.getEmail());
+		
+		logger.debug("reply: {}", createVO.getReply());
+		logger.debug("email: {}", createVO.getEmail());
+		logger.debug("articleId: {}", createVO.getArticleId());
+		logger.debug("parentReplyId: {}", createVO.getParentReplyId());
+		
+		RepliesVO createResult = this.repliesService.createNewReply(createVO);
+		
+		return createResult;
+		
+	}
+	
+	
+	// AJAX(API) 요청 / 반환.
+	// 요청 데이터 + 반환 데이터 ==> JSON
+	@ResponseBody
+	@PostMapping("/api/replies")
+	public RepliesVO doCreateNewReplyAction(
+			@RequestBody @Valid CreateVO createVO,
+			BindingResult bindingResult,
+			@SessionAttribute("__LOGIN_DATA__") MembersVO loginMember) {
+		
+		if (bindingResult.hasErrors()) {
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
+		}
+		
+		createVO.setEmail(loginMember.getEmail());
+		
+		logger.debug("reply: {}", createVO.getReply());
+		logger.debug("email: {}", createVO.getEmail());
+		logger.debug("articleId: {}", createVO.getArticleId());
+		logger.debug("parentReplyId: {}", createVO.getParentReplyId());
+		
+		RepliesVO createResult = this.repliesService.createNewReply(createVO);
+		
+		return createResult;
+	}
+	
+	@ResponseBody
+	@GetMapping("/api/replies/recommend/{replyId}")
+	public RecommendResultVO doRecommendReplyByReplyId(
+			@PathVariable String replyId) {
+		
+		RecommendResultVO recommendResult = this.repliesService.updateRecommendByReplyId(replyId);
+		
+		return recommendResult;
+	}
+	
+	@ResponseBody
+	@GetMapping("/api/replies/delete/{replyId}")
+	public DeleteResultVO doDeleteReplyByReplyId(
+			@PathVariable String replyId) {
+		
+		DeleteResultVO deleteResult = this.repliesService.deleteReplyByReplyId(replyId);
+		
+		return deleteResult;
+	}
 	
 	@ResponseBody
 	@PostMapping("/api/replies/{replyId}")
@@ -44,87 +123,18 @@ public class RepliesController {
 			@Valid UpdateVO updateVO,
 			BindingResult bindingResult) {
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
-			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(),errors);
+			throw new HelloSpringApiException(
+					"파라미터가 충분하지 않습니다.", 
+					HttpStatus.BAD_REQUEST.value(), 
+					errors);
 		}
 		
 		updateVO.setReplyId(replyId);
 		
 		UpdateResultVO updateResult = this.repliesService.updateReply(updateVO);
-		
 		return updateResult;
 	}
 	
-	@ResponseBody
-	@GetMapping("/api/replies/delete/{replyId}")
-	public DeleteVO deleteReplyAction(@PathVariable String replyId) {
-
-		DeleteVO result = this.repliesService.deleteReplyByReplyId(replyId);
-
-		return result;
-	}
-
-	@ResponseBody
-	@GetMapping("/api/replies/recommend/{articleId}")
-	public RecommendCntVO updateRecommendCntAction(@PathVariable String articleId) {
-
-		RecommendCntVO result = this.repliesService.updateRecommendCntByArticleId(articleId);
-
-		return result;
-	}
-
-	@ResponseBody
-	@GetMapping("/api/replies/{articleId}")
-	public SearchResultVO getRepliesList(@PathVariable String articleId) {
-
-		SearchResultVO searchResultVO = this.repliesService.findRepliesByArticleId(articleId);
-
-		return searchResultVO;
-	}
-
-	@ResponseBody
-	@PostMapping("/api/replies-with-file")
-	public RepliesVO doCreateNewReplyWithFileAction(@Valid CreateVO createVO, BindingResult bindingResult,
-			@SessionAttribute("__LOGIN_DATA__") SignVO loginMember) {
-
-		if (bindingResult.hasErrors()) {
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
-		}
-
-		createVO.setEmail(loginMember.getEmail());
-		logger.debug("reply : {}", createVO.getReply());
-		logger.debug("email : {}", createVO.getEmail());
-		logger.debug("articleId : {}", createVO.getArticleId());
-		logger.debug("replyId : {}", createVO.getParentReplyId());
-
-		RepliesVO createResult = this.repliesService.createNewReply(createVO);
-
-		return createResult;
-	}
-
-	// AJAX(API) 요청 / 반환
-	// 요청 데이터 + 반환 데이터 ==> JSON
-	@ResponseBody
-	@PostMapping("/api/replies")
-	public RepliesVO doCreateNewReplyAction(@RequestBody @Valid CreateVO createVO, BindingResult bindingResult,
-			@SessionAttribute("__LOGIN_DATA__") SignVO loginMember) {
-
-		if (bindingResult.hasErrors()) {
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
-		}
-
-		createVO.setEmail(loginMember.getEmail());
-		logger.debug("reply : {}", createVO.getReply());
-		logger.debug("email : {}", createVO.getEmail());
-		logger.debug("articleId : {}", createVO.getArticleId());
-		logger.debug("replyId : {}", createVO.getParentReplyId());
-
-		RepliesVO createResult = this.repliesService.createNewReply(createVO);
-
-		return createResult;
-	}
-
 }

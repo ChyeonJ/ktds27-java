@@ -14,66 +14,65 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.vo.request.UploadVO;
 
-// Controller, Service, Mapper 의 부모
 @Component
 public class MultipartFileHandler {
-	
-	private static final Logger logger = LoggerFactory.getLogger(MultipartFileHandler.class);
 
+	private static final Logger logger = LoggerFactory.getLogger(MultipartFileHandler.class);
+	
 	@Autowired
 	private FilesDao filesDao;
-
+	
 	public String upload(List<MultipartFile> attachFiles, String fileGroupId) {
-
 		if (attachFiles != null && attachFiles.size() > 0) {
-
-			// 첨부파일 테이블에 더이터를 넣어주는 역할
+			
 			for (int i = 0; i < attachFiles.size(); i++) {
-
+				
+				// 업로드를 하지 않았는데 했다고 판단한 경우에는 다음 반복으로 넘어가라.
 				if (attachFiles.get(i).isEmpty()) {
 					continue;
 				}
-
-//			for(MultipartFile uploadedFile: attachFiles) {
-
-				// UUID ==> 현재 시간을 기준으로 난수화 된 값을 가져오는 방법
-				// 전세계에서 동시에 발급받더라도 절대로 중복이 일어나지 않음
+				
+//			for (MultipartFile uploadedFile: attachFiles) {
+				
+				// UUID ==> 현재 시간을 기준으로 난수화 된 값을 가져오는 방법.
+				// 전세계에서 동시에 발급받더라도 절대로 중복이 일어나지 않는다!
 				String obfuscateName = UUID.randomUUID().toString();
-
+				
 				// 업로드한 파일이 서버컴퓨터의 파일 시스템에 저장되도록 한다.
-				File storeFile = new File("D:\\uploadFiles", obfuscateName);
-				// C:\\uploadFile 폴더가 없으면 생성해라 .getParentFile()=> uploadedFile 가르킴
+				File storeFile = new File("/Users/codemakers/uploadFiles"
+										 , obfuscateName);
+				// C:\\uploadFiles 폴더가 없으면 생성해라!
 				if (!storeFile.getParentFile().exists()) {
 					storeFile.getParentFile().mkdirs();
 				}
-
 				try {
 					attachFiles.get(i).transferTo(storeFile);
+					
 					// FILES 테이블에 첨부파일 데이터를 INSERT
 					UploadVO uploadVO = new UploadVO();
-					String fileName = attachFiles.get(i).getOriginalFilename();
-					// .의 마지막부터 확장자를 잘라라
-					String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-					uploadVO.setFileNum(i + 1);
-					// 새롭게 등록되는 게시글의 아이디를 지금은 알 수 없다
-					// Mapper 수정 후에는 알 수 가 있다.
-					uploadVO.setFileGroupId(fileGroupId);
+					
+					String filename = attachFiles.get(i).getOriginalFilename();
+					String ext = filename.substring(filename.lastIndexOf(".") + 1);
+					
+					uploadVO.setFileGroupId(fileGroupId); 
 					uploadVO.setObfuscateName(obfuscateName);
-					uploadVO.setDisplayName(fileName);
+					uploadVO.setDisplayName(filename);
 					uploadVO.setExtendName(ext);
 					uploadVO.setFileLength(storeFile.length());
-					uploadVO.setFilePath(storeFile.getAbsolutePath()); // 실제 저장한 파일위치
+					uploadVO.setFilePath(storeFile.getAbsolutePath());
+					
 					this.filesDao.insertAttachFile(uploadVO);
 				} catch (IllegalStateException | IOException e) {
-//					e.printStackTrace();
-					logger.error("파일 업로드 중 에러 발생! {}", e);
+					logger.error("파일 업로드 중 에러 발생!", e);
 				}
 			}
+			
 			return fileGroupId;
 		}
+		
 		return null;
 	}
-
+	
 	/**
 	 * 
 	 * @param attachFiles
@@ -81,15 +80,16 @@ public class MultipartFileHandler {
 	 */
 	public String upload(List<MultipartFile> attachFiles) {
 		if (attachFiles != null && attachFiles.size() > 0) {
-			// 반복문이 동작하기 전에 파일 그룹아이디 먼저 발급 받아라
+			
 			String fileGroupId = this.filesDao.selectNewFileGroupId();
 			this.filesDao.insertFileGroupId(fileGroupId);
 			
 			this.upload(attachFiles, fileGroupId);
-
+			
 			return fileGroupId;
 		}
+		
 		return null;
 	}
-
+	
 }

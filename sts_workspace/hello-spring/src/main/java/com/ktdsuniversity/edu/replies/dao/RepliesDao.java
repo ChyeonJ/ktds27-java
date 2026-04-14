@@ -6,10 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
-import com.ktdsuniversity.edu.replies.vo.request.RecommendCntVO;
 import com.ktdsuniversity.edu.replies.vo.request.UpdateVO;
-
-import jakarta.validation.Valid;
 
 @Mapper
 public interface RepliesDao {
@@ -18,16 +15,14 @@ public interface RepliesDao {
 
 	RepliesVO selectReplyByReplyId(String id);
 
-	List<RepliesVO> selectRepliesByArticleId(String articleId);
-
 	int selectRepliesCountByArticleId(String articleId);
 
-	int updateRecommentCnt(String articleId);
+	List<RepliesVO> selectRepliesByArticleId(String articleId);
 
-	int deleteReply(String replyId);
+	int updateRecommendByReplyId(String replyId);
 
-	int updateReplyByReplyId(@Valid UpdateVO updateVO);
-	
-	
-	
+	int deleteReplyByReplyId(String replyId);
+
+	int updateReplyByReplyId(UpdateVO updateVO);
+
 }

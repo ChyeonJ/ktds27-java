@@ -14,15 +14,14 @@ import com.ktdsuniversity.edu.exceptions.HelloSpringApiException;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 
 /**
- * Spring Application에서 던져졌으면, catch 되지 않은
- * 예외들을 처리하는 클래스
+ * Spring Application에서 던져진 catch되지 않은
+ * 예외들을 처리하는 클래스.
  * 
- * @Controller와 유사한 형태
- * ==> URL이 endpoint
+ * @Controller와 유사한 형태.
+ *  ==> URL이 endpoint
  * 
  * @ControllerAdvice
- * ==> Exception이 endpoint
- * 
+ *  ==> Exception이 endpoint
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,7 +29,7 @@ public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	/**
-	 * HelloStpringException이 던져지면,
+	 * HelloSpringException이 던져지면,
 	 * viewErrorPage가 실행된다.
 	 * 실행된 결과는 ModelAndView가 된다.
 	 * 
@@ -42,14 +41,12 @@ public class GlobalExceptionHandler {
 		logger.error(hse.getMessage(), hse);
 		
 		String message = hse.getMessage();
-		model.addAttribute("errorMessage",message);
+		model.addAttribute("errorMessage", message);
 		
 		String errorPage = hse.getErrorPage();
+		
 		Object modelData = hse.getObject();
-		
-		
-		if(modelData != null) {
-			//object가 null이 아니라면~
+		if (modelData != null) {
 			model.addAttribute("errorData", modelData);
 		}
 		
@@ -61,12 +58,12 @@ public class GlobalExceptionHandler {
 	public Map<String, Object> returnErrorJson(HelloSpringApiException hsae) {
 		logger.error(hsae.getMessage(), hsae);
 		
-		int stauts = hsae.getErrorStatus();
-		Object errorObject = hsae.getError();
+		int status = hsae.getErrorStatus();
+		Object errorObjet = hsae.getError();
 		
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("status", stauts);
-		responseData.put("error", errorObject);
+		responseData.put("status", status);
+		responseData.put("error", errorObjet);
 		
 		return responseData;
 	}

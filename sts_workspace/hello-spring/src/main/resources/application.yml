@@ -3,7 +3,15 @@
 #  level:
 #    root: debug
 
-#spring.application.name=hello-spring
+# spring.application.name=hello-spring
+
+# mybatis 연동 설정
+mybatis:
+  # mybatis 설정 파일 위치 지정.
+  config-location: classpath:mybatis-config.xml
+  # mapper 파일들의 위치 지정.
+  mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*Mapper.xml
+
 spring:
   mvc:
     view:
@@ -16,10 +24,5 @@ spring:
     password: 1234
   application:
     name: hello-spring
+    
 
-# mybatis 연동 설정
-mybatis:
-  # mybatis 설정 파일 위치 지정
-  config-location: classpath:mybatis-config.xml
-  # mapper 파일들의 위치 지정       ** <== 중간에 이거 말고 더 있다 라는 뜻 Board, Members를 한번에 가져오는 뜻
-  mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*Mapper.xml

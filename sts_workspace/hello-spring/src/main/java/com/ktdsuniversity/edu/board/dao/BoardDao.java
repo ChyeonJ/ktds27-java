@@ -9,16 +9,12 @@ import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 
-
-/**
- * 서비스와 다르게 Mapper는 class를 생성하지 않는다, MyBatis가 생성해준다
- */
 @Mapper
 public interface BoardDao {
 
-	List<BoardVO> selectBoardList(SearchListVO searchListVO);
-
 	int selectBoardCount(SearchListVO searchListVO);
+
+	List<BoardVO> selectBoardList(SearchListVO searchListVO);
 
 	int insertNewBoard(WriteVO writeVO);
 
@@ -26,9 +22,8 @@ public interface BoardDao {
 
 	int updateViewCntIncreaseById(String articleId);
 
-	int deleteByOneBoard(String id);
+	int deleteBoardById(String id);
 
 	int updateBoardById(UpdateVO updateVO);
-
 
 }

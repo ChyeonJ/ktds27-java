@@ -1,74 +1,81 @@
 package com.ktdsuniversity.edu.board.vo.request;
 
 /**
- * 게시글을 검색 사용
- * 게시글 페이지네이션 사용
+ * 게시글 검색 사용. 게시글 페이지네이션 사용.
  */
 public class SearchListVO {
-	
-	// 0이 첫번째 페이지다
-	// 목록을 보여준 페이지의 번호 (0-base)
+
+	// 목록을 보여준 페이지의 번호. (0-base)
 	private int pageNo;
-	
-	// 하나의 페이지에 보여줄 게시글의 개수
+
+	// 하나에 페이지에 보여줄 게시글의 개수
 	private int listSize;
-	
+
 	// 총 몇 개의 페이지가 생성되느냐
 	// 올림(게시글의 개수 / listSize)
 	private int pageCount;
-	
-	// 하나의 페이지 그룹에 보여줄 페이지의 개수
+
+	// 하나의 페이지 그룹에 보여줄 페이지의 개수.
 	private int pageCountInGroup;
-	
-	// 페이지 그룹의 개수 : 올림(페이지 개수 / pageCountInGroup)
+
+	// 페이지 그룹의 개수 : 올림(pageCount / pageCountInGroup)
 	private int pageGroupCount;
-	
-	//현재 노출되고 있는 페이지 번호가 속한 그룹의 번호
+
+	// 현재 노출되고 있는 페이지 번호가 속한 그룹의 번호
 	private int groupNo;
-	
+
 	// 현재 노출되고 있는 페이지 그룹의 시작 페이지 번호
 	private int groupStartPageNo;
-	
+
 	// 현재 노출되고 있는 페이지 그룹의 마지막 페이지 번호
 	private int groupEndPageNo;
-	
-	// 현재 노출 되고 있는 페이지 그룹의 다음 그룹이 있는지 여부
+
+	// 현재 노출되고 있는 페이지 그룹의 다음 그룹이 있는지 여부
 	private boolean hasNextPageGroup;
-	
+
 	// 현재 노출되고 있는 페이지 그룹의 이전 그룹이 있는지 여부
 	private boolean hasPrevPageGroup;
-	
-	// 현재 노출되고 있는 페이지 그룹의 다음 그룹 페이지 번호
+
+	// 현재 노출되고 있는 페이지 그룹의 다음 그룹 페이지 시작 번호
 	private int nextPageGroupStartPageNo;
-	
-	// 현재 노출되고 있는 페이지 그룹의 이전 그룹 페이지 시작번호
-	private int prevPageGrouStartPageNo;
-	
+
+	// 현재 노출되고 있는 페이지 그룹의 이전 그룹 페이지 시작 번호
+	private int prevPageGroupStartPageNo;
+
 	private String searchType;
+
 	private String searchKeyword;
-	
-	// listSize의 기본값 할당을 위하 생성자.
+
+	// listSize의 기본값 할당을 위한 생성자.
 	public SearchListVO() {
-		// 한 페이지에 10개의 게시글이 노출 되도록 설정
+		// 한 페이지에 10개의 게시글이 노출되도록 설정.
 		this.listSize = 10;
-		// 한 페이지 그룹에 10개의 페이지가 노출되도록 설정
+		// 한 페이지 그룹에 10개의 페이지가 노출되도록 설정.
 		this.pageCountInGroup = 10;
 	}
 
-	public String getSearchType() {
-		return this.searchType;
+	public int getPageNo() {
+		return this.pageNo;
 	}
 
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
 	}
 
-	public String getSearchKeyword() {
-		return this.searchKeyword;
+	public int getListSize() {
+		return this.listSize;
 	}
 
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
+	public void setListSize(int listSize) {
+		this.listSize = listSize;
+	}
+
+	public int getPageCount() {
+		return this.pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
 	}
 
 	public int getPageCountInGroup() {
@@ -111,7 +118,7 @@ public class SearchListVO {
 		this.groupEndPageNo = groupEndPageNo;
 	}
 
-	public boolean isHasNextPageGroup() {
+	public boolean getHasNextPageGroup() {
 		return this.hasNextPageGroup;
 	}
 
@@ -119,7 +126,7 @@ public class SearchListVO {
 		this.hasNextPageGroup = hasNextPageGroup;
 	}
 
-	public boolean isHasPrevPageGroup() {
+	public boolean getHasPrevPageGroup() {
 		return this.hasPrevPageGroup;
 	}
 
@@ -135,86 +142,78 @@ public class SearchListVO {
 		this.nextPageGroupStartPageNo = nextPageGroupStartPageNo;
 	}
 
-	public int getPrevPageGrouStartPageNo() {
-		return this.prevPageGrouStartPageNo;
+	public int getPrevPageGroupStartPageNo() {
+		return this.prevPageGroupStartPageNo;
 	}
 
-	public void setPrevPageGrouStartPageNo(int prevPageGrouStartPageNo) {
-		this.prevPageGrouStartPageNo = prevPageGrouStartPageNo;
+	public void setPrevPageGroupStartPageNo(int prevPageGroupStartPageNo) {
+		this.prevPageGroupStartPageNo = prevPageGroupStartPageNo;
 	}
 
-	public int getPageNo() {
-		return this.pageNo;
+	public String getSearchType() {
+		return this.searchType;
 	}
 
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
 	}
 
-	public int getListSize() {
-		return this.listSize;
+	public String getSearchKeyword() {
+		return this.searchKeyword;
 	}
 
-	public void setListSize(int listSize) {
-		this.listSize = listSize;
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
 	}
 
-	public int getPageCount() {
-		return this.pageCount;
-	}
-
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-	
-	
 	/**
-	 * 조회된 게시글의 개수와 listSize를 이용해 총 몇개의 페이지가 필요한지 계산
+	 * 조회된 게시글의 개수와 listSize를 이용해 총 몇 개의 페이지가 필요한 지 계산.
+	 * 
 	 * @param articleCount 게시글의 개수
 	 */
 	public void computePagination(int articleCount) {
-		// 페이지 개수 계산
+		// 페이지의 개수 계산.
 		this.pageCount = (int) Math.ceil(articleCount / (double) this.listSize);
-		
+
 		// 페이지를 페이지네이션하기 위한 계산.
 		// 페이지 그룹의 개수 계산.
 		// (올림)(페이지 개수 / 페이지 그룹당 페이지 개수)
 		this.pageGroupCount = (int) Math.ceil(this.pageCount / (double) this.pageCountInGroup);
-		
+
 		// 현재 페이지 그룹 번호 계산.
 		// 현재 페이지 번호 / 페이지 그룹당 페이지 개수
 		this.groupNo = this.pageNo / this.pageCountInGroup;
-		
-		// 현재 페이지 그룹의 시작 페이지 번호 계산
-		// 현재 페이지 그룹번호 * 페이지 그룹당 페이지 개수
-		this.groupStartPageNo = this.getGroupNo() * this.pageCountInGroup;
-		
-		// 현재 페이지 그룹의 마지막 페이지 번호 계산
-		// (현재 페이지 그룹 번호 + 1) * 페이지 그룹당 페이지 개수 -1
+
+		// 현재 페이지 그룹의 시작 페이지 번호 계산.
+		// 현재 페이지 그룹 번호 * 페이지 그룹당 페이지 개수
+		this.groupStartPageNo = this.groupNo * this.pageCountInGroup;
+
+		// 현재 페이지 그룹의 마지막 페이지 번호 계산.
+		// (현재 페이지 그룹 번호 + 1) * 페이지 그룹당 페이지 개수 - 1
 		this.groupEndPageNo = (this.groupNo + 1) * this.pageCountInGroup - 1;
-		
-		// 마지막 페이지 번호 보정
-		// 현재 페이지 그룹의 마지막 페이지 번호가 총 페이지 개수보다 클 경우 보정 필요
-		if(this.groupEndPageNo > this.pageCount) {
+
+		// 마지막 페이지 번호 보정.
+		// 현재 페이지 그룹의 마지막 페이지 번호가 총 페이지 개수보다 클 경우 보정 필요.
+		if (this.groupEndPageNo > this.pageCount) {
 			this.groupEndPageNo = this.pageCount - 1;
 		}
-		
-		// 다음 그룹이 존재하는지 계산
+
+		// 다음 그룹이 존재하는지 계산.
 		// 현재 페이지 그룹 < 총 페이지 그룹 개수 - 1
 		this.hasNextPageGroup = this.groupNo < this.pageGroupCount - 1;
-		
-		// 이전 그룹이 존재하는지 계산
-		// 현재 페이지 그룹  > 0
+
+		// 이전 그룹이 존재하는 지 계산.
+		// 현재 페이지 그룹 > 0
 		this.hasPrevPageGroup = this.groupNo > 0;
-		
-		// 다음 그룹의 시작 페이지 번호 계산
+
+		// 다음 그룹의 시작 페이지 번호 계산.
 		// 현재 페이지 그룹의 마지막 페이지 번호 + 1
 		this.nextPageGroupStartPageNo = this.groupEndPageNo + 1;
-		
-		// 이전 그룹의 시작 페이지 번호 계산
-		// 현재 페이지 그룹의 시작 페이지 번호 - 페이지 그룹당 페이지 개수
-		this.prevPageGrouStartPageNo = this.groupStartPageNo - this.pageCountInGroup;
+
+		// 이전 그룹의 시작 페이지 번호 계산.
+		// 현재 페이지 그룹의 시작 페이지 번호 - 페이지 그룹당 페이지의 개수
+		this.prevPageGroupStartPageNo = this.groupStartPageNo - this.pageCountInGroup;
+
 	}
-	
-	
+
 }

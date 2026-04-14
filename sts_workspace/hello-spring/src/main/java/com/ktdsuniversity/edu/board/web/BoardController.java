@@ -23,125 +23,134 @@ import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
-import com.ktdsuniversity.edu.members.vo.request.SignVO;
+import com.ktdsuniversity.edu.members.vo.MembersVO;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
 	 */
 	@Autowired
 	private BoardService boardService;
 	
-	// http://192.168.211.25:8080/?pageNo=0&listSize=10 <== Request QueryParam
+	// http://192.168.211.11:8080/?pageNo=0&listSize=10&searchType=&searchKeyword
 	@GetMapping("/")
 	public String viewListPage(Model model, SearchListVO searchListVO) {
-
+		
 		SearchResultVO searchResult = this.boardService.findAllBoard(searchListVO);
-
+		
 		// 게시글의 목록을 조회.
 		List<BoardVO> list = searchResult.getResult();
-
-		// 게시글의 개수 조회
+		
+		// 게시글의 개수 조회.
 		int searchCount = searchResult.getCount();
-
+		
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
 		
-		// pageNation 정보를 뷰에 보냄
 		model.addAttribute("pagination", searchListVO);
-
-		return "board/list";
+		
+		return "board/newlist";
 	}
-
-	// 게시글 등록화면 보여주는 EndPoint
+	
+	// 게시글 등록 화면 보여주는 EndPoint
 	@GetMapping("/write")
 	public String viewWritePage() {
 		return "board/write";
 	}
 
-	@PostMapping("/write") // @ModelAttribute를 사용하면 RequestParam을 사용해서 하나씩 받지 않고 한번에 가져옴 생략가능
+	// 게시글을 등록하는 EndPoint
+	@PostMapping("/write")
 	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
-			// @Vaild의 결과를 받아오는 파라미터
-			// 반드시 @Vaild 파라미터 이후에 작성해야함
-			BindingResult bindingResult, Model model, @SessionAttribute("__LOGIN_DATA__") SignVO loginMember) {
+								// @Valid의 결과를 받아오는 파라미터.
+								// 반드시 @Valid 파라미터 이후에 작성!
+							    BindingResult bindingResult,
+							    Model model,
+							    @SessionAttribute("__LOGIN_DATA__") MembersVO loginMember) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
-		if (bindingResult.hasErrors()) { // 바인딩에 에러가 있다면
+		if (bindingResult.hasErrors()) {
 			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
 			// 해당 페이지에 사용자가 입력한 값을 전달한다.
 			model.addAttribute("inputData", writeVO);
 			return "board/write";
-
 		}
+		
+		// 로그인 데이터(__LOGIN_DATA__)에서 로그인 한 사용자의 이메일을 가져온다.
 		writeVO.setEmail(loginMember.getEmail());
-
-		// create, update, delete => 성공, 실패 여부를 반환 시켜야함
+		
+		logger.debug(writeVO.getSubject());
+		logger.debug(writeVO.getEmail());
+		logger.debug(writeVO.getContent());
+		
+		// create, update, delete => 성공/실패 여부 반환.
 		boolean createResult = this.boardService.createNewBoard(writeVO);
-		logger.debug("게시글 생성 성공 {}", createResult);
-//		System.out.println("게시글 생성 성공" + createResult);
-
-		// redirect: EndPoint로 이동 지시
+		
+		logger.debug("게시글 생성 성공? {}", createResult);
+		
+		// redirect: 브라우저에게 다음 End Point를 요청하도록 지시.
+		// redirect:/ ==> 브라우저에게 "/" endpoint 로 이동하도록 지시.
 		return "redirect:/";
 	}
-
-	// 게시글 내용 조회
-	// endpoint ==> /view/게시글 아이디 예시> /view/BO-20260327-000001
+	
+	// 게시글 내용 조회.
+	// endpoint ==> /view/게시글아이디 예> /view/BO-20260327-000001
 	// 해야 하는 역할
-	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
-	// 2. 조회수 1증가.
-	// endpoint에서 변수를 만드는 방법
-	@GetMapping("/view/{articleId}") // URL에 붙어 있는건 PathVariable
-	public String viewDetailPage(Model model, @PathVariable String articleId) {
+	//  1. 게시글 내용을 조회해서 브라우저에게 노출.
+	//  2. 조회수 1증가.
+	@GetMapping("/view/{articleId}")
+	public String viewDetailPage(Model model, 
+			@PathVariable String articleId) {
 		
 		// articleId로 데이터베이스에서 게시글을 조회한다.
-		// 조회할 때 조회수가 하나 증가 해야한다.
+		// 조회할 때 조회수가 하나 증가해야 한다.
 		BoardVO findResult = this.boardService.findBoardByArticleId(articleId, ReadType.VIEW);
+		
 		model.addAttribute("article", findResult);
+		
 		return "board/view";
 	}
-
+	
 	@GetMapping("/delete")
 	public String doDeleteAction(@RequestParam String id) {
-		boolean deleteReuslt = this.boardService.deleteBoardByArticleId(id);
-		logger.debug("{}", deleteReuslt);
-		//		System.out.println(deleteReuslt);
+		
+		boolean deleteResult = this.boardService.deleteBoardByArticleId(id);
+		logger.debug("삭제 결과? {}", deleteResult);
 		return "redirect:/";
+		
 	}
-
-	// PathVariable은 => PathVariable
+	
 	@GetMapping("/update/{articleId}")
-	public String viewUpdatePage(@PathVariable String articleId, Model model, @SessionAttribute(name="__LOGIN_DATA__", required = false) SignVO loginMember) {
-
-		
-		
+	public String viewUpdatePage(@PathVariable String articleId, Model model
+							   , @SessionAttribute("__LOGIN_DATA__") MembersVO loginMember)  {
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
-		
-		//TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는
-		// 항상 ServiceImpl에서 수행한다.
-		if(!loginMember.getEmail().equals(data.getEmail())) {
-//			throw new IllegalArgumentException("잘못된 접근입니다.");
-			throw new HelloSpringException("잘못된 접근입니다.", "errors/403"); //403 권한없음
-		}
 		model.addAttribute("article", data);
 		
+		// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는
+		// 항상 ServiceImpl에서 수행한다.
+		if (!loginMember.getEmail().equals(data.getEmail())) {
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+		}
 		return "board/update";
 	}
-
-	@PostMapping("/update/{articleId}") // updateVO안에는 articeId의 값이 들어있지 않다
-	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO, @SessionAttribute("__LOGIN_DATA__") SignVO loginMember) {
+	
+	@PostMapping("/update/{articleId}")
+	public String doUpdateAction(@PathVariable String articleId,
+			UpdateVO updateVO,
+			@SessionAttribute("__LOGIN_DATA__") MembersVO loginMember) {
 		
+		updateVO.setId(articleId);
 		
 		updateVO.setEmail(loginMember.getEmail());
-		updateVO.setId(articleId);
+		
 		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
-		logger.debug("수정 성공 : {}", updateResult);
-
+		logger.debug("수정 성공? {}", updateResult);
+		
 		return "redirect:/view/" + articleId;
 	}
-
+	
 }

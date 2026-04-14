@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>템플릿으로 반환 시키는 데이터</title>
+    <title>Insert title here</title>
   </head>
   <body>
     <div>
-        <span>firstNum의 값 ${firstNum}</span>
-        <span> + secondNum의 값 ${secondNum}</span>
-        <span> = result의 값 ${result}</span>
+      <span>${firstNum}</span>
+      <span>+ ${secondNum}</span>
+      <span>= ${result}</span>
     </div>
   </body>
 </html>

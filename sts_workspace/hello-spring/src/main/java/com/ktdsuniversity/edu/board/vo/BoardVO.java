@@ -3,7 +3,7 @@ package com.ktdsuniversity.edu.board.vo;
 import java.util.List;
 
 import com.ktdsuniversity.edu.files.vo.FilesVO;
-import com.ktdsuniversity.edu.members.vo.request.SignVO;
+import com.ktdsuniversity.edu.members.vo.MembersVO;
 
 public class BoardVO {
 
@@ -16,38 +16,11 @@ public class BoardVO {
 	private String mdfyDt;
 	private String fileName;
 	private String originFileName;
-//	select 단적조회를 할 때 Join 관계에서 필요한 has a관계를 표현
-	private List<FilesVO> files;
-	
 	private String fileGroupId;
-	
-	// 1 대 다 관계 역전
-	private SignVO membersVO;
-	
 
-	public SignVO getMembersVO() {
-		return this.membersVO;
-	}
+	private MembersVO membersVO;
 
-	public void setMembersVO(SignVO membersVO) {
-		this.membersVO = membersVO;
-	}
-
-	public String getFileGroupId() {
-		return this.fileGroupId;
-	}
-
-	public void setFileGroupId(String fileGroupId) {
-		this.fileGroupId = fileGroupId;
-	}
-
-	public List<FilesVO> getFiles() {
-		return this.files;
-	}
-
-	public void setFiles(List<FilesVO> files) {
-		this.files = files;
-	}
+	private List<FilesVO> files;
 
 	public String getId() {
 		return this.id;
@@ -119,6 +92,30 @@ public class BoardVO {
 
 	public void setOriginFileName(String originFileName) {
 		this.originFileName = originFileName;
+	}
+
+	public List<FilesVO> getFiles() {
+		return this.files;
+	}
+
+	public void setFiles(List<FilesVO> files) {
+		this.files = files;
+	}
+
+	public String getFileGroupId() {
+		return this.fileGroupId;
+	}
+
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
+	}
+
+	public MembersVO getMembersVO() {
+		return this.membersVO;
+	}
+
+	public void setMembersVO(MembersVO membersVO) {
+		this.membersVO = membersVO;
 	}
 
 }
