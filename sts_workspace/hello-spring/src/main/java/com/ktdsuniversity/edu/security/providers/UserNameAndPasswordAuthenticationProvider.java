@@ -33,6 +33,13 @@ public class UserNameAndPasswordAuthenticationProvider implements Authentication
 	private PasswordEncoder passwordEncoder;
 	
 	
+	public UserNameAndPasswordAuthenticationProvider(UserDetailsService userDetailsService,
+			PasswordEncoder passwordEncoder) {
+		this.userDetailsService = userDetailsService;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+
 	/**
 	 * 사용자로부터 Spring Security 로그인 요청이 있을 때 마다 실행.
 	 * 

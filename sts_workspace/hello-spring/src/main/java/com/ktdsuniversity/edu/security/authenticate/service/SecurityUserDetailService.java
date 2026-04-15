@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.security.authenticate.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,10 @@ public class SecurityUserDetailService implements UserDetailsService{
 	
 	private MembersDao membersDao;
 
+	public SecurityUserDetailService(MembersDao membersDao) {
+		this.membersDao = membersDao;
+	}
+
 	/**
 	 * 아이디로 데이터베이스에서 회원의 정보를 조회한다.
 	 * @param username : 아이디 (이메일)
@@ -32,6 +38,9 @@ public class SecurityUserDetailService implements UserDetailsService{
 		if(loadedUser == null) {
 			throw new UsernameNotFoundException("아이디 또는 비밀번호가 일치하지 않습니다");
 		}
+		
+		List<String> userRole = this.membersDao.selectMemberRolesByEmail(username);
+		loadedUser.setRoles(userRole);
 		
 		return new SecurityUser(loadedUser);
 	}

@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.members.vo;
 
+import java.util.List;
+
 public class MembersVO {
 
 	private String email;
@@ -17,6 +19,17 @@ public class MembersVO {
 	private String blockYn;
 	private String fileGroupId;
 	
+	//권한 아이디를 확보할 수 있음
+	private List<String> roles;
+	
+	public List<String> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
 	public String getEmail() {
 		return this.email;
 	}
