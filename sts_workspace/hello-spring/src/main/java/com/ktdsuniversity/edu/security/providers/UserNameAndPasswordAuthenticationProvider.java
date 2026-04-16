@@ -27,6 +27,7 @@ public class UserNameAndPasswordAuthenticationProvider implements Authentication
 	 */
 	private UserDetailsService userDetailsService;
 	
+	
 	/**
 	 * 사용자가 로그인할 때 전송한 비밀번호와 회원의 비밀번호를 비교
 	 */

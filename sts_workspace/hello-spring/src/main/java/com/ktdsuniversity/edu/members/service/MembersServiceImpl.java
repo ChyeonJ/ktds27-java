@@ -1,18 +1,16 @@
 package com.ktdsuniversity.edu.members.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.members.helpers.SHA256Util;
 import com.ktdsuniversity.edu.members.vo.MembersVO;
-import com.ktdsuniversity.edu.members.vo.request.LoginVO;
 import com.ktdsuniversity.edu.members.vo.request.RegistVO;
 import com.ktdsuniversity.edu.members.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.members.vo.response.SearchResultVO;
@@ -51,6 +49,12 @@ public class MembersServiceImpl implements MembersService {
 	@Transactional
 	@Override
 	public MembersVO findMemberByEmail(String email) {
+		
+		String loginUserEmail = AuthUtils.getUsername();
+		if(!loginUserEmail.equals(email)) {
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+		}
+		
 		MembersVO searchResult = this.membersDao.selectMemberByEmail(email);
 		return searchResult;
 	}
@@ -58,6 +62,12 @@ public class MembersServiceImpl implements MembersService {
 	@Transactional
 	@Override
 	public boolean updateMemberByEmail(UpdateVO updateVO) {
+		
+		String loginUserEmail = AuthUtils.getUsername();
+		if(!loginUserEmail.equals(updateVO.getEmail())) {
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+		}
+		
 		int updateCount = this.membersDao.updateMemberByEmail(updateVO);
 		return updateCount == 1;
 	}
@@ -65,6 +75,12 @@ public class MembersServiceImpl implements MembersService {
 	@Transactional
 	@Override
 	public boolean deleteMemberByEmail(String email) {
+		
+		String loginUserEmail = AuthUtils.getUsername();
+		if(!loginUserEmail.equals(email)) {
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+		}
+		
 		int deleteCount = this.membersDao.deleteMemberByEmail(email);
 		return deleteCount == 1;
 	}

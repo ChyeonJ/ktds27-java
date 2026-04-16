@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,6 +36,8 @@ import com.ktdsuniversity.edu.security.providers.UserNameAndPasswordAuthenticati
 // SpringSecurity 라이브러리를 활성화 시킨다.
 // SpringSecurity의 필터 목록을 확인하기 위해서 작성한다.
 @EnableWebSecurity(debug=true)
+// 컨트롤러 혹은 서비스 코드에서 권한 검사를 수행하기 위한 애노테이션 추가
+@EnableMethodSecurity
 public class HelloSpringConfiguration implements 
 		// WebMvc 설정을 위한 Configuration
 		// @EnableWebMvc Annotation 에서 적용하는 기본 설정들을 변경하기 위함.
@@ -56,7 +59,7 @@ public class HelloSpringConfiguration implements
 		return new SecurityUserDetailService(this.membersDao);
 	}
 	
-	// UserNameAndPasswordAuthenticationProvider의 Bean을 생성한다.
+	// UserNameAndPasswordAuthenticationProvider의 Bean을 생성한다.   
 	@Bean
 	AuthenticationProvider createAuthenticationProvider(){
 		
@@ -81,6 +84,10 @@ public class HelloSpringConfiguration implements
 	// Spring Security의 기본 로그인 절차를 수정하는 작업
 	@Bean
 	SecurityFilterChain configureFilterChain(HttpSecurity httpSecurity) {
+		
+		// CSRF 수정, 댓글 등록불가 (Invalid CSRF token found for ...)
+		// CSRF를 체크하는 SecurityFilter ==> (CsrfFilter)를 무효화
+		httpSecurity.csrf(csrf -> csrf.disable());
 		
 		//UsernamePasswordAuthenticationFilter 수정
 		httpSecurity.formLogin(formLogin -> 

@@ -7,18 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.common.utils.ObjectUtils;
 import com.ktdsuniversity.edu.exceptions.HelloSpringApiException;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 import com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO;
-import com.ktdsuniversity.edu.members.vo.MembersVO;
 import com.ktdsuniversity.edu.replies.dao.RepliesDao;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
@@ -85,17 +83,13 @@ public class RepliesServiceImpl implements RepliesService {
 		RepliesVO reply = this.repliesDao.selectReplyByReplyId(replyId);
 		if (ObjectUtils.isNotNull(reply)) {
 			
-			// Spring Security의 SecurityContext 객체에 접근해서  Authentication 객체를 가지고 온다
-			Authentication authentication  = SecurityContextHolder.getContext() // SecurityContext 내용만 나옴
-								 	  							  .getAuthentication(); // 토큰 정보를 가져옴
+			String loginEmail = AuthUtils.getUsername();
+			boolean isAdminAccount = AuthUtils.hasAnyRole("RL-20260414-000001","RL-20260414-000002");
 			
-			MembersVO loginUser = (MembersVO) authentication.getPrincipal();
-			String loginEmail = loginUser.getEmail();
-			
-			if (loginEmail.equals(reply.getEmail())) {
+			if (isAdminAccount || loginEmail.equals(reply.getEmail())) {
 				throw new HelloSpringApiException(
 						"권한이 부족합니다.", 
-						HttpStatus.BAD_REQUEST.value(), 
+						HttpStatus.BAD_REQUEST.value(),
 						"자신의 댓글은 추천할 수 없습니다.");
 			}
 		}
@@ -119,14 +113,12 @@ public class RepliesServiceImpl implements RepliesService {
 		RepliesVO reply = this.repliesDao.selectReplyByReplyId(replyId);
 		if (ObjectUtils.isNotNull(reply)) {
 			
-			// Spring Security의 SecurityContext 객체에 접근해서  Authentication 객체를 가지고 온다
-			Authentication authentication  = SecurityContextHolder.getContext() // SecurityContext 내용만 나옴
-								 	  							  .getAuthentication(); // 토큰 정보를 가져옴
 			
-			MembersVO loginUser = (MembersVO) authentication.getPrincipal();
-			String loginEmail = loginUser.getEmail();
+			String loginEmail = AuthUtils.getUsername();
+			boolean isAdminAccount = AuthUtils.hasAnyRole("RL-20260414-000001","RL-20260414-000002");
 			
-			if (!loginEmail.equals(reply.getEmail())) {
+			// 관리자가 아니고 내가 쓴것도 아니라면 댓글은 삭제할 수 없다.
+			if ( !isAdminAccount && !loginEmail.equals(reply.getEmail())) {
 				throw new HelloSpringApiException(
 						"권한이 부족합니다.", 
 						HttpStatus.BAD_REQUEST.value(), 
@@ -150,15 +142,11 @@ public class RepliesServiceImpl implements RepliesService {
 		RepliesVO reply = this.repliesDao.selectReplyByReplyId(updateVO.getReplyId());
 		if (ObjectUtils.isNotNull(reply)) {
 			
-			// Spring Security의 SecurityContext 객체에 접근해서  Authentication 객체를 가지고 온다
-			Authentication authentication  = SecurityContextHolder.getContext() // SecurityContext 내용만 나옴
-								 	  							  .getAuthentication(); // 토큰 정보를 가져옴
+			String loginEmail = AuthUtils.getUsername();
+			boolean isAdminAccount = AuthUtils.hasAnyRole("RL-20260414-000001","RL-20260414-000002");
 			
-			MembersVO loginUser = (MembersVO) authentication.getPrincipal();
-			String loginEmail = loginUser.getEmail();
-			
-			
-			if (!loginEmail.equals(reply.getEmail())) {
+			// 관리자도 아니고~ 내가 작성한 것도 아니고~
+			if (!isAdminAccount && !loginEmail.equals(reply.getEmail())) {
 				throw new HelloSpringApiException(
 						"권한이 부족합니다.", 
 						HttpStatus.BAD_REQUEST.value(), 
@@ -206,6 +194,14 @@ public class RepliesServiceImpl implements RepliesService {
 		result.setReplyId(updateVO.getReplyId());
 		result.setUpdate(updateCount == 1);
 		return result;
+	}
+	
+	@Override
+	public boolean deleteAllReplies(String articleId) {
+		
+		int deleteCount = this.repliesDao.deleteAllReplies(articleId);
+		
+		return deleteCount == 1;
 	}
 	
 }

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
   <jsp:include page="/WEB-INF/views/templates/header.jsp">
     <jsp:param value="회원 정보 조회 : ${member.email}" name="title" />
   </jsp:include>
@@ -15,9 +17,13 @@
 
       <div class="btn-group">
         <div class="right-align">
+        <sec:authorize access="hasAnyRole('RL-20260414-000001', 'RL-20260414-000002')" var="isAdmin"/>
+        <sec:authentication property="principal.email" var="loginUserEmail"/>
+          <c:if test="${isAdmin or loginUserEmail eq member.email}">  
           <a href="/member/update/${member.email}">수정</a>
           <a href="/member/delete?id=${member.email}">삭제</a>
           <a href="/delete-me">탈퇴하기</a>
+          </c:if>
         </div>
       </div>
     </div>

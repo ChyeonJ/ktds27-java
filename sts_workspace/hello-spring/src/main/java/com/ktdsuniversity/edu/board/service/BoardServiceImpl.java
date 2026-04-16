@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +19,12 @@ import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 import com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO;
+import com.ktdsuniversity.edu.members.vo.MembersVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -100,7 +104,15 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 2. 게시글 조회.
 		BoardVO board = this.boardDao.selectBoardById(articleId);
-		
+		if(readType == ReadType.UPDATE) {
+			
+			String loginUserEmail = AuthUtils.getUsername();
+			boolean isAdminAccount = AuthUtils.hasAnyRole("RL-20260414-000001","RL-20260414-000002");
+
+			if (!isAdminAccount && !board.getEmail().equals(board.getEmail())) {
+				throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+			}
+		}
 		// 조회한 게시글을 반환.
 		return board;
 	}
@@ -108,6 +120,17 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public boolean deleteBoardByArticleId(String id) {
+		
+		//게시글 정보를 조회
+		BoardVO isBoard = this.findBoardByArticleId(id, ReadType.VIEW);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MembersVO loginUser = (MembersVO) authentication.getPrincipal();
+		List<String> roles = loginUser.getRoles();
+		boolean isAdmin = roles.contains("RL-20260414-000001") || roles.contains("RL-20260414-000002");
+		if(!isAdmin && !loginUser.getEmail().equals(isBoard.getEmail())) {
+			throw new HelloSpringException("잘못된 접근", "errors/403");
+		}
+		
 		int deleteCount = this.boardDao.deleteBoardById(id);
 		
 		// 삭제하려는 게시글에 첨부된 파일 목록을 가져온다.
@@ -130,6 +153,18 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public boolean updateBoardByArticleId(UpdateVO updateVO) {
+		
+		// 게시글을 불러오고
+		BoardVO board = this.boardDao.selectBoardById(updateVO.getId());
+		
+		// 권한 검사한 이후에 경우에 따라 예외를 던져준다.
+		String loginUserEmail = AuthUtils.getUsername();
+		boolean isAdminAccount = AuthUtils.hasAnyRole("RL-20260414-000001","RL-20260414-000002");
+
+		if (!isAdminAccount && !board.getEmail().equals(board.getEmail())) {
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+		}
+		
 		// 선택한 파일들만 삭제.
 		if ( updateVO.getDeleteFileNum() != null && 
 				updateVO.getDeleteFileNum().size() > 0) {

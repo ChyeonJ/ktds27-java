@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +60,7 @@ public class BoardController {
 	}
 	
 	// 게시글 등록 화면 보여주는 EndPoint
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/write")
 	public String viewWritePage() {
 		return "board/write";
@@ -117,6 +119,13 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	/**
+	 * 삭제하려는 게시글의 작성자가 본인이거나 슈퍼관리자이거나 관리자 일 경우만 삭제를 수행한다.
+	 * 슈퍼관리자, 관리자도 아니고 본인이 작성하지 않은 게시글일 경우 HelloSpringException을 던짐
+	 * @param id
+	 * @return
+	 */
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete")
 	public String doDeleteAction(@RequestParam String id) {
 		
@@ -126,17 +135,12 @@ public class BoardController {
 		
 	}
 	
+	// 인증을 받은 사용자만 이 엔드포인트를 호출할 수 있다.
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/update/{articleId}")
-	public String viewUpdatePage(@PathVariable String articleId, Model model
-							   ,Authentication authentication )  {
+	public String viewUpdatePage(@PathVariable String articleId, Model model)  {
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
 		model.addAttribute("article", data);
-		MembersVO loginUser = (MembersVO) authentication.getPrincipal();
-		// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는
-		// 항상 ServiceImpl에서 수행한다.
-		if (!loginUser.getEmail().equals(data.getEmail())) {
-			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
-		}
 		return "board/update";
 	}
 	
