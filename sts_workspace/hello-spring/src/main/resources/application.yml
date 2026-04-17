@@ -5,6 +5,13 @@
 
 # spring.application.name=hello-spring
 
+# Spring 이외의 Custome 설정
+app:
+  jwt:
+    issuer: hello-spring
+    # jwt 데이터를 암호화 시키는 것이기 때문에 유추할 수 없는 데이터를 사용한다 (43글자)
+    secret-key: spring-security-secret-key-random-token-key
+
 # mybatis 연동 설정
 mybatis:
   # mybatis 설정 파일 위치 지정.
