@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -85,9 +87,38 @@ public class HelloSpringConfiguration implements
 	@Bean
 	SecurityFilterChain configureFilterChain(HttpSecurity httpSecurity) {
 		
+		// 상대방이 내 서버로 접속할 수 있도록 허용하기
+		// => 내 서버로 접속 가능한 안전한 URL 등록하기
+		httpSecurity.cors(corsConfigurer -> {
+			
+			CorsConfigurationSource source = (HttpServletRequest) -> {
+				// 허용할 타 사이트의 도메인을 작성.
+				CorsConfiguration config = new CorsConfiguration();
+				
+				// 허용할 타 사이트의 URL
+				// http://192.168.211.15:8080/ 에서 요청하는 모든 접근(API)들을 허용하겠다
+				config.addAllowedOrigin("http://192.168.211.15:8080/");
+				// 허용할 타 사이트의 Method
+				// http://192.168.211.15:8080/ 에서 POST로 GET으로 요청되는 접근들만 하용하겠다.
+				config.addAllowedMethod("POST");
+				config.addAllowedMethod("GET");
+				// PUT, DELETE <-- 허용X : react 배우면 하게됨
+				
+				// 허용할 타 사이트의 요청 HttpHeader
+				// 모든 요청인 HttpHeader를 허용하겠다!
+				// 예) Naver에서 요청 HttpHeader에 "X-HTTP-Request-Naver-Client-ID"를 추가할 것을 요구
+				// *를 붙여주면 모든 Header를 허용하겠다 라는 소리다. csrf의 어떤종류든? 그런내용인듯
+				config.addAllowedHeader("*");
+				
+				return config;
+			};
+			corsConfigurer.configurationSource(source);
+		});
+		
+		
 		// CSRF 수정, 댓글 등록불가 (Invalid CSRF token found for ...)
 		// CSRF를 체크하는 SecurityFilter ==> (CsrfFilter)를 무효화
-		httpSecurity.csrf(csrf -> csrf.disable());
+//		httpSecurity.csrf(csrf -> csrf.disable());
 		
 		//UsernamePasswordAuthenticationFilter 수정
 		httpSecurity.formLogin(formLogin -> 
