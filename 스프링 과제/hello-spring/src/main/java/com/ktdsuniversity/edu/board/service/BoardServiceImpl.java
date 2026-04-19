@@ -1,0 +1,185 @@
+package com.ktdsuniversity.edu.board.service;
+
+import java.io.File;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ktdsuniversity.edu.board.dao.BoardDao;
+import com.ktdsuniversity.edu.board.enums.ReadType;
+import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
+import com.ktdsuniversity.edu.board.vo.request.WriteVO;
+import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.exceptions.HelloSpringException;
+import com.ktdsuniversity.edu.files.dao.FilesDao;
+import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
+import com.ktdsuniversity.edu.files.vo.request.SearchFileGroupVO;
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+//트랜잭션 관리
+@Service
+public class BoardServiceImpl implements BoardService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
+	
+	
+	/**
+	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다
+	 */
+	@Autowired
+	private BoardDao boardDao;
+	
+	@Autowired
+	private FilesDao filesDao;
+	
+	@Autowired
+	private MultipartFileHandler multipartFileHandler;
+	
+	@Override
+	public SearchResultVO findAllBoard(SearchListVO searchListVO) {
+		
+		SearchResultVO result = new SearchResultVO();
+		
+		//게시글 개수 조회
+		int count = this.boardDao.selectBoardCount(searchListVO);
+		result.setCount(count);
+		
+		//몇개의 페이지가 필요한지 계산.
+		searchListVO.computePagination(count);
+		
+		if(count == 0) {
+			return result;
+		}
+		
+		//게시글 목록 조회 => 게시글의 목록을 구하는 곳이기에 selectBoardList에 넣어준다
+		List<BoardVO> list = this.boardDao.selectBoardList(searchListVO);
+		result.setResult(list);
+		
+		
+		return result;
+	}
+	
+	@Transactional
+	@Override
+	public boolean createNewBoard(WriteVO writeVO) {
+		// 첨부파일 업로드
+		List<MultipartFile> attachFiles = writeVO.getAttachFile();
+		String fileGroupId = this.multipartFileHandler.upload(attachFiles);
+		writeVO.setFileGroupId(fileGroupId);
+		
+		// dao = insert 요청
+		// mybatis는 insert, update, delete를 수행했을 때 
+		// 영향을 받은 row의 수를 반환 시키는 기능이 있음
+		// 예> insert ==> insert된 row의 개수를 반환
+		// 	  update ==> update된 row의 개수를 반환
+		//    delete ==> delete를한 row의 개수를 반환
+		int insertCount = this.boardDao.insertNewBoard(writeVO);
+		
+		logger.debug("생성된 게시글의 개수 : {} ", insertCount);
+//		System.out.println("생성된 게시글의 개수 : " + insertCount );
+		return insertCount == 1;
+	}
+	
+	@Transactional
+	@Override
+	public BoardVO findBoardByArticleId(String articleId, ReadType readType) {
+		
+		if(readType == readType.VIEW) {
+			// 조회수 증가
+			int updateCount = this.boardDao.updateViewCntIncreaseById(articleId);
+			
+			logger.debug("조회수가 증가된 게시글의 수 : {}", updateCount);
+//			System.out.println("조회수가 증가된 게시글의 수 : " + updateCount);
+			
+			if (updateCount == 0) {
+//			throw new RuntimeException("존재하지 않는 게시글입니다.");
+//				return null;
+			throw new HelloSpringException("존재하지 않는 게시글 입니다.","errors/404");
+			}
+		}
+		
+		// 게시글 조회
+		BoardVO board = this.boardDao.selectBoardById(articleId);
+		if(readType == ReadType.UPDATE) {
+			Authentication authentication = SecurityContextHolder
+											.getContext()
+											.getAuthentication();
+			SignVO loginUser = (SignVO) authentication.getPrincipal();
+			// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는
+			// 항상 ServiceImpl에서 수행한다.
+			if (!loginUser.getEmail().equals(board.getEmail())) {
+				throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
+			}
+		}
+		
+		// 조회한 게시글을 반환
+		return board;
+	}
+	
+	@Transactional
+	@Override
+	public boolean deleteBoardByArticleId(String id) {
+		int deleteCount = this.boardDao.deleteByOneBoard(id);
+		
+		// 삭제하려는 게시글에 첨부된 파일 목록을 가져온다
+		List<String> filePaths = this.filesDao.selectFilePathByFileGroupId(id);
+		if(filePaths != null && filePaths.size() > 0) {
+			// 파일 목록이 존재하면,  모든 파일들을 제거한다.
+			for (String path : filePaths) {
+				new File(path).delete();
+			}
+		}
+		// 파일 목록을 제거한 이후에 "FILES" 테이블에서 해당 파일 정보를 모두 삭제한다.
+		int deleteFileCount = this.filesDao.deleteFileByFileGroupId(id);
+		return deleteCount == 1;
+		
+	}
+	
+	@Transactional
+	@Override
+	public boolean updateBoardByArticleId(UpdateVO updateVO) {
+		
+		// 선택한 파일 삭제
+		if(updateVO.getDeleteFileNum() != null && updateVO.getAttachFile().size() > 0) {
+		
+			SearchFileGroupVO searchFileGroupVO = new SearchFileGroupVO();
+			searchFileGroupVO.setDeleteFileNum(updateVO.getDeleteFileNum());
+			searchFileGroupVO.setFileGroupId(updateVO.getFileGroupId());
+		// 선택한 파일들의 정보를 조회 --> 파일 경로 --> 실제 파일을 제거
+		List<String> deleteTargets = this.filesDao
+				.selectFilesPathbuFilesGroupIdAndFileNums(searchFileGroupVO);
+		for (String target : deleteTargets) {
+			new File(target).delete();
+		}
+		// 선택한 파일들을 Files 테이블에서 제거
+		int deleteCount = this.filesDao.deleteFilesByFileGruopIdAndFileNums(searchFileGroupVO);
+		}
+		// 첨부 파일 업로드
+		List<MultipartFile> file = updateVO.getAttachFile();
+		
+		String fileGroupId = updateVO.getFileGroupId();
+		if (fileGroupId == null || fileGroupId.length() == 0) {
+			// 첨부파일이 없다면 내부적으로 PK를 만들어서 주입해라
+			fileGroupId = this.multipartFileHandler.upload(file);
+		} else {
+			// 첨부파일이 있다면 아이디를 따로 주는 형태로 호출
+			this.multipartFileHandler.upload(file, fileGroupId);
+		}
+		
+		this.multipartFileHandler.upload(file, updateVO.getFileGroupId());
+		
+		int updateCount = this.boardDao.updateBoardById(updateVO);
+		
+		return updateCount == 1;
+	}
+
+}

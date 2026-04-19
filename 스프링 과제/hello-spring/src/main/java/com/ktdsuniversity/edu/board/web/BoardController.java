@@ -1,0 +1,144 @@
+package com.ktdsuniversity.edu.board.web;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ktdsuniversity.edu.board.enums.ReadType;
+import com.ktdsuniversity.edu.board.service.BoardService;
+import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
+import com.ktdsuniversity.edu.board.vo.request.WriteVO;
+import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.members.vo.request.SignVO;
+
+import jakarta.validation.Valid;
+
+@Controller
+public class BoardController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+	/**
+	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
+	 */
+	@Autowired
+	private BoardService boardService;
+	
+	// http://192.168.211.25:8080/?pageNo=0&listSize=10 <== Request QueryParam
+	@GetMapping("/")
+	public String viewListPage(Model model, SearchListVO searchListVO) {
+
+		SearchResultVO searchResult = this.boardService.findAllBoard(searchListVO);
+
+		// 게시글의 목록을 조회.
+		List<BoardVO> list = searchResult.getResult();
+
+		// 게시글의 개수 조회
+		int searchCount = searchResult.getCount();
+
+		model.addAttribute("searchResult", list);
+		model.addAttribute("searchCount", searchCount);
+		
+		// pageNation 정보를 뷰에 보냄
+		model.addAttribute("pagination", searchListVO);
+
+		return "board/list";
+	}
+
+	// 게시글 등록화면 보여주는 EndPoint
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/write")
+	public String viewWritePage() {
+		return "board/write";
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/write") // @ModelAttribute를 사용하면 RequestParam을 사용해서 하나씩 받지 않고 한번에 가져옴 생략가능
+	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
+			// @Vaild의 결과를 받아오는 파라미터
+			// 반드시 @Vaild 파라미터 이후에 작성해야함
+			BindingResult bindingResult, Model model, Authentication authentication) {
+		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
+		if (bindingResult.hasErrors()) { // 바인딩에 에러가 있다면
+			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
+			// 해당 페이지에 사용자가 입력한 값을 전달한다.
+			model.addAttribute("inputData", writeVO);
+			return "board/write";
+
+		}
+		SignVO loginMember = (SignVO) authentication.getPrincipal();
+		writeVO.setEmail(loginMember.getEmail());
+
+		// create, update, delete => 성공, 실패 여부를 반환 시켜야함
+		boolean createResult = this.boardService.createNewBoard(writeVO);
+		logger.debug("게시글 생성 성공 {}", createResult);
+//		System.out.println("게시글 생성 성공" + createResult);
+
+		// redirect: EndPoint로 이동 지시
+		return "redirect:/";
+	}
+
+	// 게시글 내용 조회
+	// endpoint ==> /view/게시글 아이디 예시> /view/BO-20260327-000001
+	// 해야 하는 역할
+	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
+	// 2. 조회수 1증가.
+	// endpoint에서 변수를 만드는 방법
+	@GetMapping("/view/{articleId}") // URL에 붙어 있는건 PathVariable
+	public String viewDetailPage(Model model, @PathVariable String articleId) {
+		
+		// articleId로 데이터베이스에서 게시글을 조회한다.
+		// 조회할 때 조회수가 하나 증가 해야한다.
+		BoardVO findResult = this.boardService.findBoardByArticleId(articleId, ReadType.VIEW);
+		model.addAttribute("article", findResult);
+		return "board/view";
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/delete")
+	public String doDeleteAction(@RequestParam String id) {
+		boolean deleteReuslt = this.boardService.deleteBoardByArticleId(id);
+		logger.debug("{}", deleteReuslt);
+		//		System.out.println(deleteReuslt);
+		return "redirect:/";
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	// PathVariable은 => PathVariable
+	@GetMapping("/update/{articleId}")
+	public String viewUpdatePage(@PathVariable String articleId, Model model) {
+		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
+		
+		model.addAttribute("article", data);
+		
+		return "board/update";
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/update/{articleId}") // updateVO안에는 articeId의 값이 들어있지 않다
+	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO, Authentication authentication) {
+		
+		SignVO loginMember = (SignVO) authentication.getPrincipal();
+		updateVO.setEmail(loginMember.getEmail());
+		updateVO.setId(articleId);
+		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
+		logger.debug("수정 성공 : {}", updateResult);
+
+		return "redirect:/view/" + articleId;
+	}
+
+}
