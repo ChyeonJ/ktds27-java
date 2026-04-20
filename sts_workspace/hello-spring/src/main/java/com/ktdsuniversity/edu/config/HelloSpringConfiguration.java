@@ -1,6 +1,7 @@
 package com.ktdsuniversity.edu.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,18 +13,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ktdsuniversity.edu.exceptions.handlers.AuthorizationDeniedExceptionHandler;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
+import com.ktdsuniversity.edu.security.authenticate.filters.JsonWebTokenAuthenticationFilter;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginFailureHandler;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginSuccessHandler;
 import com.ktdsuniversity.edu.security.authenticate.service.SecurityPasswordEncoder;
 import com.ktdsuniversity.edu.security.authenticate.service.SecurityUserDetailService;
+import com.ktdsuniversity.edu.security.providers.JsonWebTokenAuthenticationProvider;
 import com.ktdsuniversity.edu.security.providers.UserNameAndPasswordAuthenticationProvider;
 
 // application.yml에서 작성할 수 없는 설정들을 적용하기 위한 Annotation
@@ -47,6 +53,21 @@ public class HelloSpringConfiguration implements
 	
 	@Autowired
 	private MembersDao membersDao;
+	
+	// application.yml에서 관련된 정보를 가져옴
+	@Value("${app.jwt.secret-key}") //환경설정 정보를 Bean으로 가져오는 방법. 괄호에 환경설정 경로를 작성
+	private String jwtSecretKey;
+	
+	// @Componant가 적용된 클래스에서만 동작한다 /자식 관계도 됨
+	@Value("${app.jwt.issuer}")
+	private String jwtIssuer;
+	
+	//jwt
+	@Bean
+	JsonWebTokenAuthenticationProvider createJwtAuthenticationProvider() {
+		return new JsonWebTokenAuthenticationProvider(this.jwtSecretKey, this.jwtIssuer);
+	}
+	
 	
 	// SecurityPasswordEncoder의 Bean을 생성
 	// 객체를 반환시킨다
@@ -80,6 +101,14 @@ public class HelloSpringConfiguration implements
 	@Bean
 	AuthenticationFailureHandler createLoginFailureHandler() {
 		return new LoginFailureHandler(this.membersDao);
+	}
+	
+	//JWT 필터
+	@Bean
+	OncePerRequestFilter createJwtAuthFilter() {
+		return new JsonWebTokenAuthenticationFilter(
+				this.createJwtAuthenticationProvider(),
+				this.createUserDetailService());
 	}
 	
 	// TODO Spring Login Filter(BasicAuthenticationFilter) 등록
@@ -119,6 +148,20 @@ public class HelloSpringConfiguration implements
 		// CSRF 수정, 댓글 등록불가 (Invalid CSRF token found for ...)
 		// CSRF를 체크하는 SecurityFilter ==> (CsrfFilter)를 무효화
 //		httpSecurity.csrf(csrf -> csrf.disable());
+		
+		// API 통신에서는 CSRF를 체크하지 않도록 수정
+		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
+		
+		//jwt
+		// Custom Filter(JsonWebTokenAuthenticationFilter) 추가.
+		httpSecurity.addFilterAfter(this.createJwtAuthFilter()
+								, UsernamePasswordAuthenticationFilter.class);
+		
+		//jwt
+		// AuthorizationDeniedExceptionHandler를 추가한다
+		// Controller 코드 이하에서 @PreAuthorized() 검증에 실패하면 아래 설정에 등록한 Handler가 동작
+		httpSecurity.exceptionHandling(exceptionHandling -> 
+				exceptionHandling.accessDeniedHandler(new AuthorizationDeniedExceptionHandler()));
 		
 		//UsernamePasswordAuthenticationFilter 수정
 		httpSecurity.formLogin(formLogin -> 

@@ -80,7 +80,6 @@ public class UserNameAndPasswordAuthenticationProvider implements Authentication
 			throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다");
 		}
 		
-		
 		// 메소드의 타입은 Authentication인데, UsernamePasswordAtuthenticationToken같은 경우는, 상속의 관계
 		//SecurityContext에 저장할 인증 토큰								암호화 된 패스워드						
 		return new UsernamePasswordAuthenticationToken(membersVO, userDetails.getPassword(), userDetails.getAuthorities());
