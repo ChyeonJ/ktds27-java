@@ -60,7 +60,7 @@ public class RepliesController {
 			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
 		}
 		
-		MembersVO loginUser = (MembersVO) authentication.getPrincipal();	
+		MembersVO loginUser = AuthUtils.getPrincipal();	
 		createVO.setEmail(loginUser.getEmail());
 		
 		logger.debug("reply: {}", createVO.getReply());
@@ -90,7 +90,7 @@ public class RepliesController {
 			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
 		}
 		
-		MembersVO loginUser = (MembersVO) authentication.getPrincipal();
+		MembersVO loginUser = AuthUtils.getPrincipal();
 		createVO.setEmail(loginUser.getEmail());
 		
 		logger.debug("reply: {}", createVO.getReply());

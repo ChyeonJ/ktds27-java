@@ -10,6 +10,10 @@ public abstract class ServletUtils {
 
 	private ServletUtils() {}
 	
+	public static boolean isApiRequest() {
+		return ServletUtils.getRequest().getServletPath().startsWith("/api");
+	}
+	
 	public static HttpServletRequest getRequest() {
 		return ServletUtils.getRequestAttributes().getRequest();
 	}
@@ -25,5 +29,4 @@ public abstract class ServletUtils {
 	private static ServletRequestAttributes getRequestAttributes() {
 		return (ServletRequestAttributes)RequestContextHolder.getRequestAttributes(); 
 	}
-	
 }

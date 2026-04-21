@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.common.utils.ServletUtils;
 import com.ktdsuniversity.edu.members.service.MembersService;
 import com.ktdsuniversity.edu.members.vo.MembersVO;
@@ -192,7 +193,7 @@ public class MembersController {
 	public String doDeleteAction(
 			Authentication authentication) {
 		
-		MembersVO loginUser = (MembersVO) authentication.getPrincipal();
+		MembersVO loginUser = AuthUtils.getPrincipal();
 		// 1. 로그인 세션에서 회원의 이메일을 가져온다.
 		String email = loginUser.getEmail();
 		
