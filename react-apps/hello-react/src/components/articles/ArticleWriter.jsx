@@ -1,14 +1,49 @@
-const ArticleWriter = () => {
+/** @format */
+
+const ArticleWriter = ({
+  inputData: {
+    subject,
+    membersVO: { email, name },
+    content,
+  },
+  onChangeSubject,
+  onChangeEmail,
+  onChangeName,
+  onChangeContent,
+  onSaveButton,
+  onCancleButton,
+}) => {
   return (
-    <div>
-      게시글 작성 폼 (제목, 이메일, 이름, 내용)
-      <form method="post" action="/writer">
-        <input id="id" type="text" placeholder="제목을 입력하세요"></input>
-        <input id="email" type="text" placeholder="이메일을 입력하세요"></input>
-        <input id="name" type="text" placeholder="이름을 입력하세요"></input>
-        <textarea id="content"></textarea>
-        <button type="submit">저장</button>
-      </form>
+    <div className="article-writer">
+      <label>제목</label>
+      <input
+        id="subject"
+        title="제목"
+        value={subject}
+        onChange={onChangeSubject}
+      />
+      <label>이름</label>
+      <input id="name" title="이름" value={name} onChange={onChangeName} />
+      <label>이메일</label>
+      <input id="email" title="이메일" value={email} onChange={onChangeEmail} />
+      <label>내용</label>
+      <textarea
+        id="content"
+        title="내용"
+        value={content}
+        onChange={onChangeContent}
+      />
+
+      <button type="button" className="positive-button" onClick={onSaveButton}>
+        저장
+      </button>
+      <button
+        type="button"
+        className="negative-button"
+        onClick={onCancleButton}
+      >
+        취소
+      </button>
     </div>
   );
 };

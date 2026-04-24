@@ -233,3 +233,100 @@ button.confirm-cancel {
   gap: 0.625rem;
   justify-content: center;
 }
+/* --- 1. 전체 배경 및 컨테이너 (회색 바탕에 하얀 박스) --- */
+body {
+  margin: 0;
+  background-color: #ccc; /* 이미지와 동일한 회색 배경 */
+  color: #333;
+}
+
+.wrapper {
+  width: 80%;
+  max-width: 800px; /* 너무 넓어지지 않게 최대 너비 설정 */
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff; /* 하얀색 메인 박스 */
+  box-sizing: border-box;
+}
+
+/* 게시글 검색 결과 안내 텍스트 */
+.search-result-text {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* --- 2. 게시글 목록 (테이블) 스타일 --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem; /* 목록과 아래 입력 폼 사이의 간격 */
+}
+
+th {
+  font-weight: 900;
+  text-align: left;
+  padding: 0.5rem;
+  /* 이미지처럼 테두리 없이 깔끔하게 가려면 border 속성은 생략합니다. */
+}
+
+td {
+  padding: 0.5rem;
+  vertical-align: top;
+}
+
+/* --- 3. Article Writer (글쓰기 폼) 스타일 --- */
+.article-writer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* 입력 필드 사이 간격 */
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+}
+
+/* 내용(textarea) 라벨은 위로 정렬 */
+.input-field:has(textarea) {
+  align-items: flex-start;
+}
+
+.input-field label {
+  width: 3.5rem; /* '이메일', '제목' 등 라벨 너비 고정으로 줄 맞춤 */
+  text-align: left;
+}
+
+.input-field input,
+.input-field textarea {
+  width: 300px; /* 입력창 너비 (이미지 비율 참고) */
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.input-field textarea {
+  height: 60px;
+  resize: vertical;
+}
+
+/* --- 4. 하단 버튼 영역 --- */
+.button-group {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.3rem;
+}
+
+/* 기존 버튼 스타일 재활용 및 조정 */
+.article-writer button {
+  background-color: #54a0f3; /* 파란색 버튼 */
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+}
+
+.article-writer button:hover {
+  background-color: #a4ccf7;
+}

@@ -1,15 +1,17 @@
-const ArticleList = ({ articles }) => {
+/** @format */
+
+const ArticleList = ({ contents }) => {
   return (
     <tbody>
-      {articles.articles.map((data) => (
-        <tr>
-          <td>{data.id}</td>
-          <td>{data.subject}</td>
-          <td>{data.content}</td>
-          <td>{data.email}</td>
-          <td>{data.viewCnt}</td>
-          <td>{data.crtDt}</td>
-          <td>{data.mdfyDt}</td>
+      {contents.map((article) => (
+        <tr key={article.id}>
+          <td>{article.id}</td>
+          <td>{article.subject}</td>
+          <td>
+            {article.membersVO.name}({article.membersVO.email})
+          </td>
+          <td>{article.viewCnt}</td>
+          <td>{article.crtDt}</td>
         </tr>
       ))}
     </tbody>

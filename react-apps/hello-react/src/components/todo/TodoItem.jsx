@@ -1,33 +1,36 @@
-const Todoitem = ({ todo, priorities, onDoneChange }) => {
-  //   const { id, todo: todoTask, dueDate, priority } = todo;
-  // chekced true라고하면 React는 checked를 추가한다라고 판단함 isDone 체크하면서 했던 내용
+/** @format */
+
+const TodoItem = ({ todo, priorities, onDoneChange }) => {
+  //        props todo의 이름과 todo.todo의 이름이 같아 객체 구조 분해 불가.
+  //        todo.todo의 이름을 todoTask로 변경해 할당.
+  const { id, todo: todoTask, dueDate, priority } = todo;
 
   const doneClass = todo.isDone ? "done" : "";
 
   const onDoneChangeHandler = () => {
-    onDoneChange(todo.id);
+    onDoneChange(todo.id, !todo.isDone);
   };
 
   return (
     <li className="tasks-item">
       <input
-        id="{todo.id}"
+        id={id}
         type="checkbox"
         checked={todo.isDone}
         onChange={onDoneChangeHandler}
       />
-      <label className={doneClass} htmlFor="{todo.id}">
-        {todo.todo}
+      <label className={doneClass} htmlFor={id}>
+        {todoTask}
       </label>
-      <span className={`due-date ${doneClass}`}>{todo.dueDate}</span>
-      <span className={`priority ${doneClass}`}>
-        {priorities[todo.priority]}
-      </span>
+      <span className={`due-date ${doneClass}`}>{dueDate}</span>
+      <span className={`priority ${doneClass}`}>{priorities[priority]}</span>
     </li>
   );
 };
-export default Todoitem;
+export default TodoItem;
 
 export const TodoItemForChildren = ({ children }) => {
   return <li className="tasks-item">{children}</li>;
 };
+
+export const abc = "123123";
