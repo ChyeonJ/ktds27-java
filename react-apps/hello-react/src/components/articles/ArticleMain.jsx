@@ -10,6 +10,8 @@ const ArticleMain = () => {
   // articles 객체 state 저장
   const [articlesData, setArticleData] = useState(articleData.articles);
 
+  const [nowStatus, setStatus] = useState(false);
+
   const [
     {
       subject,
@@ -46,7 +48,7 @@ const ArticleMain = () => {
   const onSaveButtonHandler = () => {
     setArticleData((prevData) => [
       ...prevData,
-      { id: prevData.length + 1, subject, name, email, content },
+      { id: prevData.length + 1, subject, membersVO: { name, email }, content },
     ]);
     setInputData(() => ({
       subject: "",
@@ -56,12 +58,17 @@ const ArticleMain = () => {
   };
 
   const onCancleButtonHandler = () => {
+    setStatus(false);
+
     setInputData(() => ({
       subject: "",
-      email: "",
-      name: "",
+      membersVO: { email: "", name: "" },
       content: "",
     }));
+  };
+
+  const onClickMoveWritePage = () => {
+    setStatus(true);
   };
 
   return (
@@ -71,15 +78,19 @@ const ArticleMain = () => {
         <ArticleHeader />
         <ArticleList contents={articlesData} />
       </table>
-      <ArticleWriter
-        inputData={{ subject, membersVO: { email, name }, content }}
-        onChangeSubject={onChangeSubjectHandler}
-        onChangeEmail={onChangeEmailHandler}
-        onChangeName={onChangeNameHandler}
-        onChangeContent={onChangeContentHandler}
-        onSaveButton={onSaveButtonHandler}
-        onCancleButton={onCancleButtonHandler}
-      />
+      {nowStatus === false ? (
+        <button onClick={onClickMoveWritePage}>구매하기</button>
+      ) : (
+        <ArticleWriter
+          inputData={{ subject, membersVO: { email, name }, content }}
+          onChangeSubject={onChangeSubjectHandler}
+          onChangeEmail={onChangeEmailHandler}
+          onChangeName={onChangeNameHandler}
+          onChangeContent={onChangeContentHandler}
+          onSaveButton={onSaveButtonHandler}
+          onCancleButton={onCancleButtonHandler}
+        />
+      )}
     </div>
   );
 };
