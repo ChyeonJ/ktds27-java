@@ -1,7 +1,7 @@
 /** @format */
 
 import { useRef, useState } from "react";
-import { Alert } from "../ui/Modal";
+import { Alert } from "../ui/Modals";
 
 const Input = ({ id, title, type = "text", ref, ...props }) => {
   console.log("Input");
@@ -33,7 +33,6 @@ const ArticleWriter = ({ onAddArticleClick }) => {
   const emailRef = useRef();
   const contentRef = useRef();
 
-  //dialog를 제어할 Ref
   const alertRef = useRef();
 
   // 저장을 클릭하면 입력했던 값을 가져와 출력한다.
@@ -41,17 +40,19 @@ const ArticleWriter = ({ onAddArticleClick }) => {
     console.log(alertRef);
 
     if (!subjectRef.current.value) {
-      //dialog가 붙어 있으니 호출 가능
-      alertRef.current.showModal("제목을 입력해주세요");
+      alertRef.current.showModal("제목을 입력해주세요.");
       return;
-    } else if (!emailRef.current.value) {
-      alertRef.current.showModal("이메일을 입력해주세여");
+    }
+    if (!nameRef.current.value) {
+      alertRef.current.showModal("이름을 입력해주세요.");
       return;
-    } else if (!nameRef.current.value) {
-      alertRef.current.showModal("이름을 입력해주세요");
+    }
+    if (!emailRef.current.value) {
+      alertRef.current.showModal("이메일을 입력해주세요.");
       return;
-    } else if (!contentRef.current.value) {
-      alertRef.current.showModal("내용을 입력해주세요");
+    }
+    if (!contentRef.current.value) {
+      alertRef.current.showModal("내용을 입력해주세요.");
       return;
     }
 

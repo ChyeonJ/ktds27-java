@@ -88,8 +88,8 @@ export const Confirm = ({ dialogRef, onOkClick, onCloseClick }) => {
       onCloseClick();
     }
 
-    //dialog가 꺼질 때, fired값을 false로 변경되도록한다.
-    // event에 의 닫힌 케이스도 초기화,
+    // dialog 가 꺼질 때, fired 값을 false로 변경되도록 한다.
+    // event에 의해 닫힌 케이스도 초기화.
     handledFromEvents.fired = false;
   };
 

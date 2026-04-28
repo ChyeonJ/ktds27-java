@@ -33,9 +33,8 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
 
   const onViewChangeButtonClickHandler = (viewName) => {
     setViewMode(viewName);
-    if (viewName === "button") {
-      null;
-    }
+    // if (viewName === "button") {
+    // }
   };
 
   return (

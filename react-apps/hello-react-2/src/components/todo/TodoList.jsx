@@ -1,27 +1,26 @@
 /** @format */
 
+import { Component, useContext } from "react";
+import TodoContext from "./contexts/TodoContext";
 import TodoItem, { TodoItemForChildren } from "./TodoItem";
 
-const TodoList = ({ todoDatas, onDoneChange }) => {
-  const priorities = ["없음", "높음", "보통", "낮음"];
+const TodoList = ({ children }) => {
+  const { componentName } = useContext(TodoContext);
+
+  if (!componentName || componentName !== "TodoGrid") {
+    return <></>;
+  }
+
+  //Context를 활용한 컴포넌트의 합성
+  const providerProps = {
+    // 현재 컴포넌트의 이름이 TodoList라고 명시
+    componentName: "TodoList",
+  };
 
   return (
-    <>
-      {todoDatas.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          priorities={priorities}
-          onDoneChange={onDoneChange}
-        />
-        // <TodoItemForChildren>
-        //   <input id={todo.id} type="checkbox" />
-        //   <label htmlFor={todo.id}>{todo.todo}</label>
-        //   <span className="due-date">{todo.dueDate}</span>
-        //   <span className="priority">{priorities[todo.priority]}</span>
-        // </TodoItemForChildren>
-      ))}
-    </>
+    <TodoContext.Provider value={providerProps}>
+      {children}
+    </TodoContext.Provider>
   );
 };
 export default TodoList;

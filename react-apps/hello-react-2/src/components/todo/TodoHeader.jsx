@@ -1,11 +1,20 @@
 /** @format */
 
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Confirm } from "../ui/Modal";
+import TodoContext from "./contexts/TodoContext";
 
 const TodoHeader = ({ onAllDoneChange }) => {
   const confirmRef = useRef();
   const checkBoxRef = useRef();
+
+  //use가 사용된 이후에 컴포넌트 합성 진행
+  const { componentName } = useContext(TodoContext);
+
+  if (!componentName || componentName !== "TodoGrid") {
+    return <></>;
+  }
+
   const onAllDoneChangeHandler = () => {
     const chekced = checkBoxRef.current.checked;
     let message = "";

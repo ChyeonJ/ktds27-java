@@ -1,0 +1,139 @@
+/* Trend.css */
+
+.trend-container {
+  padding: 30px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* Header & Title */
+.trend-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.trend-header h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Selector (Toggle Buttons) */
+.trend-selector {
+  display: flex;
+  border: 1px solid #102a43;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.trend-selector button {
+  border: none;
+  background: transparent;
+  padding: 4px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  color: #102a43; /* 기본 글자색 */
+}
+
+/* 활성화된 탭 스타일 */
+.trend-selector button.active {
+  background-color: #032541; /* 다크 네이비 */
+  color: #1ed5a9; /* 민트색 */
+  border-radius: 30px;
+}
+
+/* List (가로 스크롤) */
+.trend-list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 20px; /* 커스텀 스크롤바를 위한 여백 */
+  list-style: none;
+}
+
+/* 커스텀 스크롤바 디자인 */
+.trend-list::-webkit-scrollbar {
+  height: 8px;
+}
+.trend-list::-webkit-scrollbar-track {
+  background: #dbdbdb;
+  border-radius: 10px;
+}
+.trend-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+/* Item (카드 디자인) */
+.trend-item {
+  min-width: 150px; /* 카드의 최소 너비 고정 */
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 포스터 이미지 감싸는 박스 */
+.poster-wrapper {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.poster-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 점 3개 옵션 버튼 */
+.more-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+  font-size: 14px;
+}
+.more-btn:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* 텍스트 영역 */
+.item-info {
+  padding: 0 5px;
+}
+
+.item-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+  /* 글자가 길면 ... 으로 말줄임 처리 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-date {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #666;
+}

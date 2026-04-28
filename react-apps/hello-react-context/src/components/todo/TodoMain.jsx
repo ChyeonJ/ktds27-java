@@ -1,10 +1,10 @@
 /** @format */
 
-import { useState } from "react";
 import { StateTest } from "./StateTest.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoHeader from "./TodoHeader.jsx";
 import TodoList from "./TodoList.jsx";
+import TodoContextProvider from "./contexts/TodoContext.jsx";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -18,80 +18,19 @@ import TodoList from "./TodoList.jsx";
 
 // export default 이후에 const 키워드가 나타날 수 없음.
 const TodoMain = () => {
-  // const ==> 상수 정의
-  // let ==> 변수 정의
-  // TODO JSON DATA
-  const todoDatas = [
-    {
-      id: "todo_1",
-      todo: "React Component Master",
-      dueDate: "2026-04-22",
-      priority: 1,
-      isDone: true,
-    },
-    {
-      id: "todo_2",
-      todo: "React Component Master 2",
-      dueDate: "2026-04-23",
-      priority: 2,
-      isDone: false,
-    },
-    {
-      id: "todo_3",
-      todo: "React Component Master 3",
-      dueDate: "2026-04-24",
-      priority: 3,
-      isDone: false,
-    },
-  ];
-
-  const [cachedData, setCachedData] = useState(todoDatas);
-
-  const onAllDoneChangeHandler = (isDone) => {
-    setCachedData((prevData) => {
-      // cachedData를 반복하면서 모든 isDone의 값을 변경한다.
-      const newData = prevData.map((todo) => ({ ...todo, isDone }));
-      // 변경된 결과를 반환한다.
-      return newData;
-    });
-  };
-
-  // 특정 todo의 isDone 값을 반전시키는 함수.
-  // 이 함수를 TodoList에게 props로 전달.
-  // TodoList는 TodoItem에게 함수를 props 전달.
-  const onDoneChangeHandler = (todoId, isDone) => {
-    setCachedData((prevData) => {
-      const newStateMemory = [...prevData];
-
-      // java for each
-      for (const todo of newStateMemory) {
-        if (todo.id === todoId) {
-          todo.isDone = isDone;
-          break;
-        }
-      }
-      return newStateMemory;
-    });
-  };
-
-  const onAddClickButtonHandler = (todo, dueDate, priority) => {
-    setCachedData((prevData) => [
-      ...prevData,
-      { id: prevData.length + 1, todo, dueDate, priority, isDone: false },
-    ]);
-  };
-
   // 컴포넌트가 만들어줄 HTML Tag set를 반환.
   return (
     <div className="wrapper">
       {/* <StateTest /> */}
 
       <header>React Todo</header>
-      <ul className="tasks">
-        <TodoHeader onAllDoneChange={onAllDoneChangeHandler} />
-        <TodoList todoDatas={cachedData} onDoneChange={onDoneChangeHandler} />
-      </ul>
-      <TodoAppender onSaveButtonClick={onAddClickButtonHandler} />
+      <TodoContextProvider>
+        <ul className="tasks">
+          <TodoHeader />
+          <TodoList />
+        </ul>
+        <TodoAppender />
+      </TodoContextProvider>
     </div>
   );
 };

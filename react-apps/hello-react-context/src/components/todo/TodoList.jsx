@@ -1,19 +1,18 @@
 /** @format */
 
-import TodoItem, { TodoItemForChildren } from "./TodoItem";
+import { useContext } from "react";
+import TodoItem, { TodoItemForChildren } from "./TodoItem.jsx";
+import { TodoContext } from "./contexts/TodoContext.jsx";
 
-const TodoList = ({ todoDatas, onDoneChange }) => {
+const TodoList = () => {
   const priorities = ["없음", "높음", "보통", "낮음"];
+
+  const { todos } = useContext(TodoContext);
 
   return (
     <>
-      {todoDatas.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          priorities={priorities}
-          onDoneChange={onDoneChange}
-        />
+      {todos.map(({ id }) => (
+        <TodoItem key={id} id={id} priorities={priorities} />
         // <TodoItemForChildren>
         //   <input id={todo.id} type="checkbox" />
         //   <label htmlFor={todo.id}>{todo.todo}</label>

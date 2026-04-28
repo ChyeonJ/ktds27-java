@@ -1,42 +1,47 @@
 /** @format */
 
-import { useRef } from "react";
-import { Confirm } from "../ui/Modal";
+import { useContext, useRef } from "react";
+import { Confirm } from "../ui/Modals.jsx";
+import { TodoContext } from "./contexts/TodoContext.jsx";
 
-const TodoHeader = ({ onAllDoneChange }) => {
+const TodoHeader = () => {
+  const { allDone } = useContext(TodoContext);
+
+  const checkboxRef = useRef();
   const confirmRef = useRef();
-  const checkBoxRef = useRef();
+
   const onAllDoneChangeHandler = () => {
-    const chekced = checkBoxRef.current.checked;
+    const checked = checkboxRef.current.checked;
     let message = "";
-    if (chekced) {
-      message = "모든 Item들을 '완료' 하시겠습니까?";
+    if (checked) {
+      message = "모든 Item들을 '완료'하시겠습니까?";
     } else {
-      message = "모든 Item들을 '미완료' 하시겠습니까?";
+      message = "모든 Item들을 '미완료'하시겠습니까?";
     }
 
     confirmRef.current.showConfirm(message);
   };
 
-  const onConfirmOkClickHandler = () => {
-    onAllDoneChange(checkBoxRef.current.checked);
+  const onConfirmOkClickHander = () => {
+    //onAllDoneChange(checkboxRef.current.checked);
+    allDone(checkboxRef.current.checked);
   };
   const onConfirmCloseClickHandler = () => {
-    checkBoxRef.current.checked = !checkBoxRef.current.checked;
+    checkboxRef.current.checked = !checkboxRef.current.checked;
   };
 
   return (
     <li className="tasks-header">
       <Confirm
         dialogRef={confirmRef}
-        onOkClick={onConfirmOkClickHandler}
+        onOkClick={onConfirmOkClickHander}
         onCloseClick={onConfirmCloseClickHandler}
       />
       <input
         id="checkall"
         type="checkbox"
+        ref={checkboxRef}
         onChange={onAllDoneChangeHandler}
-        ref={checkBoxRef}
       />
       <label>Task</label>
       <span className="due-date">Due Date</span>
