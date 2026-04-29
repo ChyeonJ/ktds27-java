@@ -25,6 +25,7 @@ const TodoMain = () => {
 
   const [cachedData, setCachedData] = useState([]);
 
+  // 비동기 함수는 promise를 반환시킨다.
   const fetchTodoList = async () => {
     const todoResponse = await fetch("http://localhost:8888/api/v1/task");
     console.log(todoResponse);
@@ -55,31 +56,30 @@ const TodoMain = () => {
   }, [cachedData]);
 
   //파라미터 첫번째는 함수, 두번째는 deps(DependencyList)
-  const onAllDoneChangeHandler = useCallback((done) => {
-    setCachedData((prevData) => {
-      // cachedData를 반복하면서 모든 done 값을 변경한다.
-      const newData = prevData.map((todo) => ({ ...todo, done }));
-      // 변경된 결과를 반환한다.
-      return newData;
+  const onAllDoneChangeHandler = useCallback(async () => {
+    const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+      method: "put",
     });
+    console.log(fetchResult);
+
+    fetchTodoList();
+    const allDoneResult = await fetchResult.json();
+    console.log(allDoneResult);
   }, []);
 
   // 특정 todo의 done 값을 반전시키는 함수.
   // 이 함수를 TodoList에게 props로 전달.
   // TodoList는 TodoItem에게 함수를 props 전달.
-  const onDoneChangeHandler = (todoId, done) => {
-    setCachedData((prevData) => {
-      const newStateMemory = [...prevData];
+  const onDoneChangeHandler = async (todoId) => {
+    const fetchResult = await fetch(
+      `http://localhost:8888/api/v1/task/${todoId}`,
+      { method: "put" },
+    );
+    fetchTodoList();
+    console.log(fetchResult);
 
-      // java for each
-      for (const todo of newStateMemory) {
-        if (todo.id === todoId) {
-          todo.done = done;
-          break;
-        }
-      }
-      return newStateMemory;
-    });
+    const doneResult = await fetchResult.json();
+    console.log(doneResult);
   };
 
   const onAddClickButtonHandler = useCallback((todo, dueDate, priority) => {
@@ -99,6 +99,9 @@ const TodoMain = () => {
           isDone: false,
         }),
       });
+      // fetch가 된 이후에 fetchTodoList실행
+      // 비동기 함수는 비동기 함수 내부에 넣는게 순서상 맞다
+      fetchTodoList();
 
       const addResult = await fetchResult.json();
       console.log(addResult);
