@@ -20,6 +20,7 @@ import TodoItem from "./TodoItem.jsx";
 
 // export default 이후에 const 키워드가 나타날 수 없음.
 const TodoMain = () => {
+  console.log("투두메인");
   // const ==> 상수 정의
   // let ==> 변수 정의
   // TODO JSON DATA

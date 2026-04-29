@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { Alert } from "../ui/Modal";
 
 const TodoAppender = ({ onSaveButtonClick }) => {
+  console.log("투두어펜더");
+
   const todoRef = useRef();
   const dueDateRef = useRef();
   const priorityRef = useRef();

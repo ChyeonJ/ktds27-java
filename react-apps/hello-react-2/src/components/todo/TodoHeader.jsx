@@ -5,6 +5,8 @@ import { Confirm } from "../ui/Modal";
 import TodoContext from "./contexts/TodoContext";
 
 const TodoHeader = ({ onAllDoneChange }) => {
+  console.log("투두헤더");
+
   const confirmRef = useRef();
   const checkBoxRef = useRef();
 

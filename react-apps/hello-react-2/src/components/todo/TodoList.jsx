@@ -5,6 +5,8 @@ import TodoContext from "./contexts/TodoContext";
 import TodoItem, { TodoItemForChildren } from "./TodoItem";
 
 const TodoList = ({ children }) => {
+  console.log("투두리스트");
+
   const { componentName } = useContext(TodoContext);
 
   if (!componentName || componentName !== "TodoGrid") {

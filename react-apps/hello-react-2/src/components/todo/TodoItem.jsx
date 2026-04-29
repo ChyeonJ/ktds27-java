@@ -5,6 +5,8 @@ import { Confirm } from "../ui/Modal";
 import TodoContext from "./contexts/TodoContext";
 
 const TodoItem = ({ todo, onDoneChange }) => {
+  console.log("투두아이템");
+
   const priorities = ["없음", "높음", "보통", "낮음"];
 
   // useRef(), useState()가 에러나는 이유는 함수가 동작 되기전에 리턴이 되면 안된다.
