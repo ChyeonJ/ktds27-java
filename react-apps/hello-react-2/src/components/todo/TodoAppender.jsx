@@ -6,11 +6,6 @@ import { Alert } from "../ui/Modal";
 const TodoAppender = memo(({ onSaveButtonClick }) => {
   console.log("투두어펜더");
 
-  // Component Rendering을 Delay
-  for (let i = 1; i < 100000; i++) {
-    console.log(i);
-  }
-
   const todoRef = useRef();
   const dueDateRef = useRef();
   const priorityRef = useRef();

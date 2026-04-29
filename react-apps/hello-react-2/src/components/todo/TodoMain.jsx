@@ -1,6 +1,6 @@
 /** @format */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { StateTest } from "./StateTest.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoHeader from "./TodoHeader.jsx";
@@ -22,65 +22,59 @@ import AddCalcurator from "./AddCalcurator.jsx";
 // export default 이후에 const 키워드가 나타날 수 없음.
 const TodoMain = () => {
   console.log("투두메인");
-  // const ==> 상수 정의
-  // let ==> 변수 정의
-  // TODO JSON DATA
-  const todoDatas = [
-    {
-      id: "todo_1",
-      todo: "React Component Master",
-      dueDate: "2026-04-22",
-      priority: 1,
-      isDone: true,
-    },
-    {
-      id: "todo_2",
-      todo: "React Component Master 2",
-      dueDate: "2026-04-23",
-      priority: 2,
-      isDone: false,
-    },
-    {
-      id: "todo_3",
-      todo: "React Component Master 3",
-      dueDate: "2026-04-24",
-      priority: 3,
-      isDone: false,
-    },
-  ];
 
-  const [cachedData, setCachedData] = useState(todoDatas);
+  const [cachedData, setCachedData] = useState([]);
+
+  const fetchTodoList = async () => {
+    const todoResponse = await fetch("http://localhost:8888/api/v1/task");
+    console.log(todoResponse);
+
+    const todoList = await todoResponse.json();
+    console.log(todoList);
+
+    setCachedData(todoList.body);
+  };
+
+  //비동기 json 데이터 함수 실행
+  // 랜더링 되면서 => 재호출 하며 무한루프가 돈다
+  // Side Effects => 백엔드 => 다른 코드에 영향이 있냐 없냐
+  //              => 프론트 => 어떤 함수가 실행됨으로써 화면의 변화가 생기는 거
+  // useEffect로 막을 수 있다
+  // 특별한 상황일 때만 state가 변경되도록한다
+  useEffect(() => {
+    fetchTodoList();
+  }, []);
 
   //반환 되는 데이터가 캐싱 됨
   const todoCount = useMemo(() => {
     return {
       all: cachedData.length,
-      done: cachedData.filter((todo) => todo.isDone).length,
-      process: cachedData.filter((todo) => !todo.isDone).length,
+      done: cachedData.filter((todo) => todo.done).length,
+      process: cachedData.filter((todo) => !todo.done).length,
     };
   }, [cachedData]);
 
   //파라미터 첫번째는 함수, 두번째는 deps(DependencyList)
-  const onAllDoneChangeHandler = useCallback((isDone) => {
+  const onAllDoneChangeHandler = useCallback((done) => {
     setCachedData((prevData) => {
-      // cachedData를 반복하면서 모든 isDone의 값을 변경한다.
-      const newData = prevData.map((todo) => ({ ...todo, isDone }));
+      // cachedData를 반복하면서 모든 done 값을 변경한다.
+      const newData = prevData.map((todo) => ({ ...todo, done }));
       // 변경된 결과를 반환한다.
       return newData;
     });
   }, []);
 
-  // 특정 todo의 isDone 값을 반전시키는 함수.
+  // 특정 todo의 done 값을 반전시키는 함수.
   // 이 함수를 TodoList에게 props로 전달.
   // TodoList는 TodoItem에게 함수를 props 전달.
-  const onDoneChangeHandler = (todoId, isDone) => {
+  const onDoneChangeHandler = (todoId, done) => {
     setCachedData((prevData) => {
       const newStateMemory = [...prevData];
 
       // java for each
       for (const todo of newStateMemory) {
         if (todo.id === todoId) {
-          todo.isDone = isDone;
+          todo.done = done;
           break;
         }
       }
@@ -89,10 +83,28 @@ const TodoMain = () => {
   };
 
   const onAddClickButtonHandler = useCallback((todo, dueDate, priority) => {
-    setCachedData((prevData) => [
-      ...prevData,
-      { id: prevData.length + 1, todo, dueDate, priority, isDone: false },
-    ]);
+    console.log("저장합니다.");
+    // fetch --> 서버에게 todo를 등록하게 한다.
+
+    const fetchAddTodo = async () => {
+      const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          task: todo,
+          dueDate,
+          priority,
+          isDone: false,
+        }),
+      });
+
+      const addResult = await fetchResult.json();
+      console.log(addResult);
+    };
+
+    fetchAddTodo();
   }, []);
 
   // 컴포넌트가 만들어줄 HTML Tag set를 반환.
@@ -100,7 +112,6 @@ const TodoMain = () => {
     <div className="wrapper">
       {/* <StateTest /> */}
 
-      <AddCalcurator />
       <header>React Todo</header>
       <TodoGrid>
         <TodoHeader
