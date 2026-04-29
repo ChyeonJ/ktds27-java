@@ -8,6 +8,12 @@ import TodoList from "./TodoList.jsx";
 import TodoGrid from "./TodoGrid.jsx";
 import TodoItem from "./TodoItem.jsx";
 import AddCalcurator from "./AddCalcurator.jsx";
+import {
+  fetchAddTodo,
+  fetchAllDoneTodo,
+  fetchDoneTodo,
+  fetchTodoList,
+} from "./http/todo/fetchTodo.js";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -26,14 +32,18 @@ const TodoMain = () => {
   const [cachedData, setCachedData] = useState([]);
 
   // 비동기 함수는 promise를 반환시킨다.
-  const fetchTodoList = async () => {
-    const todoResponse = await fetch("http://localhost:8888/api/v1/task");
-    console.log(todoResponse);
+  const refreshTodoList = async () => {
+    // const todoResponse = await fetch("http://localhost:8888/api/v1/task");
+    // console.log(todoResponse);
 
-    const todoList = await todoResponse.json();
-    console.log(todoList);
-
+    // const todoList = await todoResponse.json();
+    // console.log(todoList);
+    const todoList = await fetchTodoList();
     setCachedData(todoList.body);
+
+    if (todoList.errors) {
+      alert(todoList.errors);
+    }
   };
 
   //비동기 json 데이터 함수 실행
@@ -43,7 +53,7 @@ const TodoMain = () => {
   // useEffect로 막을 수 있다
   // 특별한 상황일 때만 state가 변경되도록한다
   useEffect(() => {
-    fetchTodoList();
+    refreshTodoList();
   }, []);
 
   //반환 되는 데이터가 캐싱 됨
@@ -57,58 +67,81 @@ const TodoMain = () => {
 
   //파라미터 첫번째는 함수, 두번째는 deps(DependencyList)
   const onAllDoneChangeHandler = useCallback(async () => {
-    const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
-      method: "put",
-    });
-    console.log(fetchResult);
+    // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+    //   method: "put",
+    // });
+    // console.log(fetchResult);
 
-    fetchTodoList();
-    const allDoneResult = await fetchResult.json();
-    console.log(allDoneResult);
+    // fetchTodoList();
+    const allDoneResult = await fetchAllDoneTodo();
+    if (!allDoneResult.errors) {
+      refreshTodoList();
+    } else {
+      alert(allDoneResult.errors);
+    }
   }, []);
 
   // 특정 todo의 done 값을 반전시키는 함수.
   // 이 함수를 TodoList에게 props로 전달.
   // TodoList는 TodoItem에게 함수를 props 전달.
   const onDoneChangeHandler = async (todoId) => {
-    const fetchResult = await fetch(
-      `http://localhost:8888/api/v1/task/${todoId}`,
-      { method: "put" },
-    );
-    fetchTodoList();
-    console.log(fetchResult);
+    // const fetchResult = await fetch(
+    //   `http://localhost:8888/api/v1/task/${todoId}`,
+    //   { method: "put" },
+    // );
+    // fetchTodoList();
+    // console.log(fetchResult);
 
-    const doneResult = await fetchResult.json();
-    console.log(doneResult);
+    // const doneResult = await fetchResult.json();
+    // console.log(doneResult);
+    const onDoneResult = await fetchDoneTodo(todoId);
+    if (!onDoneResult.errors) {
+      refreshTodoList();
+    } else {
+      alert(onDoneResult.errors);
+    }
   };
 
-  const onAddClickButtonHandler = useCallback((todo, dueDate, priority) => {
-    console.log("저장합니다.");
-    // fetch --> 서버에게 todo를 등록하게 한다.
+  const onAddClickButtonHandler = useCallback(
+    async (todo, dueDate, priority) => {
+      console.log("저장합니다.");
+      // fetch --> 서버에게 todo를 등록하게 한다.
 
-    const fetchAddTodo = async () => {
-      const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          task: todo,
-          dueDate,
-          priority,
-          isDone: false,
-        }),
-      });
-      // fetch가 된 이후에 fetchTodoList실행
-      // 비동기 함수는 비동기 함수 내부에 넣는게 순서상 맞다
-      fetchTodoList();
+      // const fetchAddTodo = async () => {
+      //   // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+      //   //   method: "post",
+      //   //   headers: {
+      //   //     "Content-Type": "application/json",
+      //   //   },
+      //   //   body: JSON.stringify({
+      //   //     task: todo,
+      //   //     dueDate,
+      //   //     priority,
+      //   //     isDone: false,
+      //   //   }),
+      //   // });
+      //   // // fetch가 된 이후에 fetchTodoList실행
+      //   // // 비동기 함수는 비동기 함수 내부에 넣는게 순서상 맞다
+      //   // fetchTodoList();
 
-      const addResult = await fetchResult.json();
+      //   // const addResult = await fetchResult.json();
+      //   // console.log(addResult);
+      // };
+
+      // fetchAddTodo();
+
+      const addResult = await fetchAddTodo(todo, dueDate, priority);
+      console.log("asdasdasdasdasdasdsad");
       console.log(addResult);
-    };
 
-    fetchAddTodo();
-  }, []);
+      if (!addResult.errors) {
+        refreshTodoList();
+      } else {
+        alert(addResult.errors);
+      }
+    },
+    [],
+  );
 
   // 컴포넌트가 만들어줄 HTML Tag set를 반환.
   return (
