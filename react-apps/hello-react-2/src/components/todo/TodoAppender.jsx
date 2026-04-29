@@ -1,10 +1,15 @@
 /** @format */
 
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { Alert } from "../ui/Modal";
 
-const TodoAppender = ({ onSaveButtonClick }) => {
+const TodoAppender = memo(({ onSaveButtonClick }) => {
   console.log("투두어펜더");
+
+  // Component Rendering을 Delay
+  for (let i = 1; i < 100000; i++) {
+    console.log(i);
+  }
 
   const todoRef = useRef();
   const dueDateRef = useRef();
@@ -50,5 +55,5 @@ const TodoAppender = ({ onSaveButtonClick }) => {
       </button>
     </footer>
   );
-};
+});
 export default TodoAppender;

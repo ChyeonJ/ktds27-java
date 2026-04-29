@@ -1,12 +1,13 @@
 /** @format */
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StateTest } from "./StateTest.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoHeader from "./TodoHeader.jsx";
 import TodoList from "./TodoList.jsx";
 import TodoGrid from "./TodoGrid.jsx";
 import TodoItem from "./TodoItem.jsx";
+import AddCalcurator from "./AddCalcurator.jsx";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -50,14 +51,24 @@ const TodoMain = () => {
 
   const [cachedData, setCachedData] = useState(todoDatas);
 
-  const onAllDoneChangeHandler = (isDone) => {
+  //반환 되는 데이터가 캐싱 됨
+  const todoCount = useMemo(() => {
+    return {
+      all: cachedData.length,
+      done: cachedData.filter((todo) => todo.isDone).length,
+      process: cachedData.filter((todo) => !todo.isDone).length,
+    };
+  }, [cachedData]);
+
+  //파라미터 첫번째는 함수, 두번째는 deps(DependencyList)
+  const onAllDoneChangeHandler = useCallback((isDone) => {
     setCachedData((prevData) => {
       // cachedData를 반복하면서 모든 isDone의 값을 변경한다.
       const newData = prevData.map((todo) => ({ ...todo, isDone }));
       // 변경된 결과를 반환한다.
       return newData;
     });
-  };
+  }, []);
 
   // 특정 todo의 isDone 값을 반전시키는 함수.
   // 이 함수를 TodoList에게 props로 전달.
@@ -77,21 +88,25 @@ const TodoMain = () => {
     });
   };
 
-  const onAddClickButtonHandler = (todo, dueDate, priority) => {
+  const onAddClickButtonHandler = useCallback((todo, dueDate, priority) => {
     setCachedData((prevData) => [
       ...prevData,
       { id: prevData.length + 1, todo, dueDate, priority, isDone: false },
     ]);
-  };
+  }, []);
 
   // 컴포넌트가 만들어줄 HTML Tag set를 반환.
   return (
     <div className="wrapper">
       {/* <StateTest /> */}
 
+      <AddCalcurator />
       <header>React Todo</header>
       <TodoGrid>
-        <TodoHeader onAllDoneChange={onAllDoneChangeHandler} />
+        <TodoHeader
+          onAllDoneChange={onAllDoneChangeHandler}
+          count={todoCount}
+        />
         <TodoList>
           {cachedData.map((todo) => (
             <TodoItem
