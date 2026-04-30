@@ -1,5 +1,19 @@
 import { isArray, isObject } from "./type";
 
+//  {
+//      "error": [
+//           {
+//              "field": "password",
+//               "defaultMessage": "비밀번호를 입력해주세요."
+//         },
+//           {
+//              "field": "email",
+//              "defaultMessage": "email을 입력해주세요."
+//          }
+//       ],
+//       "status": 400
+//  }
+
 const getValidationResult = (error) => {
   //배열이냐?
   if (isArray(error)) {
@@ -10,9 +24,9 @@ const getValidationResult = (error) => {
       //객체냐?
       if (isObject(eachError)) {
         //객체안에 이 Key가 있니?
-        if (eachError.filed && eachError.defaultMessage) {
+        if (eachError.field && eachError.defaultMessage) {
           //{email : "email을 입력해주세여.", password : "비밀번호를 입력해주세요"}
-          message[eachError.filed] = eachError.defaultMessage;
+          message[eachError.field] = eachError.defaultMessage;
         } else {
           // 위의 값이 없다면? undefind 반환
           return undefined;

@@ -20,7 +20,7 @@ export const fetchArticleList = async (pageNo = 0, listSize = 10) => {
 
 export const fetchJsonWebToken = async (email, password) => {
   try {
-    const loginResult = await fetch(
+    const fetchResult = await fetch(
       "http://192.168.211.25:8080/api/authorization",
       {
         method: "post",
@@ -33,7 +33,8 @@ export const fetchJsonWebToken = async (email, password) => {
         }),
       },
     );
-    return loginResult.json();
+    const loginResult = await fetchResult.json();
+    return loginResult;
   } catch (e) {
     return {
       token: null,
@@ -52,7 +53,7 @@ export const fetchAddArticle = async (jwt, subject, content, attachfile) => {
     // attachFile ==> FileList 배열
     // FileList내에 존재하는 파일 객체들을 attachFile로 하나씩 할당
     for (const file of attachfile) {
-      formData.append("attachfile", file);
+      formData.append("attachFile", file);
     }
 
     const articleResponse = await fetch(
