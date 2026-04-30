@@ -5,6 +5,7 @@ import { Confirm } from "../ui/Modal";
 import TodoContext from "./contexts/TodoContext";
 import { fetchDoneTodo, fetchTodoList } from "./http/todo/fetchTodo";
 import { useDispatch } from "react-redux";
+import { todoAction } from "../../stores/toolkit/slices/todoSlice";
 
 const TodoItem = ({ todo }) => {
   console.log("투두아이템");
@@ -49,7 +50,7 @@ const TodoItem = ({ todo }) => {
 
   const onConfirmOkClickHandler = async () => {
     // fetch가 잘 될거니 먼저 바꿔라
-    reactReduxDispatcher({ type: "todo-done-item", payload: id });
+    reactReduxDispatcher(todoAction.doneItem(id));
 
     // onDoneChange(todo.id, !todo.done);
     const doneResult = await fetchDoneTodo(id);
@@ -58,7 +59,7 @@ const TodoItem = ({ todo }) => {
     }
 
     const fetchResult = await fetchTodoList();
-    reactReduxDispatcher({ type: "todo-refresh", payload: fetchResult.body });
+    reactReduxDispatcher(todoAction.refresh(fetchResult.body));
   };
 
   const onConfirmCloseClickHandler = () => {};

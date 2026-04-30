@@ -6,6 +6,7 @@ import TodoContext from "./contexts/TodoContext";
 import { useDispatch, useSelector } from "react-redux";
 import { memo } from "react";
 import { fetchAllDoneTodo, fetchTodoList } from "./http/todo/fetchTodo";
+import { todoAction } from "../../stores/toolkit/slices/todoSlice";
 
 // 컴포넌트가 메모 함수의 파라미터다
 const TodoHeader = memo(() => {
@@ -16,7 +17,7 @@ const TodoHeader = memo(() => {
   const reactReduxDispatcher = useDispatch();
 
   // react-redux store => todo 가져오기
-  const todoList = useSelector((store) => store.todo);
+  const { list: todoList } = useSelector((store) => store.todo);
   const count = {
     all: todoList.length,
     done: todoList.filter((todo) => todo.done).length,
@@ -47,7 +48,7 @@ const TodoHeader = memo(() => {
     // fetch 이후에 실패했을 경우, 원래 상태로 돌려준다.
     //             성공했을 경우, 변경된 상태 유지
     //             all done을 수행하는 중에 다른 사용자로 인해 데이터가 추가됐다면 불러올 필요가 있음
-    reactReduxDispatcher({ type: "todo-all-done" }); //payload에 마땅히 보낼게 없으면 그냥 안보내면 된다
+    reactReduxDispatcher(todoAction.allDone()); //payload에 마땅히 보낼게 없으면 그냥 안보내면 된다
 
     const allDoneResult = await fetchAllDoneTodo();
     if (allDoneResult.errors) {
@@ -55,7 +56,7 @@ const TodoHeader = memo(() => {
     }
     //위에서 에러가 나면 다시 불러와라 => 그러면 원상복구가 될 것이다
     const fetchResult = await fetchTodoList();
-    reactReduxDispatcher({ type: "todo-refresh", payload: fetchResult.body });
+    reactReduxDispatcher(todoAction.refresh(fetchResult.body));
   };
   const onConfirmCloseClickHandler = () => {
     checkBoxRef.current.checked = !checkBoxRef.current.checked;

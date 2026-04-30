@@ -10,6 +10,8 @@ import { Provider } from "react-redux";
 const reactReduxReducer = (
   store = {
     todo: [],
+    article: [],
+    token: null,
   },
   action,
 ) => {

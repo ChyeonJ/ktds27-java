@@ -15,6 +15,7 @@ import {
   fetchTodoList,
 } from "./http/todo/fetchTodo.js";
 import { useDispatch, useSelector } from "react-redux";
+import { todoAction } from "../../stores/toolkit/slices/todoSlice.js";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -32,8 +33,11 @@ const TodoMain = () => {
 
   // const [cachedData, setCachedData] = useState([]);
   // useSelector() => ReactRedux Store에서 todo state를 가져온다.
-  const todoList = useSelector((store) => store.todo);
+  // const todoList = useSelector((store) => store.todo.list);
+  const { list: todoList } = useSelector((store) => store.todo);
   const storeDispatcher = useDispatch();
+
+  console.log(todoList);
 
   // 비동기 함수는 promise를 반환시킨다.
   const refreshTodoList = async () => {
@@ -45,7 +49,8 @@ const TodoMain = () => {
     const fetchResult = await fetchTodoList();
     // setCachedData(todoList.body);
     //dispayther객체를 만드는데 약속이 되어있음 {type:, payload:}
-    storeDispatcher({ type: "todoRefresh", payload: fetchResult.body });
+    //{ type: "todoRefresh", payload: fetchResult.body }
+    storeDispatcher(todoAction.refresh(fetchResult.body));
 
     if (fetchResult.errors) {
       alert(fetchResult.errors);
