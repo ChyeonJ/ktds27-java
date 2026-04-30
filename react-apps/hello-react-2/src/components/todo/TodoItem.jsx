@@ -3,8 +3,10 @@
 import { useContext, useRef } from "react";
 import { Confirm } from "../ui/Modal";
 import TodoContext from "./contexts/TodoContext";
+import { fetchDoneTodo, fetchTodoList } from "./http/todo/fetchTodo";
+import { useDispatch } from "react-redux";
 
-const TodoItem = ({ todo, onDoneChange }) => {
+const TodoItem = ({ todo }) => {
   console.log("투두아이템");
 
   const priorities = ["없음", "높음", "보통", "낮음"];
@@ -13,6 +15,8 @@ const TodoItem = ({ todo, onDoneChange }) => {
   // 즉 리턴이 일어나기 전에 use로 시작하는 함수는 위로 올라와 있어야 한다.
   const useDoneConfirmRef = useRef();
   const checkBoxRef = useRef();
+
+  const reactReduxDispatcher = useDispatch();
 
   const { componentName } = useContext(TodoContext);
 
@@ -43,8 +47,18 @@ const TodoItem = ({ todo, onDoneChange }) => {
     useDoneConfirmRef.current.showConfirm(message);
   };
 
-  const onConfirmOkClickHandler = () => {
-    onDoneChange(todo.id, !todo.done);
+  const onConfirmOkClickHandler = async () => {
+    // fetch가 잘 될거니 먼저 바꿔라
+    reactReduxDispatcher({ type: "todo-done-item", payload: id });
+
+    // onDoneChange(todo.id, !todo.done);
+    const doneResult = await fetchDoneTodo(id);
+    if (doneResult.errors) {
+      alert(doneResult.errors);
+    }
+
+    const fetchResult = await fetchTodoList();
+    reactReduxDispatcher({ type: "todo-refresh", payload: fetchResult.body });
   };
 
   const onConfirmCloseClickHandler = () => {};

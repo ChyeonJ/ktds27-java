@@ -14,6 +14,7 @@ import {
   fetchDoneTodo,
   fetchTodoList,
 } from "./http/todo/fetchTodo.js";
+import { useDispatch, useSelector } from "react-redux";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -29,7 +30,10 @@ import {
 const TodoMain = () => {
   console.log("투두메인");
 
-  const [cachedData, setCachedData] = useState([]);
+  // const [cachedData, setCachedData] = useState([]);
+  // useSelector() => ReactRedux Store에서 todo state를 가져온다.
+  const todoList = useSelector((store) => store.todo);
+  const storeDispatcher = useDispatch();
 
   // 비동기 함수는 promise를 반환시킨다.
   const refreshTodoList = async () => {
@@ -38,11 +42,13 @@ const TodoMain = () => {
 
     // const todoList = await todoResponse.json();
     // console.log(todoList);
-    const todoList = await fetchTodoList();
-    setCachedData(todoList.body);
+    const fetchResult = await fetchTodoList();
+    // setCachedData(todoList.body);
+    //dispayther객체를 만드는데 약속이 되어있음 {type:, payload:}
+    storeDispatcher({ type: "todoRefresh", payload: fetchResult.body });
 
-    if (todoList.errors) {
-      alert(todoList.errors);
+    if (fetchResult.errors) {
+      alert(fetchResult.errors);
     }
   };
 
@@ -56,92 +62,92 @@ const TodoMain = () => {
     refreshTodoList();
   }, []);
 
-  //반환 되는 데이터가 캐싱 됨
-  const todoCount = useMemo(() => {
-    return {
-      all: cachedData.length,
-      done: cachedData.filter((todo) => todo.done).length,
-      process: cachedData.filter((todo) => !todo.done).length,
-    };
-  }, [cachedData]);
+  // //반환 되는 데이터가 캐싱 됨   store 삭제
+  // const todoCount = useMemo(() => {
+  //   // return {
+  //   //   all: todoList.length,
+  //   //   done: todoList.filter((todo) => todo.done).length,
+  //   //   process: todoList.filter((todo) => !todo.done).length,
+  //   // };
+  // }, [todoList]);
 
-  //파라미터 첫번째는 함수, 두번째는 deps(DependencyList)
-  const onAllDoneChangeHandler = useCallback(async () => {
-    // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
-    //   method: "put",
-    // });
-    // console.log(fetchResult);
+  // //파라미터 첫번째는 함수, 두번째는 deps(DependencyList) store삭제
+  // const onAllDoneChangeHandler = useCallback(async () => {
+  //   // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+  //   //   method: "put",
+  //   // });
+  //   // console.log(fetchResult);
 
-    // fetchTodoList();
-    const allDoneResult = await fetchAllDoneTodo();
-    if (!allDoneResult.errors) {
-      refreshTodoList();
-    } else {
-      alert(allDoneResult.errors);
-    }
-  }, []);
+  //   // fetchTodoList();
+  //   // const allDoneResult = await fetchAllDoneTodo(); store떄문에삭제
+  //   if (!allDoneResult.errors) {
+  //     refreshTodoList();
+  //   } else {
+  //     alert(allDoneResult.errors);
+  //   }
+  // }, []);
 
   // 특정 todo의 done 값을 반전시키는 함수.
   // 이 함수를 TodoList에게 props로 전달.
   // TodoList는 TodoItem에게 함수를 props 전달.
-  const onDoneChangeHandler = async (todoId) => {
-    // const fetchResult = await fetch(
-    //   `http://localhost:8888/api/v1/task/${todoId}`,
-    //   { method: "put" },
-    // );
-    // fetchTodoList();
-    // console.log(fetchResult);
+  // const onDoneChangeHandler = async (todoId) => { store 삭제
+  //   // const fetchResult = await fetch(
+  //   //   `http://localhost:8888/api/v1/task/${todoId}`,
+  //   //   { method: "put" },
+  //   // );
+  //   // fetchTodoList();
+  //   // console.log(fetchResult);
 
-    // const doneResult = await fetchResult.json();
-    // console.log(doneResult);
-    const onDoneResult = await fetchDoneTodo(todoId);
-    if (!onDoneResult.errors) {
-      refreshTodoList();
-    } else {
-      alert(onDoneResult.errors);
-    }
-  };
+  //   // const doneResult = await fetchResult.json();
+  //   // console.log(doneResult);
+  //   const onDoneResult = await fetchDoneTodo(todoId);
+  //   if (!onDoneResult.errors) {
+  //     refreshTodoList();
+  //   } else {
+  //     alert(onDoneResult.errors);
+  //   }
+  // };
 
-  const onAddClickButtonHandler = useCallback(
-    async (todo, dueDate, priority) => {
-      console.log("저장합니다.");
-      // fetch --> 서버에게 todo를 등록하게 한다.
+  // const onAddClickButtonHandler = useCallback( store
+  //   async (todo, dueDate, priority) => {
+  //     console.log("저장합니다.");
+  //     // fetch --> 서버에게 todo를 등록하게 한다.
 
-      // const fetchAddTodo = async () => {
-      //   // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
-      //   //   method: "post",
-      //   //   headers: {
-      //   //     "Content-Type": "application/json",
-      //   //   },
-      //   //   body: JSON.stringify({
-      //   //     task: todo,
-      //   //     dueDate,
-      //   //     priority,
-      //   //     isDone: false,
-      //   //   }),
-      //   // });
-      //   // // fetch가 된 이후에 fetchTodoList실행
-      //   // // 비동기 함수는 비동기 함수 내부에 넣는게 순서상 맞다
-      //   // fetchTodoList();
+  //     // const fetchAddTodo = async () => {
+  //     //   // const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
+  //     //   //   method: "post",
+  //     //   //   headers: {
+  //     //   //     "Content-Type": "application/json",
+  //     //   //   },
+  //     //   //   body: JSON.stringify({
+  //     //   //     task: todo,
+  //     //   //     dueDate,
+  //     //   //     priority,
+  //     //   //     isDone: false,
+  //     //   //   }),
+  //     //   // });
+  //     //   // // fetch가 된 이후에 fetchTodoList실행
+  //     //   // // 비동기 함수는 비동기 함수 내부에 넣는게 순서상 맞다
+  //     //   // fetchTodoList();
 
-      //   // const addResult = await fetchResult.json();
-      //   // console.log(addResult);
-      // };
+  //     //   // const addResult = await fetchResult.json();
+  //     //   // console.log(addResult);
+  //     // };
 
-      // fetchAddTodo();
+  //     // fetchAddTodo();
 
-      const addResult = await fetchAddTodo(todo, dueDate, priority);
-      console.log("asdasdasdasdasdasdsad");
-      console.log(addResult);
+  //     const addResult = await fetchAddTodo(todo, dueDate, priority);
+  //     console.log("asdasdasdasdasdasdsad");
+  //     console.log(addResult);
 
-      if (!addResult.errors) {
-        refreshTodoList();
-      } else {
-        alert(addResult.errors);
-      }
-    },
-    [],
-  );
+  //     if (!addResult.errors) {
+  //       refreshTodoList();
+  //     } else {
+  //       alert(addResult.errors);
+  //     }
+  //   },
+  //   [],
+  // );
 
   // 컴포넌트가 만들어줄 HTML Tag set를 반환.
   return (
@@ -151,15 +157,15 @@ const TodoMain = () => {
       <header>React Todo</header>
       <TodoGrid>
         <TodoHeader
-          onAllDoneChange={onAllDoneChangeHandler}
-          count={todoCount}
+        // onAllDoneChange={onAllDoneChangeHandler} store 삭제
+        // count={todoCount} stroe때문에 삭제
         />
         <TodoList>
-          {cachedData.map((todo) => (
+          {todoList.map((todo) => (
             <TodoItem
               key={todo.id}
               todo={todo}
-              onDoneChange={onDoneChangeHandler}
+              // onDoneChange={onDoneChangeHandler} store 삭제
             />
             // <TodoItemForChildren>
             //   <input id={todo.id} type="checkbox" />
@@ -170,7 +176,7 @@ const TodoMain = () => {
           ))}
         </TodoList>
       </TodoGrid>
-      <TodoAppender onSaveButtonClick={onAddClickButtonHandler} />
+      <TodoAppender /*onSaveButtonClick={onAddClickButtonHandler}*/ />
     </div>
   );
 };

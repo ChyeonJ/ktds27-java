@@ -32,7 +32,7 @@ export const fetchAllDoneTodo = async () => {
 
     const allDoneResult = await fetchResult.json();
     console.log(allDoneResult);
-    return allDoneResult();
+    return allDoneResult;
   } catch (e) {
     return {
       status: 500,
