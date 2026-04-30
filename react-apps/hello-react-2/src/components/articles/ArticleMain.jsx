@@ -1,10 +1,11 @@
 /** @format */
 // articles.json 파일 불러오기
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArticleHeader from "./ArticleHeader.jsx";
 import ArticleList from "./ArticleList.jsx";
 import ArticleWriter from "./ArticleWriter.jsx";
 import {
+  fetchAddArticle,
   fetchArticleList,
   fetchJsonWebToken,
 } from "../todo/http/todo/articles/fetchArticles.js";
@@ -64,33 +65,34 @@ const ArticleMain = () => {
     console.log(tokenResult.token);
 
     console.log("asdasdasdasdsad");
-    console.log(token.error);
+    console.log(tokenResult.error);
 
     if (tokenResult.error) {
       if (isString(tokenResult.error)) {
-        setLoginErrors(loginErrors.error);
+        setLoginErrors(tokenResult.error);
       } else {
-        setLoginErrors(getValidationResult(loginErrors));
+        setLoginErrors(getValidationResult(tokenResult.error));
       }
     }
   };
 
-  const onAddArticleClickHandler = (subject, name, email, content) => {
-    setArticles((prevData) => [
-      ...prevData,
-      {
-        id: prevData.length + 1,
-        subject,
-        content,
-        email,
-        viewCnt: parseInt(Math.random() * 10000),
-        crtDt: "2026-12-12",
-        mdfyDt: null,
-        fileGroupId: null,
-        membersVO: { email, name },
-        files: [],
-      },
-    ]);
+  const writeRef = useRef();
+
+  const onAddArticleClickHandler = async (subject, content, attachFile) => {
+    const addResult = await fetchAddArticle(
+      token,
+      subject,
+      content,
+      attachFile,
+    );
+
+    if (addResult.error) {
+      writeRef.current.setResponseError(addResult.error);
+    } else {
+      articleList();
+    }
+
+    articleList();
   };
 
   return (
@@ -124,7 +126,10 @@ const ArticleMain = () => {
           </button>
         )}
       </div>
-      <ArticleWriter onAddArticleClick={onAddArticleClickHandler} />
+      <ArticleWriter
+        onAddArticleClick={onAddArticleClickHandler}
+        errorHandleRef={writeRef}
+      />
     </div>
   );
 };

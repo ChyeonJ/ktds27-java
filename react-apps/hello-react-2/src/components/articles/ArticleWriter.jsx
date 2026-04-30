@@ -1,7 +1,9 @@
 /** @format */
 
-import { useRef, useState } from "react";
+import { useImperativeHandle, useRef, useState } from "react";
 import { Alert } from "../ui/Modal";
+import { isString } from "../utils/type";
+import getValidationResult from "../utils/errorHandler";
 
 const Input = ({ id, title, type = "text", ref, ...props }) => {
   console.log("Input");
@@ -23,8 +25,22 @@ const Textarea = ({ id, title, ref, ...props }) => {
   );
 };
 
-const ArticleWriter = ({ onAddArticleClick }) => {
+const ArticleWriter = ({ onAddArticleClick, errorHandleRef }) => {
   console.log("ArticleWriter");
+
+  const [addError, setAddError] = useState();
+
+  useImperativeHandle(errorHandleRef, () => {
+    return {
+      setResponseError(fetchError) {
+        if (isString(fetchError)) {
+          setAddError(fetchError);
+        } else {
+          setAddError(getValidationResult(fetchError));
+        }
+      },
+    };
+  });
 
   const [viewMode, setViewMode] = useState("button");
 
@@ -43,11 +59,8 @@ const ArticleWriter = ({ onAddArticleClick }) => {
       //dialog가 붙어 있으니 호출 가능
       alertRef.current.showModal("제목을 입력해주세요");
       return;
-    } else if (!emailRef.current.value) {
-      alertRef.current.showModal("이메일을 입력해주세여");
-      return;
-    } else if (!nameRef.current.value) {
-      alertRef.current.showModal("이름을 입력해주세요");
+    } else if (!attachFileRef.current.value) {
+      alertRef.current.showModal("ㅁㄴㅇ 입력해주세여");
       return;
     } else if (!contentRef.current.value) {
       alertRef.current.showModal("내용을 입력해주세요");
@@ -56,14 +69,13 @@ const ArticleWriter = ({ onAddArticleClick }) => {
 
     onAddArticleClick(
       subjectRef.current.value,
-      nameRef.current.value,
-      emailRef.current.value,
       contentRef.current.value,
+      //file을 여러개 넣기 위해서 files 사용
+      attachFileRef.current.files,
     );
 
     subjectRef.current.value = "";
-    nameRef.current.value = "";
-    emailRef.current.value = "";
+    attachFileRef.current.value = "";
     contentRef.current.value = "";
   };
 
@@ -84,10 +96,16 @@ const ArticleWriter = ({ onAddArticleClick }) => {
       {viewMode === "form" && (
         <>
           <Alert dialogRef={alertRef} />
+          {isString(addError) && <div>{addError}</div>}
           <Input id="subject" title="제목" ref={subjectRef} />
-          <Input id="name" title="이름" ref={nameRef} />
-          <Input id="email" title="이메일" ref={emailRef} />
           <Textarea id="content" title="내용" ref={contentRef} />
+          <Input
+            type="file"
+            id="file"
+            title="첨부파일"
+            ref={attachFileRef}
+            multiple
+          />
 
           <button
             type="button"
