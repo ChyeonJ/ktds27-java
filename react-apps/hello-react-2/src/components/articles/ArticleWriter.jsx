@@ -29,9 +29,8 @@ const ArticleWriter = ({ onAddArticleClick }) => {
   const [viewMode, setViewMode] = useState("button");
 
   const subjectRef = useRef();
-  const nameRef = useRef();
-  const emailRef = useRef();
   const contentRef = useRef();
+  const attachFileRef = useRef();
 
   //dialog를 제어할 Ref
   const alertRef = useRef();

@@ -9,6 +9,8 @@ import {
   fetchJsonWebToken,
 } from "../todo/http/todo/articles/fetchArticles.js";
 import ArticleLogin from "./ArticleLogin.jsx";
+import { isString } from "../utils/type.js";
+import getValidationResult from "../utils/errorHandler.js";
 
 const ArticleMain = () => {
   // state를 변경했다!
@@ -29,8 +31,6 @@ const ArticleMain = () => {
     result: [],
     pagination: {},
   });
-
-  const [token, setToken] = useState();
 
   const onPaginationButtonClickHandler = (nextPageNo) => {
     console.log("asdasdasd");
@@ -54,11 +54,25 @@ const ArticleMain = () => {
     articleList();
   }, [viewPageNo]);
 
+  const [token, setToken] = useState();
+  const [loginErrors, setLoginErrors] = useState();
+
   const onLoginDataHandler = async (email, password) => {
     const tokenResult = await fetchJsonWebToken(email, password);
 
     setToken(tokenResult.token);
     console.log(tokenResult.token);
+
+    console.log("asdasdasdasdsad");
+    console.log(token.error);
+
+    if (tokenResult.error) {
+      if (isString(tokenResult.error)) {
+        setLoginErrors(loginErrors.error);
+      } else {
+        setLoginErrors(getValidationResult(loginErrors));
+      }
+    }
   };
 
   const onAddArticleClickHandler = (subject, name, email, content) => {
@@ -82,7 +96,10 @@ const ArticleMain = () => {
   return (
     <div className="wrapper">
       {token == null ? (
-        <ArticleLogin onLoginData={onLoginDataHandler} />
+        <ArticleLogin
+          onLoginData={onLoginDataHandler}
+          loginError={loginErrors}
+        />
       ) : (
         <></>
       )}

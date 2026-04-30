@@ -6,7 +6,7 @@ import TodoMain from "./components/todo/TodoMain.jsx";
 
 export default function App() {
   console.log("App");
-  return <TodoMain />;
+  return <ArticleMain />;
 }
 
 //export default App;

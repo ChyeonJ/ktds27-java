@@ -19,20 +19,24 @@ export const fetchArticleList = async (pageNo = 0, listSize = 10) => {
 };
 
 export const fetchJsonWebToken = async (email, password) => {
-  const loginResult = await fetch(
-    "http://192.168.211.25:8080/api/authorization",
-    {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const loginResult = await fetch(
+      "http://192.168.211.25:8080/api/authorization",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    },
-  );
-  return loginResult.json();
+    );
+    return loginResult.json();
+  } catch (e) {
+    return;
+  }
 };
 
 // 인증 정보 필요
