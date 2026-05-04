@@ -10,7 +10,7 @@ export default function App() {
   console.log("App");
   return (
     <ToolkitProvider>
-      <TodoMain />
+      <ArticleMain />
     </ToolkitProvider>
   );
 }

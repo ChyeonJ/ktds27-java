@@ -12,7 +12,7 @@ export const fetchArticleList = async (pageNo = 0, listSize = 10) => {
   } catch (e) {
     return {
       result: { count: 0, result: [] },
-      pagination: {},
+      pagination: { pageNo: 0, pageCount: 0 },
       error: "서비스가 잠시 중단됨",
     };
   }

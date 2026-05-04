@@ -7,31 +7,26 @@ import ArticleWriter from "./ArticleWriter.jsx";
 import {
   fetchAddArticle,
   fetchArticleList,
-  fetchJsonWebToken,
 } from "../todo/http/todo/articles/fetchArticles.js";
 import ArticleLogin from "./ArticleLogin.jsx";
-import { isString } from "../utils/type.js";
-import getValidationResult from "../utils/errorHandler.js";
+import { useDispatch, useSelector } from "react-redux";
+import { articleAction } from "../../stores/toolkit/slices/articleSlice.js";
 
 const ArticleMain = () => {
   // state를 변경했다!
   // 컴포넌트가 재실행된다. (props의 전달 여부 관계 없이.)
   console.log("ArticleMain");
 
-  const [viewPageNo, setViewPageNo] = useState(0);
+  const token = useSelector((store) => store.article.token);
+  const {
+    count,
+    result: articles,
+    pagination: { pageNo = 0, pageCount = 0 },
+  } = useSelector((store) => store.article.list);
 
-  const [
-    {
-      count,
-      result: articles,
-      pagination: { pageNo = 0, pageCount = 0 },
-    },
-    setArticles,
-  ] = useState({
-    count: 0,
-    result: [],
-    pagination: {},
-  });
+  const articleStoreDispathcer = useDispatch();
+
+  const [viewPageNo, setViewPageNo] = useState(0);
 
   const onPaginationButtonClickHandler = (nextPageNo) => {
     console.log("asdasdasd");
@@ -41,40 +36,25 @@ const ArticleMain = () => {
 
   const articleList = async () => {
     const articleListResult = await fetchArticleList(viewPageNo);
-    const {
-      result: { count, result },
-      pagination,
-    } = articleListResult;
-    setArticles({ count, result, pagination });
 
     if (articleListResult.error) {
       alert(articleListResult.error);
     }
+
+    const {
+      result: { count, result },
+      pagination,
+    } = articleListResult;
+
+    articleStoreDispathcer(
+      articleAction.loadArticleList({ count, result, pagination }),
+    );
   };
   useEffect(() => {
     articleList();
   }, [viewPageNo]);
 
-  const [token, setToken] = useState();
-  const [loginErrors, setLoginErrors] = useState();
-
-  const onLoginDataHandler = async (email, password) => {
-    const tokenResult = await fetchJsonWebToken(email, password);
-
-    setToken(tokenResult.token);
-    console.log(tokenResult.token);
-
-    console.log("asdasdasdasdsad");
-    console.log(tokenResult.error);
-
-    if (tokenResult.error) {
-      if (isString(tokenResult.error)) {
-        setLoginErrors(tokenResult.error);
-      } else {
-        setLoginErrors(getValidationResult(tokenResult.error));
-      }
-    }
-  };
+  console.log("★Token:", token);
 
   const writeRef = useRef();
 
@@ -97,14 +77,7 @@ const ArticleMain = () => {
 
   return (
     <div className="wrapper">
-      {token == null ? (
-        <ArticleLogin
-          onLoginData={onLoginDataHandler}
-          loginError={loginErrors}
-        />
-      ) : (
-        <></>
-      )}
+      {token == null ? <ArticleLogin /> : <></>}
       <div>{count}개의 게시글이 검색되었습니다.</div>
       <table>
         <ArticleHeader />

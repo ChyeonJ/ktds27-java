@@ -5,17 +5,17 @@ import { createSlice } from "@reduxjs/toolkit";
 export const articleSlice = createSlice({
   name: "article-slice",
   initialState: {
-    list: [],
+    list: { count: 0, result: [], pagination: { pageNo: 0, pageCount: 0 } },
+    token: null,
   },
   reducers: {
-    laodArticleList(store, action) {
+    loadArticleList(store, action) {
       store.list = action.payload;
     },
-    jsonWebToken(store, action) {
-      store.list = action.payload;
-    },
-    addArticle(store, action) {
-      store.list = action.payload;
+    setJsonWebToken(store, action) {
+      store.token = action.payload;
     },
   },
 });
+
+export const articleAction = articleSlice.actions;

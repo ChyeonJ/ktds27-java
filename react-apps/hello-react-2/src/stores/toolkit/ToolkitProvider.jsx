@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { todoSlice } from "./slices/todoSlice";
 import { Provider } from "react-redux";
+import { articleSlice } from "./slices/articleSlice";
 
 const toolkitStore = configureStore({
   // toolkit store에 slice store를 등록
@@ -9,6 +10,7 @@ const toolkitStore = configureStore({
     todo: todoSlice.reducer,
     // article이름의 state만든다 => import 해야함
     //   article: articleSlice.reducer,
+    article: articleSlice.reducer,
     //   user: userSlice.reducer,
   },
 });
