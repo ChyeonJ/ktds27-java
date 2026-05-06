@@ -1,0 +1,13 @@
+/** @format */
+
+import { HeaderNavigation } from "../HeaderNavigation";
+
+/** @format */
+export const NotFoundPage = () => {
+  return (
+    <div className="main-container">
+      <HeaderNavigation />
+      <div>페이지를 찾을 수 없습니다.</div>
+    </div>
+  );
+};

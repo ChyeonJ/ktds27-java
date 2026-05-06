@@ -2,7 +2,7 @@
 
 export const fetchTodoList = async () => {
   try {
-    const todoResponse = await fetch("http://localhost:8080/api/v1/task");
+    const todoResponse = await fetch("http://localhost:8888/api/v1/task");
     console.log(todoResponse);
 
     const todoList = await todoResponse.json();
@@ -25,7 +25,7 @@ export const fetchTodoList = async () => {
 export const fetchDoneTodo = async (todoId) => {
   try {
     const fetchResult = await fetch(
-      `http://localhost:8080/api/v1/task/${todoId}`,
+      `http://localhost:8888/api/v1/task/${todoId}`,
       { method: "put" },
     );
 
@@ -47,7 +47,7 @@ export const fetchDoneTodo = async (todoId) => {
 
 export const fetchAllDoneTodo = async () => {
   try {
-    const fetchResult = await fetch("http://localhost:8080/api/v1/task", {
+    const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
       method: "put",
     });
 
@@ -68,7 +68,7 @@ export const fetchAllDoneTodo = async () => {
 
 export const fetchAddTodo = async (todo, dueDate, priority) => {
   try {
-    const fetchResult = await fetch("http://localhost:8080/api/v1/task", {
+    const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
