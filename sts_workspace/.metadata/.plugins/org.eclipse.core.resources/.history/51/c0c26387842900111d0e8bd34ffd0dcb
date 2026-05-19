@@ -1,8 +1,0 @@
-package com.ktdsuniversity.edu.members.web;
-
-import org.springframework.stereotype.Controller;
-
-@Controller
-public class MembersController {
-
-}

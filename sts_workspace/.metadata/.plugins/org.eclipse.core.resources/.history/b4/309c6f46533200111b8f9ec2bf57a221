@@ -1,5 +1,0 @@
-package com.ktdsuniversity.edu.config.interceptor;
-
-public class IllegalAccessInterceptor {
-
-}

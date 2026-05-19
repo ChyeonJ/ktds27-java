@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;board.js&apos; to &apos;board.js&apos;&#x0D;&#x0A;- Original project: &apos;hello-spring&apos;&#x0D;&#x0A;- Destination element: &apos;board.js&apos;&#x0D;&#x0A;- Original element: &apos;board.js&apos;" description="Copy file" element1="src/main/resources/static/js/board.js" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1775112352321" target="/hello-spring/src/main/resources/static/js/board.js" units="0" version="1.0"/>
-</session>

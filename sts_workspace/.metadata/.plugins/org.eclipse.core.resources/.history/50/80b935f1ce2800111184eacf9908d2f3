@@ -1,6 +1,0 @@
-package com.ktdsuniversity.edu.board.dao;
-
-@Mapper
-public interface BoardDao {
-
-}
